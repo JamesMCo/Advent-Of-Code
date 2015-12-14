@@ -19,7 +19,7 @@ for i in puzzle_input[0:-1]:
     vowels += list(i).count("u")
 
     doubles = False
-    for x in range(97, 122):
+    for x in range(97, 123):
         if chr(x)*2 in i:
             doubles = True
 
