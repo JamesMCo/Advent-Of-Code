@@ -2,7 +2,7 @@
 
 #Advent of Code
 #Day 6, Part 2
-#Solution by Jammy4312 (https://jammy4312.me)
+#Solution by James C. (https://github.com/JamesMCo)
 
 f = open("puzzle_input.txt")
 puzzle_input = f.read()[:-1].split("\n")

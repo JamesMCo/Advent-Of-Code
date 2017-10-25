@@ -3,7 +3,7 @@
 #Advent of Code
 #Day 9, Part 2
 #Solution by /u/rhardih (https://reddit.com/r/adventofcode/comments/5hbygy/-/dazentu/)
-#Implementation by Jammy4312 (https://jammy4312.me)
+#Implementation by James C. (https://github.com/JamesMCo)
 #Gosh darn, I'm annoyed I couldn't figure out a solution myself :(
 
 f = open("puzzle_input.txt")
