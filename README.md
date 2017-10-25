@@ -1,5 +1,5 @@
-# Hello!
+# Advent of Code Solutions
 
-This is a repository of my solutions for the [Advent of Code](http://adventofcode.com). If you want to watch me stumble my way through the event, not quite knowing what I'm doing, then feel free. If you want to watch me probably not complete the event, then also feel free, because that's likely to happen :-)
+[Advent of Code](http://adventofcode.com) is an annual coding event hosted in December. It's been running since 2015, and thus far I've not completed a full month. If you want to see my attempted solutions to these problems, then you can do so here.
 
--Jammy4312
+-James
