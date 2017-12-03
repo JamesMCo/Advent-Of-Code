@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+        <meta name="theme-color" content="#673AB7" />
+
+        <title>Advent of Code - James C.</title>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="css/materialize.min.css" rel="stylesheet" type="text/css" media="screen,projection" />
+        <link href="css/prism.css" rel="stylesheet" type="text/css" media="screen,projection" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" media="screen,projection" />
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/materialize.min.js"></script>
+        <script src="js/prism.js"></script>
+        <script>
+            $(document).ready(function() {
+                $(".button-collapse").sideNav();
+                if (window.location.search !== "")
+                {
+                    if (window.location.search.split("?")[1].split("-").length == 2)
+                    {
+                        $.ajax({type:    "GET",
+                                        url:     "https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/" + window.location.search.split("?")[1].split("-")[0] + "/" + window.location.search.split("?")[1].split("-")[1] + "/Part1.py",
+                                        success: function(response, status, xhr) {
+                                            if(xhr.status == 200) {
+                                                $("#homebutton").removeClass("active").children().attr("href", "/advent-of-code");
+                                                $("#homebuttonside").removeClass("active").children().attr("href", "/advent-of-code");
+                                                $(".button-collapse").sideNav();
+                                                $("#mainbody").html("<h4 class='deep-purple-text text-lighten-1'>" + window.location.search.split("?")[1].split("-")[0] + " - Day " + window.location.search.split("?")[1].split("-")[1] + "</h4><h5>Part 1</h5><pre class='language-python'><code class='language-python'>" + response + "</code></pre>");
+                                                $.ajax({type:    "GET",
+                                                                url:     "https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/" + window.location.search.split("?")[1].split("-")[0] + "/" + window.location.search.split("?")[1].split("-")[1] + "/Part2.py",
+                                                                success: function(response2, status2, xhr2) {
+                                                                    if(xhr2.status == 200) {
+                                                                        $("#mainbody").html($("#mainbody").html() + "<h5>Part 2</h5><pre class='language-python'><code class='language-python'>" + response2 + "</code></pre>");
+                                                                        Prism.highlightAll();
+                                                                        $("#mainbody").html($("#mainbody").html() + "<a href='/advent-of-code' class='waves-effect waves-light btn-large deep-purple'>Return to home</a>")
+                                                                        $("#content").fadeIn();
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Prism.highlightAll();
+                                                                        $("#mainbody").html($("#mainbody").html() + "<a href='/advent-of-code' class='waves-effect waves-light btn-large deep-purple'>Return to solution index</a>")
+                                                                        $("#content").fadeIn();
+                                                                    }
+                                                                }
+                                                });
+                                            }
+                                            else
+                                            {
+                                                $("#content").fadeIn();
+                                            }
+                                        }
+                        });
+                    }
+                    else
+                    {
+                        $("#content").fadeIn();
+                    }
+                }
+                else
+                {
+                    $("#content").fadeIn();
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <header id="top">
+            <nav class="nav-extended deep-purple">
+                <div class="nav-wrapper container">
+                    <a href="" data-activates="mobilenav" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <a href="/advent-of-code" class="brand-logo">AoC</a>
+                    <ul class="right hide-on-med-and-down">
+                        <li id="homebutton" class="active"><a href="">Home</a></li>
+                    </ul>
+                    <ul id="mobilenav" class="side-nav">
+                        <li class="red"><a class="white-text">AoC</a></li>
+                        <li id="homebuttonside" class="active"><a href="">Home</a></li>
+                    </ul>
+                </div>
+                <div class="valign-wrapper center-align" style="background-size: auto 100%; min-height: 200px;">
+                    <span id="header-text" style="width: 100%;">
+                        <h1 class="hide-on-small-only" style="text-shadow: 2px 5px rgba(0, 0, 0, 0.30); font-weight: 300;">Advent of Code</h1>
+                        <h1 class="hide-on-med-and-up" style="text-shadow: 2px 5px rgba(0, 0, 0, 0.30); font-weight: 300;">AoC</h1>
+                        <h4 id="header-subtitle" style="text-shadow: 2px 5px rgba(0, 0, 0, 0.30); font-weight: 300;">Solutions by James C.</h4>
+                    </span>
+                </div>
+            </nav>
+            <br>
+        </header>
+        <main>
+            <div id="content" style="display: none;">
+                <div id="mainbody" class="container">
+                    <h4 class="deep-purple-text text-lighten-1">2017</h4>
+                    <div class="collection">
+                        <a href="/advent-of-code?2017-01" class="collection-item purple-text">Day 1</a>
+                        <a href="/advent-of-code?2017-02" class="collection-item purple-text">Day 2</a>
+                        <a href="/advent-of-code?2017-03" class="collection-item purple-text">Day 3</a>
+                    </div>
+                    <h4 class="deep-purple-text text-lighten-1">2016</h4>
+                    <div class="collection">
+                        <a href="/advent-of-code?2016-01" class="collection-item purple-text">Day 1</a>
+                        <a href="/advent-of-code?2016-02" class="collection-item purple-text">Day 2</a>
+                        <a href="/advent-of-code?2016-03" class="collection-item purple-text">Day 3</a>
+                        <a href="/advent-of-code?2016-04" class="collection-item purple-text">Day 4</a>
+                        <a href="/advent-of-code?2016-05" class="collection-item purple-text">Day 5</a>
+                        <a href="/advent-of-code?2016-06" class="collection-item purple-text">Day 6</a>
+                        <a href="/advent-of-code?2016-07" class="collection-item purple-text">Day 7</a>
+                        <a href="/advent-of-code?2016-08" class="collection-item purple-text">Day 8</a>
+                        <a href="/advent-of-code?2016-09" class="collection-item purple-text">Day 9</a>
+                        <a href="/advent-of-code?2016-10" class="collection-item purple-text">Day 10</a>
+                        <a href="/advent-of-code?2016-12" class="collection-item purple-text">Day 12</a>
+                        <a href="/advent-of-code?2016-14" class="collection-item purple-text">Day 14</a>
+                        <a href="/advent-of-code?2016-25" class="collection-item purple-text">Day 25</a>
+                    </div>
+                    <h4 class="deep-purple-text text-lighten-1">2015</h4>
+                    <div class="collection">
+                        <a href="/advent-of-code?2015-01" class="collection-item purple-text">Day 1</a>
+                        <a href="/advent-of-code?2015-02" class="collection-item purple-text">Day 2</a>
+                        <a href="/advent-of-code?2015-03" class="collection-item purple-text">Day 3</a>
+                        <a href="/advent-of-code?2015-04" class="collection-item purple-text">Day 4</a>
+                        <a href="/advent-of-code?2015-05" class="collection-item purple-text">Day 5</a>
+                        <a href="/advent-of-code?2015-06" class="collection-item purple-text">Day 6</a>
+                        <a href="/advent-of-code?2015-07" class="collection-item purple-text">Day 7</a>
+                        <a href="/advent-of-code?2015-08" class="collection-item purple-text">Day 8</a>
+                        <a href="/advent-of-code?2015-10" class="collection-item purple-text">Day 10</a>
+                        <a href="/advent-of-code?2015-11" class="collection-item purple-text">Day 11</a>
+                        <a href="/advent-of-code?2015-12" class="collection-item purple-text">Day 12</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
