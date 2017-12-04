@@ -29,14 +29,14 @@
                                                 $("#homebutton").removeClass("active").children().attr("href", "/Advent-Of-Code");
                                                 $("#homebuttonside").removeClass("active").children().attr("href", "/Advent-Of-Code");
                                                 $(".button-collapse").sideNav();
-                                                $("#mainbody").html("<h4 class='deep-purple-text text-lighten-1'>" + window.location.search.split("?")[1].split("-")[0] + " - Day " + window.location.search.split("?")[1].split("-")[1] + "</h4><h5>Part 1</h5><pre class='language-python'><code class='language-python'>" + response + "</code></pre>");
+                                                $("#mainbody").html("<h4 class='deep-purple-text text-lighten-1'>" + window.location.search.split("?")[1].split("-")[0] + " - Day " + window.location.search.split("?")[1].split("-")[1] + "</h4><h5>Part 1</h5><pre class='language-python line-numbers'><code class='language-python'>" + response + "</code></pre>");
                                                 $.ajax({type:    "GET",
                                                                 url:     "https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/" + window.location.search.split("?")[1].split("-")[0] + "/" + window.location.search.split("?")[1].split("-")[1] + "/Part2.py",
                                                                 success: function(response2, status2, xhr2) {
                                                                     if(xhr2.status == 200) {
-                                                                        $("#mainbody").html($("#mainbody").html() + "<h5>Part 2</h5><pre class='language-python'><code class='language-python'>" + response2 + "</code></pre>");
+                                                                        $("#mainbody").html($("#mainbody").html() + "<h5>Part 2</h5><pre class='language-python line-numbers'><code class='language-python'>" + response2 + "</code></pre>");
                                                                         Prism.highlightAll();
-                                                                        $("#mainbody").html($("#mainbody").html() + "<a href='/Advent-Of-Code' class='waves-effect waves-light btn-large deep-purple'>Return to home</a>")
+                                                                        $("#mainbody").html($("#mainbody").html() + "<a href='/Advent-Of-Code' class='waves-effect waves-light btn-large deep-purple'>Return to solution index</a>")
                                                                         $("#content").fadeIn();
                                                                     }
                                                                     else
