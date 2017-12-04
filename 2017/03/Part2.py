@@ -4,8 +4,6 @@
 #Day 3, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
-import time
-
 f = open("puzzle_input.txt")
 puzzle_input = int(f.read()[:-1])
 f.close()
