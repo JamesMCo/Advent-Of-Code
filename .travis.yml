@@ -5,6 +5,6 @@ script:
   - "cd ./2017/01"
   - "python ./Part1.py"
   - "python ./Part2.py"
-  - ".cd ../02"
+  - "cd ../02"
   - "python ./Part1.py"
   - "python ./Part2.py"
