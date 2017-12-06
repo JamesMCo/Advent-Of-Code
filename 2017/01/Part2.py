@@ -44,3 +44,6 @@ class AOC_Tests(unittest.TestCase):
 if __name__ == "__main__":
     if unittest.main(verbosity=2, exit=False).result.wasSuccessful():
         main()
+        exit(0)
+    else:
+        exit(1)

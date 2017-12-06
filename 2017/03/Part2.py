@@ -25,7 +25,6 @@ def get_grid(x, y):
 
 stage = 3 #0 is moving up, 1 left, 2 down and 3 right
 while last_calculated < puzzle_input:
-    print((x,y), last_calculated)
     if stage == 0:
         if first_stage_0:
             max_coord += 1

@@ -15,7 +15,6 @@ def solve(puzzle_input):
 
     return total
 
-
 def main():
     f = open("puzzle_input.txt")
     puzzle_input = f.read()[:-1]
@@ -41,3 +40,6 @@ class AOC_Tests(unittest.TestCase):
 if __name__ == "__main__":
     if unittest.main(verbosity=2, exit=False).result.wasSuccessful():
         main()
+        exit(0)
+    else:
+        exit(1)

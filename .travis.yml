@@ -2,9 +2,4 @@ language: python
 python:
   - 3.6.1
 script:
-  - "cd ./2017/01"
-  - "python ./Part1.py"
-  - "python ./Part2.py"
-  - "cd ../02"
-  - "python ./Part1.py"
-  - "python ./Part2.py"
+  - "cd 2017; python test.py"
