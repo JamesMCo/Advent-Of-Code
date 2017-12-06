@@ -2,4 +2,4 @@ language: python
 python:
   - 3.6.1
 script:
-  - "cd 2017; python test.py"
+  - "cd 2017; python test.py;cd .."

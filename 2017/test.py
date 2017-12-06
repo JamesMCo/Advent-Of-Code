@@ -18,4 +18,4 @@ for day in range(1, 25):
             r = os.system(s + "Part2.py")
             if r:
                 exit(r)
-        os.chdir("../")
+        os.chdir("..")
