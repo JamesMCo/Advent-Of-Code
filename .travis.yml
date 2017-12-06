@@ -1,0 +1,8 @@
+language: python
+python:
+  - 3.6.1
+script:
+  - "2017/01/Part1.py"
+  - "2017/01/Part2.py"
+  - "2017/02/Part1.py"
+  - "2017/02/Part2.py"
