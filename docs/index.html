@@ -21,6 +21,7 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         <link href="css/materialize.min.css" rel="stylesheet" type="text/css" media="screen,projection" />
         <link href="css/prism.css" rel="stylesheet" type="text/css" media="screen,projection" />
+        <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css">
         <link href="css/style.css" rel="stylesheet" type="text/css" media="screen,projection" />
 
         <script src="js/jquery.min.js"></script>
@@ -39,17 +40,17 @@
                                     $("#homebutton").removeClass("active").children().attr("href", "/Advent-Of-Code");
                                     $("#homebuttonside").removeClass("active").children().attr("href", "/Advent-Of-Code");
                                     $(".button-collapse").sideNav();
-                                    $("#mainbody").html("<h4 class='deep-purple-text text-lighten-1'>" + window.location.search.split("?")[1].split("-")[0] + " - Day " + window.location.search.split("?")[1].split("-")[1] + "</h4><h5>Part 1</h5><pre class='language-python line-numbers'><code class='language-python'>" + response.replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)") + "</code></pre>");
+                                    $("#mainbody").html("<h4 class='deep-purple-text text-lighten-1'>" + window.location.search.split("?")[1].split("-")[0] + " - Day " + window.location.search.split("?")[1].split("-")[1] + "</h4><h5>Part 1</h5><pre class='language-python line-numbers fira'><code class='language-python fira'>" + response.replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)") + "</code></pre>");
                                     $.ajax({type:   "GET",
                                             url:    "https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/" + window.location.search.split("?")[1].split("-")[0] + "/" + window.location.search.split("?")[1].split("-")[1] + "/Part2.py",
                                             success: function(response2, status2, xhr2) {
-                                                $("#mainbody").html($("#mainbody").html() + "<h5>Part 2</h5><pre class='language-python line-numbers'><code class='language-python'>" + response2.replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)") + "</code></pre>");
+                                                $("#mainbody").html($("#mainbody").html() + "<h5>Part 2</h5><pre class='language-python line-numbers fira'><code class='language-python fira'>" + response2.replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)") + "</code></pre>");
                                             },
                                             complete: function(xhr, status) {
                                                 $.ajax({type:    "GET",
                                                         url:     "https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/" + window.location.search.split("?")[1].split("-")[0] + "/" + window.location.search.split("?")[1].split("-")[1] + "/puzzle_input.txt",
                                                         success: function(response, status, xhr) {
-                                                            $("#mainbody").html($("#mainbody").html() + "<h5>Puzzle Input <i style='cursor: pointer' class='deep-purple-text text-lighten-1' onclick='$(\"#puzzle_input\").slideToggle();'>[Show/Hide]</i></h5><pre class='language-none line-numbers'><code id='puzzle_input' class='language-none line-numbers' style='display: none;'>" + response + "</code></pre><a href='/Advent-Of-Code' class='waves-effect waves-light btn-large deep-purple'>Return to solution index</a>");
+                                                            $("#mainbody").html($("#mainbody").html() + "<h5>Puzzle Input <i style='cursor: pointer' class='deep-purple-text text-lighten-1' onclick='$(\"#puzzle_input\").slideToggle();'>[Show/Hide]</i></h5><pre class='language-none line-numbers fira'><code id='puzzle_input' class='language-none line-numbers fira' style='display: none;'>" + response + "</code></pre><a href='/Advent-Of-Code' class='waves-effect waves-light btn-large deep-purple'>Return to solution index</a>");
                                                             Prism.highlightAll();
                                                             $("#content").fadeIn();
                                                         }
