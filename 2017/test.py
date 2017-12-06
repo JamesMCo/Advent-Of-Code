@@ -3,7 +3,7 @@ import os
 if os.name == "nt":
     s = ""
 else:
-    s = "./"
+    s = "python ./"
 
 for day in range(1, 25):
     if os.path.isdir(str(day).zfill(2)):
