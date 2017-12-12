@@ -32,6 +32,11 @@
                 $(".button-collapse").sideNav();
                 if (window.location.search !== "")
                 {
+                    if (window.location.search == "?latest")
+                    {
+                        window.location.search = "?2017-12";
+                        $("#mainbody").html("");
+                    }
                     if (window.location.search.split("?")[1].split("-").length == 2)
                     {
                         $.ajax({type:    "GET",
@@ -117,6 +122,7 @@
                         <a href="/Advent-Of-Code?2017-09" class="collection-item purple-text">Day 9</a>
                         <a href="/Advent-Of-Code?2017-10" class="collection-item purple-text">Day 10</a>
                         <a href="/Advent-Of-Code?2017-11" class="collection-item purple-text">Day 11</a>
+                        <a href="/Advent-Of-Code?2017-12" class="collection-item purple-text">Day 12</a>
                     </div>
                     <h4 class="deep-purple-text text-lighten-1">2016</h4>
                     <div class="collection">
