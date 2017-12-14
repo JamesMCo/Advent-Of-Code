@@ -115,10 +115,9 @@ class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
         self.assertEqual(solve("flqrgnkx"), 1242)
 
-main()
-# if __name__ == "__main__":
-#     if unittest.main(verbosity=2, exit=False).result.wasSuccessful():
-#         main()
-#         exit(0)
-#     else:
-#         exit(1)
+if __name__ == "__main__":
+    if unittest.main(verbosity=2, exit=False).result.wasSuccessful():
+        main()
+        exit(0)
+    else:
+        exit(1)
