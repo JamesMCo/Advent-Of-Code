@@ -6,6 +6,7 @@
 
 import unittest
 
+def knot(puzzle_input):
     def rotate(l, n):
         t = [x for x in l]
         if len(t) <= 1:
@@ -16,7 +17,6 @@ import unittest
             t = t[1:] + [t[0]]
         return t
 
-def knot(puzzle_input):
     puzzle_input = [ord(x) for x in puzzle_input] + [17,31,73,47,23]
     l = [x for x in range(256)]
     skip_size = 0
