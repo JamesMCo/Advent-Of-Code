@@ -26,7 +26,7 @@ def main():
 
     value = solve(puzzle_input)
 
-    print("The value after the last value written is " + str(value) + ".")
+    print("The value after the 0 is " + str(value) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
