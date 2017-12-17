@@ -6,17 +6,17 @@
 
 import unittest
 
-def rotate(l, n):
-    t = [x for x in l]
-    if len(t) <= 1:
-        return t
-    if len(t) == 2:
-        return t[1] + t[0]
-    for i in range(n):
-        t = t[1:] + [t[0]]
-    return t
-
 def solve(puzzle_input, size=256):
+    def rotate(l, n):
+        t = [x for x in l]
+        if len(t) <= 1:
+            return t
+        if len(t) == 2:
+            return t[1] + t[0]
+        for i in range(n):
+            t = t[1:] + [t[0]]
+        return t
+
     l = [x for x in range(size)]
     skip_size = 0
 

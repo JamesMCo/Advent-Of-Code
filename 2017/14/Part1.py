@@ -6,17 +6,17 @@
 
 import unittest
 
-def rotate(l, n):
-    t = [x for x in l]
-    if len(t) <= 1:
-        return t
-    if len(t) == 2:
-        return t[1] + t[0]
-    for i in range(n):
-        t = t[1:] + [t[0]]
-    return t
-
 def knot(puzzle_input):
+    def rotate(l, n):
+        t = [x for x in l]
+        if len(t) <= 1:
+            return t
+        if len(t) == 2:
+            return t[1] + t[0]
+        for i in range(n):
+            t = t[1:] + [t[0]]
+        return t
+    
     puzzle_input = [ord(x) for x in puzzle_input] + [17,31,73,47,23]
     l = [x for x in range(256)]
     skip_size = 0
