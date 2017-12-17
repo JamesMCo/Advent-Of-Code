@@ -45,33 +45,45 @@ def knot(puzzle_input):
 
 def day12_p2(puzzle_input):
     programs = {}
-    connections = [puzzle_input[0].split(" ")[0]]
+
+    def getProgramById(pName):
+        if pName in programs:
+            return programs[pName]
+        else:
+            return Program(pName)
+
+    class Program:
+        def __init__(self, pName, neighbours):
+            self.pName = pName
+            self.neighbours = neighbours
+            self.group = None
+            self.updating = False
+
+            programs[pName] = self
+
+        def updateNeighbours(self):
+            self.updating = True
+
+            for pName in self.neighbours:
+                neighbour = getProgramById(pName)
+                if not neighbour.updating and neighbour.group != self.group:
+                    neighbour.group = self.group
+                    neighbour.updateNeighbours()
+
+            self.updating = False
+
     for p in puzzle_input:
-        programs[p.split(" ")[0]] = " ".join(p.split(" ")[2:]).split(", ")
+        Program(p.split(" ")[0], " ".join(p.split(" ")[2:]).split(", "))
 
-    groups = 0
+    i = 0
+    for pName in programs:
+        p = getProgramById(pName)
+        if p.group == None:
+            p.group = i
+            p.updateNeighbours()
+            i += 1
 
-    found = True
-    while found:
-        found = False
-        groups += 1
-
-        added = True
-        while added:
-            added = False
-            for c in connections:
-                for p in programs[c]:
-                    if p not in connections:
-                        connections.append(p)
-                        added = True
-        
-        for p in programs:
-            if p not in connections:
-                connections.append(p)
-                found = True
-                break
-
-    return groups
+    return i
 
 def solve(puzzle_input):
     base = puzzle_input + "-"
