@@ -20,34 +20,13 @@ class Program:
 
         programs[name] = self
 
-    def getName(self):
-        return self.name
-
-    def getWeight(self):
-        return self.weight
-
-    def setWeight(self, weight):
-        self.weight = weight
-
-    def getChildren(self):
-        return self.children
-
-    def setChildren(self, children):
-        self.children = children
-
-    def getParent(self):
-        return self.parent
-
-    def setParent(self, other):
-        self.parent = other
-
-    def getCarrying(self):
+    def calcCarrying(self):
         global programs
 
         if self.children == []:
             return self.weight
         else:
-            return sum(programs[p].getCarrying() for p in self.children) + self.weight
+            return sum(programs[p].calcCarrying() for p in self.children) + self.weight
 
     def __str__(self):
         return "Program \"" + self.name + "\" | Weight = " + str(self.weight) + ", Children = " + str(self.children) + ", Parent = " + str(self.parent)
@@ -64,17 +43,17 @@ def solve(puzzle_input):
     for l in puzzle_input:
         w = l.split(" ")
         p = getProgramById(w[0])
-        p.setWeight(int(w[1][1:-1]))
+        p.weight = int(w[1][1:-1])
         if len(w) > 2:
-            p.setChildren([x.replace(",", "") for x in w[3:]])
+            p.children = [x.replace(",", "") for x in w[3:]]
 
     for p in programs:
-        if programs[p].getChildren() != []:
-            for c in programs[p].getChildren():
-                programs[c].setParent(p)
+        if programs[p].children != []:
+            for c in programs[p].children:
+                programs[c].parent = p
 
     for p in programs:
-        if programs[p].getParent() == None:
+        if programs[p].parent == None:
             base = p
             break
 
@@ -82,20 +61,20 @@ def solve(puzzle_input):
     while True:
         weights = []
         counts = {}
-        for c in programs[base].getChildren():
-            weights.append(programs[c].getCarrying())
-            if programs[c].getCarrying() not in counts:
-                counts[programs[c].getCarrying()] = 1
+        for c in programs[base].children:
+            weights.append(programs[c].calcCarrying())
+            if programs[c].calcCarrying() not in counts:
+                counts[programs[c].calcCarrying()] = 1
             else:
-                counts[programs[c].getCarrying()] += 1
+                counts[programs[c].calcCarrying()] += 1
         if len(counts) != 1:
             for c in sorted(counts, reverse=True):
                 if counts[c] == 1:
-                    base = programs[base].getChildren()[weights.index(c)]
+                    base = programs[base].children[weights.index(c)]
                 else:
                     prev_good = c
         else:
-            return programs[base].getWeight() - (programs[base].getCarrying() - prev_good)
+            return programs[base].weight - (programs[base].calcCarrying() - prev_good)
 
 def main():
     f = open("puzzle_input.txt")

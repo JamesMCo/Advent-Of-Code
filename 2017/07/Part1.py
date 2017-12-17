@@ -19,24 +19,6 @@ class Program:
 
         programs[name] = self
 
-    def getName(self):
-        return self.name
-
-    def setWeight(self, weight):
-        self.weight = weight
-
-    def getChildren(self):
-        return self.children
-
-    def setChildren(self, children):
-        self.children = children
-
-    def getParent(self):
-        return self.parent
-
-    def setParent(self, other):
-        self.parent = other
-
     def __str__(self):
         return "Program \"" + self.name + "\" | Weight = " + str(self.weight) + ", Children = " + str(self.children) + ", Parent = " + str(self.parent)
 
@@ -52,17 +34,17 @@ def solve(puzzle_input):
     for l in puzzle_input:
         w = l.split(" ")
         p = getProgramById(w[0])
-        p.setWeight(int(w[1][1:-1]))
+        p.weight = int(w[1][1:-1])
         if len(w) > 2:
-            p.setChildren([x.replace(",", "") for x in w[3:]])
+            p.children = [x.replace(",", "") for x in w[3:]]
 
     for p in programs:
-        if programs[p].getChildren() != []:
-            for c in programs[p].getChildren():
-                programs[c].setParent(p)
+        if programs[p].children != []:
+            for c in programs[p].children:
+                programs[c].parent = p
 
     for p in programs:
-        if programs[p].getParent() == None:
+        if programs[p].parent == None:
             return programs[p]
 
 def main():
@@ -72,7 +54,7 @@ def main():
 
     base = solve(puzzle_input)
 
-    print("The name of the bottom program is " + str(base.getName()) + ".")
+    print("The name of the bottom program is " + str(base.name) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
@@ -81,7 +63,7 @@ class AOC_Tests(unittest.TestCase):
                                 "qoyq (66)", "padx (45) -> pbga, havc, qoyq",
                                 "tknk (41) -> ugml, padx, fwft", "jptl (61)",
                                 "ugml (68) -> gyxo, ebii, jptl", "gyxo (61)",
-                                "cntj (57)"]).getName(), "tknk")
+                                "cntj (57)"]).name, "tknk")
 
     def tearDown(self):
         global programs
