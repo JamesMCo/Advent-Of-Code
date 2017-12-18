@@ -64,19 +64,30 @@
                                     });
                                 },
                                 error: function(xhr, status, error) {
-                                    console.log("test");
                                     $("#content").fadeIn();
+                                    if (window.location.hash != "")
+                                    {
+                                        window.location.hash = window.location.hash;
+                                    }
                                 }
                         });
                     }
                     else
                     {
                         $("#content").fadeIn();
+                        if (window.location.hash != "")
+                        {
+                            window.location.hash = window.location.hash;
+                        }
                     }
                 }
                 else
                 {
                     $("#content").fadeIn();
+                    if (window.location.hash != "")
+                    {
+                        window.location.hash = window.location.hash;
+                    }
                 }
             });
         </script>
