@@ -11,7 +11,7 @@ def solve(puzzle_input):
     last_sound = None
     registers = [0 for x in range(26)]
 
-    while i < len(puzzle_input):
+    while 0 <= i < len(puzzle_input):
         inst = puzzle_input[i].split()
         op   = inst[0]
         reg  = ord(inst[1]) - 97

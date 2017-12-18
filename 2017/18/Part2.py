@@ -25,7 +25,7 @@ def solve(puzzle_input):
             self.queue.append(value)
 
         def run(self):
-            if self.i < len(self.puzzle_input) and not self.terminated:
+            if 0 <= self.i < len(self.puzzle_input) and not self.terminated:
                 inst = self.puzzle_input[self.i].split()
                 op   = inst[0]
                 try:
