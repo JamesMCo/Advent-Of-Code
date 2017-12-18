@@ -4,7 +4,7 @@
 #Day 18, Part 1
 #Solution by James C. (https://github.com/JamesMCo)
 
-import unittest
+import string, unittest
 
 def solve(puzzle_input):
     i = 0
@@ -12,44 +12,46 @@ def solve(puzzle_input):
     registers = [0 for x in range(26)]
 
     while 0 <= i < len(puzzle_input):
-        inst = puzzle_input[i].split()
-        op   = inst[0]
-        reg  = ord(inst[1]) - 97
+        inst        = puzzle_input[i].split()
+        op          = inst[0]
+
+        try:
+            reg     = int(inst[1])
+            reg_num = True
+        except:
+            reg     = ord(inst[1]) - 97
+            reg_num = False
+
         if len(inst) == 3:
-            if len(inst[2]) > 1:
-                val = int(inst[2])
+            if inst[2] in string.ascii_lowercase:
+                val = registers[ord(inst[2]) - 97]
             else:
-                if 97 <= ord(inst[2]) <= 122:
-                    val = registers[ord(inst[2]) - 97]
-                else:
-                    val = int(inst[2])
+                val = int(inst[2])
         else:
             val = None
         
+        
         if op == "snd":
-            last_sound = registers[reg]
-            i += 1
+            if reg_num:
+                last_sound  = reg
+            else:
+                last_sound  = registers[reg]
         elif op == "set":
             registers[reg]  = val
-            i += 1
         elif op == "add":
             registers[reg] += val
-            i += 1
         elif op == "mul":
             registers[reg] *= val
-            i += 1
         elif op == "mod":
             registers[reg] %= val
-            i += 1
         elif op == "rcv":
             if registers[reg] != 0:
                 return last_sound
-            i += 1
         elif op == "jgz":
             if registers[reg] > 0:
                 i += val
-            else:
-                i += 1
+                continue
+        i += 1
 
     return None
 

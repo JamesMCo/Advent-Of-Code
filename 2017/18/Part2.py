@@ -4,77 +4,70 @@
 #Day 18, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
-import collections, unittest
+import collections, string, unittest
 
 def solve(puzzle_input):
     class Program:
         def __init__(self, id, puzzle_input):
             self.i = 0
-            self.registers = [0 for x in range(26)]
+            self.registers     = [0 for x in range(26)]
             self.registers[15] = id
-            self.queue = collections.deque()
-            self.puzzle_input = puzzle_input
+            self.queue         = collections.deque()
+            self.puzzle_input  = puzzle_input
 
-            self.waiting = False
-            self.terminated = False
-            self.sent = 0
+            self.waiting       = False
+            self.terminated    = False
+            self.sent          = 0
 
-            self.other   = None
-
-        def receive(self, value):
-            self.queue.append(value)
+            self.other         = None
 
         def run(self):
             if 0 <= self.i < len(self.puzzle_input) and not self.terminated:
-                inst = self.puzzle_input[self.i].split()
-                op   = inst[0]
+                inst        = self.puzzle_input[self.i].split()
+                op          = inst[0]
+
                 try:
-                    reg = int(inst[1])
+                    reg     = int(inst[1])
                     reg_num = True
                 except:
-                    reg  = ord(inst[1]) - 97
+                    reg     = ord(inst[1]) - 97
                     reg_num = False
+
                 if len(inst) == 3:
-                    if len(inst[2]) > 1:
-                        val = int(inst[2])
+                    if inst[2] in string.ascii_lowercase:
+                        val = self.registers[ord(inst[2]) - 97]
                     else:
-                        if 97 <= ord(inst[2]) <= 122:
-                            val = self.registers[ord(inst[2]) - 97]
-                        else:
-                            val = int(inst[2])
+                        val = int(inst[2])
                 else:
                     val = None
                 
+
                 if op == "snd":
                     if reg_num:
-                        self.other.receive(reg)
+                        self.other.queue.append(reg)
                     else:
-                        self.other.receive(self.registers[reg])
+                        self.other.queue.append(self.registers[reg])
                     self.sent += 1
-                    self.i += 1
                 elif op == "set":
                     self.registers[reg]  = val
-                    self.i += 1
                 elif op == "add":
                     self.registers[reg] += val
-                    self.i += 1
                 elif op == "mul":
                     self.registers[reg] *= val
-                    self.i += 1
                 elif op == "mod":
                     self.registers[reg] %= val
-                    self.i += 1
                 elif op == "rcv":
                     self.waiting = True
                     if len(self.queue) > 0:
                         self.registers[reg] = self.queue.popleft()
                         self.waiting = False
-                        self.i += 1
+                    else:
+                        return
                 elif op == "jgz":
                     if self.registers[reg] > 0:
                         self.i += val
-                    else:
-                        self.i += 1
+                        return
+                self.i += 1
             else:
                 self.terminated = True
 
