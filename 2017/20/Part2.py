@@ -45,10 +45,6 @@ def solve(puzzle_input):
 
         if max(abs(x) for x in pos) > furthest:
             furthest = max(abs(x) for x in pos)
-        if max(abs(x) for x in vel) > furthest:
-            furthest = max(abs(x) for x in vel)
-        if max(abs(x) for x in acc) > furthest:
-            furthest = max(abs(x) for x in acc)
 
     max_wait = (furthest**2 + furthest**2 + furthest**2)**0.5
     while nochange <= max_wait:
