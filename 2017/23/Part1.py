@@ -6,7 +6,7 @@
 
 import string, unittest
 
-def solve(puzzle_input,):
+def solve(puzzle_input):
     i = 0
     mul_count = 0
     registers = [0 for x in range(8)]
