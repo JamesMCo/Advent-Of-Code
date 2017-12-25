@@ -1,5 +1,9 @@
 import unittest, sys
-from colorama import Fore
+import colorama
+
+Fore = colorama.Fore
+colorama.init()
+
 
 class Result(unittest.TextTestResult):
     def getDescription(self, test):

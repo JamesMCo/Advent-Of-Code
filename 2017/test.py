@@ -2,6 +2,8 @@
 
 import colorama, os
 
+colorama.init()
+
 if os.name == "nt":
     s = ""
 else:
