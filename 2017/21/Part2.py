@@ -4,7 +4,9 @@
 #Day 21, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
-import unittest
+import os, sys
+sys.path.append(os.path.abspath("../.."))
+import unittest, util.tests
 
 def solve(puzzle_input, iters=18):
     book = [{}, {}]
@@ -96,7 +98,7 @@ class AOC_Tests(unittest.TestCase):
                                 ".#./..#/### => #..#/..../..../#..#"], 2), 12)
 
 if __name__ == "__main__":
-    if unittest.main(verbosity=2, exit=False).result.wasSuccessful():
+    if unittest.main(verbosity=2, exit=False, testRunner=util.tests.Runner).result.wasSuccessful():
         main()
         exit(0)
     else:

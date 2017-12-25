@@ -4,7 +4,9 @@
 #Day 11, Part 1
 #Solution by James C. (https://github.com/JamesMCo)
 
-import unittest
+import os, sys
+sys.path.append(os.path.abspath("../.."))
+import unittest, util.tests
 
 def solve(puzzle_input):
     x = 0
@@ -68,7 +70,7 @@ class AOC_Tests(unittest.TestCase):
         self.assertEqual(solve(["se", "sw", "se", "sw", "sw"]), 3)
 
 if __name__ == "__main__":
-    if unittest.main(verbosity=2, exit=False).result.wasSuccessful():
+    if unittest.main(verbosity=2, exit=False, testRunner=util.tests.Runner).result.wasSuccessful():
         main()
         exit(0)
     else:

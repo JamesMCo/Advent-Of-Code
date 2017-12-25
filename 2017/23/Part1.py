@@ -4,7 +4,11 @@
 #Day 23, Part 1
 #Solution by James C. (https://github.com/JamesMCo)
 
-import string, unittest
+import os, sys
+sys.path.append(os.path.abspath("../.."))
+import unittest, util.tests
+
+import string
 
 def solve(puzzle_input):
     i = 0
@@ -67,7 +71,7 @@ class AOC_Tests(unittest.TestCase):
                                 "mul a 1"]), 3)
 
 if __name__ == "__main__":
-    if unittest.main(verbosity=2, exit=False).result.wasSuccessful():
+    if unittest.main(verbosity=2, exit=False, testRunner=util.tests.Runner).result.wasSuccessful():
         main()
         exit(0)
     else:
