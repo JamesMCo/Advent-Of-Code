@@ -18,7 +18,7 @@ for day in range(1, 25):
         if os.path.isfile("Part1.py"):
             if printed:
                 print("\n")
-            print(f"{colorama.Fore.YELLOW}{sep}\n**  Testing Day {day} Part 1  **\n{sep}{colorama.Fore.RESET}\n")
+            print(f"{colorama.Fore.YELLOW}{sep}{colorama.Fore.RESET}\n{colorama.Fore.YELLOW}**  Testing Day {day} Part 1  **{colorama.Fore.RESET}\n{colorama.Fore.YELLOW}{sep}{colorama.Fore.RESET}\n")
             
             r = os.system(s + "Part1.py")
             if r:
@@ -28,7 +28,7 @@ for day in range(1, 25):
         if os.path.isfile("Part2.py"):
             if printed:
                 print("\n")
-            print(f"{colorama.Fore.YELLOW}{sep}\n**  Testing Day {day} Part 2  **\n{sep}{colorama.Fore.RESET}\n")
+            print(f"{colorama.Fore.YELLOW}{sep}{colorama.Fore.RESET}\n{colorama.Fore.YELLOW}**  Testing Day {day} Part 2  **{colorama.Fore.RESET}\n{colorama.Fore.YELLOW}{sep}{colorama.Fore.RESET}\n")
             
             r = os.system(s + "Part2.py")
             if r:
