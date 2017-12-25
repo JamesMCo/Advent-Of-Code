@@ -12,7 +12,7 @@ else:
 sep = "*" * 28
 
 printed = False
-for day in range(1, 25):
+for day in range(1, 26):
     if day == 10:
         sep += "*"
     if os.path.isdir(str(day).zfill(2)):
