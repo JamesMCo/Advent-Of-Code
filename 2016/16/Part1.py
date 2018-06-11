@@ -28,4 +28,4 @@ def checksum(a):
 while len(state) < required_length:
     state = step(state)
 
-print("The correct checksum is " + checksum(state[:required_length]))
+print("The correct checksum is " + checksum(state[:required_length]) + ".")
