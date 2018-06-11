@@ -28,6 +28,18 @@
         <script src="js/materialize.min.js"></script>
         <script src="js/prism.js"></script>
         <script>
+            n2015 = ["",
+                     "Not Quite Lisp", "I Was Told There Would Be No Math", "Perfectly Spherical Houses in a Vacuum", "The Ideal Stocking Stuffer", "Doesn't He Have Intern-Elves For This?",
+                     "Probably a Fire Hazard", "Some Assembly Required", "Matchsticks", "All in a Single Night", "Elves Look, Elves Say",
+                     "Corporate Policy", "JSAbacusFramework.io", "Knights of the Dinner Table", "Reindeer Olympics", "Science for Hungry People",
+                     "Aunt Sue", "No Such Thing as Too Much", "Like a GIF For Your Yard", "Medicine for Rudolph", "Infinite Elves and Infinite Houses",
+                     "RPG Simulator 20XX", "Wizard Simulator 20XX", "Opening the Turing Lock", "It Hangs in the Balance", "Let It Snow"]
+            n2016 = ["",
+                     "No Time for a Taxicab", "Bathroom Security", "Squares With Three Sides", "Security Through Obscurity", "How About a Nice Game of Chess?",
+                     "Signals and Noise", "Internet Protocol Version 7", "Two-Factor Authentication", "Explosives in Cyberspace", "Balance Bots",
+                     "Radioisotope Thermoelectric Generators", "Leonardo's Monorail", "A Maze of Twisty Little Cubicles", "One-Time Pad", "Timing is Everything",
+                     "Dragon Checksum", "Two Steps Forward", "Like a Rogue", "An Elephant Named Joseph", "Firewall Rules",
+                     "Scrambled Letters and Hash", "Grid Computing", "Safe Cracking", "Air Duct Spelunking", "Clock Signal"]
             n2017 = ["",
                      "Inverse Captcha", "Corruption Checksum", "Spiral Memory", "High-Entropy Passphrases", "A Maze of Twisty Trampolines, All Alike",
                      "Memory Reallocation", "Recursive Circus", "I Heard You Like Registers", "Stream Processing", "Knot Hash",
@@ -51,15 +63,27 @@
                                     $("#homebutton").removeClass("active").children().attr("href", "/Advent-Of-Code");
                                     $("#homebuttonside").removeClass("active").children().attr("href", "/Advent-Of-Code");
                                     $(".button-collapse").sideNav();
-                                    if (window.location.search.split("?")[1].split("-")[0] == "2017")
+                                    if (window.location.search.split("?")[1].split("-")[1] == "Bonus")
                                     {
-                                        pname = parseInt(window.location.search.split("?")[1].split("-")[1]) + " (" + n2017[parseInt(window.location.search.split("?")[1].split("-")[1])] + ")"
+                                        pname = "Bonus"
+                                    }
+                                    else if (window.location.search.split("?")[1].split("-")[0] == "2015")
+                                    {
+                                        pname = "Day " + parseInt(window.location.search.split("?")[1].split("-")[1]) + " (" + n2015[parseInt(window.location.search.split("?")[1].split("-")[1])] + ")"
+                                    }
+                                    else if (window.location.search.split("?")[1].split("-")[0] == "2016")
+                                    {
+                                        pname = "Day " + parseInt(window.location.search.split("?")[1].split("-")[1]) + " (" + n2016[parseInt(window.location.search.split("?")[1].split("-")[1])] + ")"
+                                    }
+                                    else if (window.location.search.split("?")[1].split("-")[0] == "2017")
+                                    {
+                                        pname = "Day " + parseInt(window.location.search.split("?")[1].split("-")[1]) + " (" + n2017[parseInt(window.location.search.split("?")[1].split("-")[1])] + ")"
                                     }
                                     else
                                     {
-                                        pname = window.location.search.split("?")[1].split("-")[1];
+                                        pname = "Day " + window.location.search.split("?")[1].split("-")[1];
                                     }
-                                    $("#mainbody").html("<h4 class='deep-purple-text text-lighten-1'>" + window.location.search.split("?")[1].split("-")[0] + " - Day " + pname + "</h4><h5>Part 1</h5><pre class='language-python line-numbers fira'><code class='language-python fira'>" + response.replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)") + "</code></pre>");
+                                    $("#mainbody").html("<h4 class='deep-purple-text text-lighten-1'>" + window.location.search.split("?")[1].split("-")[0] + " - " + pname + "</h4><h5>Part 1</h5><pre class='language-python line-numbers fira'><code class='language-python fira'>" + response.replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)") + "</code></pre>");
                                     $.ajax({type:   "GET",
                                             url:    "https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/" + window.location.search.split("?")[1].split("-")[0] + "/" + window.location.search.split("?")[1].split("-")[1] + "/Part2.py",
                                             success: function(response2, status2, xhr2) {
@@ -135,66 +159,189 @@
             <div id="content" style="display: none;">
                 <div id="mainbody" class="container">
                     <h4 id="2017" class="deep-purple-text text-lighten-1">2017</h4>
-                    <div class="collection">
-                        <a href="/Advent-Of-Code?2017-01" class="collection-item purple-text">Day 1 - Inverse Captcha</a>
-                        <a href="/Advent-Of-Code?2017-02" class="collection-item purple-text">Day 2 - Corruption Checksum</a>
-                        <a href="/Advent-Of-Code?2017-03" class="collection-item purple-text">Day 3 - Spiral Memory</a>
-                        <a href="/Advent-Of-Code?2017-04" class="collection-item purple-text">Day 4 - High-Entropy Passphrases</a>
-                        <a href="/Advent-Of-Code?2017-05" class="collection-item purple-text">Day 5 - A Maze of Twisty Trampolines, All Alike</a>
-                        <a href="/Advent-Of-Code?2017-06" class="collection-item purple-text">Day 6 - Memory Reallocation</a>
-                        <a href="/Advent-Of-Code?2017-07" class="collection-item purple-text">Day 7 - Recursive Circus</a>
-                        <a href="/Advent-Of-Code?2017-08" class="collection-item purple-text">Day 8 - I Heard You Like Registers</a>
-                        <a href="/Advent-Of-Code?2017-09" class="collection-item purple-text">Day 9 - Stream Processing</a>
-                        <a href="/Advent-Of-Code?2017-10" class="collection-item purple-text">Day 10 - Knot Hash</a>
-                        <a href="/Advent-Of-Code?2017-11" class="collection-item purple-text">Day 11 - Hex Ed</a>
-                        <a href="/Advent-Of-Code?2017-12" class="collection-item purple-text">Day 12 - Digital Plumber</a>
-                        <a href="/Advent-Of-Code?2017-13" class="collection-item purple-text">Day 13 - Packet Scanners</a>
-                        <a href="/Advent-Of-Code?2017-14" class="collection-item purple-text">Day 14 - Disk Defragmentation</a>
-                        <a href="/Advent-Of-Code?2017-15" class="collection-item purple-text">Day 15 - Dueling Generators</a>
-                        <a href="/Advent-Of-Code?2017-16" class="collection-item purple-text">Day 16 - Permutation Promenade</a>
-                        <a href="/Advent-Of-Code?2017-17" class="collection-item purple-text">Day 17 - Spinlock</a>
-                        <a href="/Advent-Of-Code?2017-18" class="collection-item purple-text">Day 18 - Duet</a>
-                        <a href="/Advent-Of-Code?2017-19" class="collection-item purple-text">Day 19 - A Series of Tubes</a>
-                        <a href="/Advent-Of-Code?2017-20" class="collection-item purple-text">Day 20 - Particle Swarm</a>
-                        <a href="/Advent-Of-Code?2017-21" class="collection-item purple-text">Day 21 - Fractal Art</a>
-                        <a href="/Advent-Of-Code?2017-22" class="collection-item purple-text">Day 22 - Sporifica Virus</a>
-                        <a href="/Advent-Of-Code?2017-23" class="collection-item purple-text">Day 23 - Coprocessor Conflagration</a>
-                        <a href="/Advent-Of-Code?2017-24" class="collection-item purple-text">Day 24 - Electromagnetic Moat</a>
-                        <a href="/Advent-Of-Code?2017-25" class="collection-item purple-text">Day 25 - The Halting Problem</a>
+                    <div class="row">
+                        <div class="col s12 l7">
+                            <div class="collection">
+                                <a href="?2017-01" class="collection-item purple-text">Day 1 - Inverse Captcha</a>
+                                <a href="?2017-02" class="collection-item purple-text">Day 2 - Corruption Checksum</a>
+                                <a href="?2017-03" class="collection-item purple-text">Day 3 - Spiral Memory</a>
+                                <a href="?2017-04" class="collection-item purple-text">Day 4 - High-Entropy Passphrases</a>
+                                <a href="?2017-05" class="collection-item purple-text">Day 5 - A Maze of Twisty Trampolines, All Alike</a>
+                                <a href="?2017-06" class="collection-item purple-text">Day 6 - Memory Reallocation</a>
+                                <a href="?2017-07" class="collection-item purple-text">Day 7 - Recursive Circus</a>
+                                <a href="?2017-08" class="collection-item purple-text">Day 8 - I Heard You Like Registers</a>
+                                <a href="?2017-09" class="collection-item purple-text">Day 9 - Stream Processing</a>
+                                <a href="?2017-10" class="collection-item purple-text">Day 10 - Knot Hash</a>
+                                <a href="?2017-11" class="collection-item purple-text">Day 11 - Hex Ed</a>
+                                <a href="?2017-12" class="collection-item purple-text">Day 12 - Digital Plumber</a>
+                                <a href="?2017-13" class="collection-item purple-text">Day 13 - Packet Scanners</a>
+                                <a href="?2017-14" class="collection-item purple-text">Day 14 - Disk Defragmentation</a>
+                                <a href="?2017-15" class="collection-item purple-text">Day 15 - Dueling Generators</a>
+                                <a href="?2017-16" class="collection-item purple-text">Day 16 - Permutation Promenade</a>
+                                <a href="?2017-17" class="collection-item purple-text">Day 17 - Spinlock</a>
+                                <a href="?2017-18" class="collection-item purple-text">Day 18 - Duet</a>
+                                <a href="?2017-19" class="collection-item purple-text">Day 19 - A Series of Tubes</a>
+                                <a href="?2017-20" class="collection-item purple-text">Day 20 - Particle Swarm</a>
+                                <a href="?2017-21" class="collection-item purple-text">Day 21 - Fractal Art</a>
+                                <a href="?2017-22" class="collection-item purple-text">Day 22 - Sporifica Virus</a>
+                                <a href="?2017-23" class="collection-item purple-text">Day 23 - Coprocessor Conflagration</a>
+                                <a href="?2017-24" class="collection-item purple-text">Day 24 - Electromagnetic Moat</a>
+                                <a href="?2017-25" class="collection-item purple-text">Day 25 - The Halting Problem</a>
+                            </div>
+                        </div>
+                        <div class="col l5 hide-on-med-and-down">
+                            <div class="row">
+                                <div class="col s3"><a href="?2017-01"><div class="card-panel center white-text green">1</div></a></div>
+                                <div class="col s2"><a href="?2017-02"><div class="card-panel center white-text green">2</div></a></div>
+                                <div class="col s2"><a href="?2017-03"><div class="card-panel center white-text green">3</div></a></div>
+                                <div class="col s2"><a href="?2017-04"><div class="card-panel center white-text green">4</div></a></div>
+                                <div class="col s3"><a href="?2017-05"><div class="card-panel center white-text green">5</div></a></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><a href="?2017-06"><div class="card-panel center white-text green">6</div></a></div>
+                                <div class="col s2"><a href="?2017-07"><div class="card-panel center white-text green">7</div></a></div>
+                                <div class="col s2"><a href="?2017-08"><div class="card-panel center white-text green">8</div></a></div>
+                                <div class="col s2"><a href="?2017-09"><div class="card-panel center white-text green">9</div></a></div>
+                                <div class="col s3"><a href="?2017-10"><div class="card-panel center white-text green">10</div></a></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><a href="?2017-11"><div class="card-panel center white-text green">11</div></a></div>
+                                <div class="col s2"><a href="?2017-12"><div class="card-panel center white-text green">12</div></a></div>
+                                <div class="col s2"><a href="?2017-13"><div class="card-panel center white-text green">13</div></a></div>
+                                <div class="col s2"><a href="?2017-14"><div class="card-panel center white-text green">14</div></a></div>
+                                <div class="col s3"><a href="?2017-15"><div class="card-panel center white-text green">15</div></a></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><a href="?2017-16"><div class="card-panel center white-text green">16</div></a></div>
+                                <div class="col s2"><a href="?2017-17"><div class="card-panel center white-text green">17</div></a></div>
+                                <div class="col s2"><a href="?2017-18"><div class="card-panel center white-text green">18</div></a></div>
+                                <div class="col s2"><a href="?2017-19"><div class="card-panel center white-text green">19</div></a></div>
+                                <div class="col s3"><a href="?2017-20"><div class="card-panel center white-text green">20</div></a></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><a href="?2017-21"><div class="card-panel center white-text green">21</div></a></div>
+                                <div class="col s2"><a href="?2017-22"><div class="card-panel center white-text green">22</div></a></div>
+                                <div class="col s2"><a href="?2017-23"><div class="card-panel center white-text green">23</div></a></div>
+                                <div class="col s2"><a href="?2017-24"><div class="card-panel center white-text green">24</div></a></div>
+                                <div class="col s3"><a href="?2017-25"><div class="card-panel center white-text green">25</div></a></div>
+                            </div>
+                        </div>
                     </div>
                     <h4 id="2016" class="deep-purple-text text-lighten-1">2016</h4>
-                    <div class="collection">
-                        <a href="/Advent-Of-Code?2016-01" class="collection-item purple-text">Day 1</a>
-                        <a href="/Advent-Of-Code?2016-02" class="collection-item purple-text">Day 2</a>
-                        <a href="/Advent-Of-Code?2016-03" class="collection-item purple-text">Day 3</a>
-                        <a href="/Advent-Of-Code?2016-04" class="collection-item purple-text">Day 4</a>
-                        <a href="/Advent-Of-Code?2016-05" class="collection-item purple-text">Day 5</a>
-                        <a href="/Advent-Of-Code?2016-06" class="collection-item purple-text">Day 6</a>
-                        <a href="/Advent-Of-Code?2016-07" class="collection-item purple-text">Day 7</a>
-                        <a href="/Advent-Of-Code?2016-08" class="collection-item purple-text">Day 8</a>
-                        <a href="/Advent-Of-Code?2016-09" class="collection-item purple-text">Day 9</a>
-                        <a href="/Advent-Of-Code?2016-10" class="collection-item purple-text">Day 10</a>
-                        <a href="/Advent-Of-Code?2016-12" class="collection-item purple-text">Day 12</a>
-                        <a href="/Advent-Of-Code?2016-13" class="collection-item purple-text">Day 13</a>
-                        <a href="/Advent-Of-Code?2016-14" class="collection-item purple-text">Day 14</a>
-                        <a href="/Advent-Of-Code?2016-16" class="collection-item purple-text">Day 16</a>
-                        <a href="/Advent-Of-Code?2016-25" class="collection-item purple-text">Day 25</a>
-                        <a href="/Advent-Of-Code?2016-Bonus" class="collection-item purple-text">Bonus</a>
+                    <div class="row">
+                        <div class="col s12 l7">
+                            <div class="collection">
+                                <a href="?2016-01" class="collection-item purple-text">Day 1 - No Time for a Taxicab</a>
+                                <a href="?2016-02" class="collection-item purple-text">Day 2 - Bathroom Security</a>
+                                <a href="?2016-03" class="collection-item purple-text">Day 3 - Squares With Three Sides</a>
+                                <a href="?2016-04" class="collection-item purple-text">Day 4 - Security Through Obscurity</a>
+                                <a href="?2016-05" class="collection-item purple-text">Day 5 - How About a Nice Game of Chess?</a>
+                                <a href="?2016-06" class="collection-item purple-text">Day 6 - Signals and Noise</a>
+                                <a href="?2016-07" class="collection-item purple-text">Day 7 - Internet Protocol Version 7</a>
+                                <a href="?2016-08" class="collection-item purple-text">Day 8 - Two-Factor Authentication</a>
+                                <a href="?2016-09" class="collection-item purple-text">Day 9 - Explosives in Cyberspace</a>
+                                <a href="?2016-10" class="collection-item purple-text">Day 10 - Balance Bots</a>
+                                <a href="?2016-12" class="collection-item purple-text">Day 12 - Leonardo's Monorail</a>
+                                <a href="?2016-13" class="collection-item purple-text">Day 13 - A Maze of Twisty Little Cubicles</a>
+                                <a href="?2016-14" class="collection-item purple-text">Day 14 - One-Time Pad</a>
+                                <a href="?2016-16" class="collection-item purple-text">Day 16 - Dragon Checksum<span class="new badge deep-purple" data-badge-caption="Latest"></span></a>
+                                <a href="?2016-25" class="collection-item purple-text">Day 25 - Clock Signal</a>
+                                <a href="?2016-Bonus" class="collection-item purple-text">Bonus</a>
+                            </div>
+                        </div>
+                        <div class="col l5 hide-on-med-and-down">
+                            <div class="row">
+                                <div class="col s3"><a href="?2016-01"><div class="card-panel center white-text green">1</div></a></div>
+                                <div class="col s2"><a href="?2016-02"><div class="card-panel center white-text green">2</div></a></div>
+                                <div class="col s2"><a href="?2016-03"><div class="card-panel center white-text green">3</div></a></div>
+                                <div class="col s2"><a href="?2016-04"><div class="card-panel center white-text green">4</div></a></div>
+                                <div class="col s3"><a href="?2016-05"><div class="card-panel center white-text green">5</div></a></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><a href="?2016-06"><div class="card-panel center white-text green">6</div></a></div>
+                                <div class="col s2"><a href="?2016-07"><div class="card-panel center white-text green">7</div></a></div>
+                                <div class="col s2"><a href="?2016-08"><div class="card-panel center white-text green">8</div></a></div>
+                                <div class="col s2"><a href="?2016-09"><div class="card-panel center white-text green">9</div></a></div>
+                                <div class="col s3"><a href="?2016-10"><div class="card-panel center white-text green">10</div></a></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><div class="card-panel center white-text red">11</div></div>
+                                <div class="col s2"><a href="?2016-12"><div class="card-panel center white-text green">12</div></a></div>
+                                <div class="col s2"><a href="?2016-13"><div class="card-panel center white-text green">13</div></a></div>
+                                <div class="col s2"><a href="?2016-14"><div class="card-panel center white-text green">14</div></a></div>
+                                <div class="col s3"><div class="card-panel center white-text red">15</div></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><a href="?2016-16"><div class="card-panel center white-text green">16</div></a></div>
+                                <div class="col s2"><div class="card-panel center white-text red">17</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">18</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">19</div></div>
+                                <div class="col s3"><div class="card-panel center white-text red">20</div></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><div class="card-panel center white-text red">21</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">22</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">23</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">24</div></div>
+                                <div class="col s3"><a href="?2016-25"><div class="card-panel center white-text green">25</div></a></div>
+                            </div>
+                        </div>
                     </div>
                     <h4 id="2015" class="deep-purple-text text-lighten-1">2015</h4>
-                    <div class="collection">
-                        <a href="/Advent-Of-Code?2015-01" class="collection-item purple-text">Day 1</a>
-                        <a href="/Advent-Of-Code?2015-02" class="collection-item purple-text">Day 2</a>
-                        <a href="/Advent-Of-Code?2015-03" class="collection-item purple-text">Day 3</a>
-                        <a href="/Advent-Of-Code?2015-04" class="collection-item purple-text">Day 4</a>
-                        <a href="/Advent-Of-Code?2015-05" class="collection-item purple-text">Day 5</a>
-                        <a href="/Advent-Of-Code?2015-06" class="collection-item purple-text">Day 6</a>
-                        <a href="/Advent-Of-Code?2015-07" class="collection-item purple-text">Day 7</a>
-                        <a href="/Advent-Of-Code?2015-08" class="collection-item purple-text">Day 8</a>
-                        <a href="/Advent-Of-Code?2015-10" class="collection-item purple-text">Day 10</a>
-                        <a href="/Advent-Of-Code?2015-11" class="collection-item purple-text">Day 11</a>
-                        <a href="/Advent-Of-Code?2015-12" class="collection-item purple-text">Day 12</a>
-                        <a href="/Advent-Of-Code?2015-25" class="collection-item purple-text">Day 25</a>
+                    <div class="row">
+                        <div class="col s12 l7">
+                            <div class="collection">
+                                <a href="?2015-01" class="collection-item purple-text">Day 1 - Not Quite Lisp</a>
+                                <a href="?2015-02" class="collection-item purple-text">Day 2 - I Was Told There Would Be No Math</a>
+                                <a href="?2015-03" class="collection-item purple-text">Day 3 - Perfectly Spherical Houses in a Vacuum</a>
+                                <a href="?2015-04" class="collection-item purple-text">Day 4 - The Ideal Stocking Stuffer</a>
+                                <a href="?2015-05" class="collection-item purple-text">Day 5 - Doesn't He Have Intern-Elves For This?</a>
+                                <a href="?2015-06" class="collection-item purple-text">Day 6 - Probably a Fire Hazard</a>
+                                <a href="?2015-07" class="collection-item purple-text">Day 7 - Some Assembly Required</a>
+                                <a href="?2015-08" class="collection-item purple-text">Day 8 - Matchsticks</a>
+                                <a href="?2015-10" class="collection-item purple-text">Day 10 - Elves Look, Elves Say</a>
+                                <a href="?2015-11" class="collection-item purple-text">Day 11 - Corporate Policy</a>
+                                <a href="?2015-12" class="collection-item purple-text">Day 12 - JSAbacusFramework.io</a>
+                                <a href="?2015-25" class="collection-item purple-text">Day 25 - Let It Snow</a>
+                            </div>
+                        </div>
+                        <div class="col l5 hide-on-med-and-down">
+                            <div class="row">
+                                <div class="col s3"><a href="?2015-01"><div class="card-panel center white-text green">1</div></a></div>
+                                <div class="col s2"><a href="?2015-02"><div class="card-panel center white-text green">2</div></a></div>
+                                <div class="col s2"><a href="?2015-03"><div class="card-panel center white-text green">3</div></a></div>
+                                <div class="col s2"><a href="?2015-04"><div class="card-panel center white-text green">4</div></a></div>
+                                <div class="col s3"><a href="?2015-05"><div class="card-panel center white-text green">5</div></a></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><a href="?2015-06"><div class="card-panel center white-text green">6</div></a></div>
+                                <div class="col s2"><a href="?2015-07"><div class="card-panel center white-text green">7</div></a></div>
+                                <div class="col s2"><a href="?2015-08"><div class="card-panel center white-text green">8</div></a></div>
+                                <div class="col s2"><div class="card-panel center white-text red">9</div></div>
+                                <div class="col s3"><a href="?2015-10"><div class="card-panel center white-text green">10</div></a></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><a href="?2015-11"><div class="card-panel center white-text green">11</div></a></div>
+                                <div class="col s2"><a href="?2015-12"><div class="card-panel center white-text orange">12</div></a></div>
+                                <div class="col s2"><div class="card-panel center white-text red">13</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">14</div></div>
+                                <div class="col s3"><div class="card-panel center white-text red">15</div></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><div class="card-panel center white-text red">16</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">17</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">18</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">19</div></div>
+                                <div class="col s3"><div class="card-panel center white-text red">20</div></div>
+                            </div>
+                            <div class="row">
+                                <div class="col s3"><div class="card-panel center white-text red">21</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">22</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">23</div></div>
+                                <div class="col s2"><div class="card-panel center white-text red">24</div></div>
+                                <div class="col s3"><a href="?2015-25"><div class="card-panel center white-text green">25</div></a></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
