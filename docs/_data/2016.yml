@@ -1,0 +1,78 @@
+- day:   1
+  name:  "No Time for a Taxicab"
+  state: 2
+- day:   2
+  name:  "Bathroom Security"
+  state: 2
+- day:   3
+  name:  "Squares With Three Sides"
+  state: 2
+- day:   4
+  name:  "Security Through Obscurity"
+  state: 2
+- day:   5
+  name:  "How About a Nice Game of Chess?"
+  state: 2
+- day:   6
+  name:  "Signals and Noise"
+  state: 2
+- day:   7
+  name:  "Internet Protocol Version 7"
+  state: 2
+- day:   8
+  name:  "Two-Factor Authentication"
+  state: 2
+- day:   9
+  name:  "Explosives in Cyberspace"
+  state: 2
+- day:   10
+  name:  "Balance Bots"
+  state: 2
+- day:   11
+  name:  "Radioisotope Thermoelectric Generators"
+  state: 0
+- day:   12
+  name:  "Leonardo's Monorail"
+  state: 2
+- day:   13
+  name:  "A Maze of Twisty Little Cubicles"
+  state: 2
+- day:   14
+  name:  "One-Time Pad"
+  state: 2
+- day:   15
+  name:  "Timing is Everything"
+  state: 0
+- day:   16
+  name:  "Dragon Checksum"
+  state: 2
+- day:   17
+  name:  "Two Steps Forward"
+  state: 0
+- day:   18
+  name:  "Like a Rogue"
+  state: 0
+- day:   19
+  name:  "An Elephant Named Joseph"
+  state: 0
+- day:   20
+  name:  "Firewall Rules"
+  state: 0
+- day:   21
+  name:  "Scrambled Letters and Hash"
+  state: 0
+- day:   22
+  name:  "Grid Computing"
+  state: 0
+- day:   23
+  name:  "Safe Cracking"
+  state: 0
+- day:   24
+  name:  "Air Duct Spelunking"
+  state: 0
+- day:   25
+  name:  "Clock Signal"
+  state: 2
+- day:   "Bonus"
+  name:  "Bonus"
+  state: 2

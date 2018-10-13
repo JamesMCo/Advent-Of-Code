@@ -1,0 +1,75 @@
+- day:   1
+  name:  "Not Quite Lisp"
+  state: 2
+- day:   2
+  name:  "I Was Told There Would Be No Math"
+  state: 2
+- day:   3
+  name:  "Perfectly Spherical Houses in a Vacuum"
+  state: 2
+- day:   4
+  name:  "The Ideal Stocking Stuffer"
+  state: 2
+- day:   5
+  name:  "Doesn't He Have Intern-Elves For This?"
+  state: 2
+- day:   6
+  name:  "Probably a Fire Hazard"
+  state: 2
+- day:   7
+  name:  "Some Assembly Required"
+  state: 2
+- day:   8
+  name:  "Matchsticks"
+  state: 2
+- day:   9
+  name:  "All in a Single Night"
+  state: 2
+- day:   10
+  name:  "Elves Look, Elves Say"
+  state: 2
+- day:   11
+  name:  "Corporate Policy"
+  state: 2
+- day:   12
+  name:  "JSAbacusFramework.io"
+  state: 2
+- day:   13
+  name:  "Knights of the Dinner Table"
+  state: 2
+- day:   14
+  name:  "Reindeer Olympics"
+  state: 2
+- day:   15
+  name:  "Science for Hungry People"
+  state: 2
+- day:   16
+  name:  "Aunt Sue"
+  state: 2
+- day:   17
+  name:  "No Such Thing as Too Much"
+  state: 2
+- day:   18
+  name:  "Like a GIF For Your Yard"
+  state: 2
+- day:   19
+  name:  "Medicine for Rudolph"
+  state: 1
+- day:   20
+  name:  "Infinite Elves and Infinite Houses"
+  state: 0
+- day:   21
+  name:  "RPG Simulator 20XX"
+  state: 0
+- day:   22
+  name:  "Wizard Simulator 20XX"
+  state: 0
+- day:   23
+  name:  "Opening the Turing Lock"
+  state: 0
+- day:   24
+  name:  "It Hangs in the Balance"
+  state: 0
+- day:   25
+  name:  "Let It Snow"
+  state: 2

@@ -57,6 +57,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# Jekyll built site
+docs/_site/
+
 # =========================
 # Operating System Files
 # =========================

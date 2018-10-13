@@ -1,0 +1,75 @@
+- day:   1
+  name:  "Inverse Captcha"
+  state: 2
+- day:   2
+  name:  "Corruption Checksum"
+  state: 2
+- day:   3
+  name:  "Spiral Memory"
+  state: 2
+- day:   4
+  name:  "High-Entropy Passphrases"
+  state: 2
+- day:   5
+  name:  "A Maze of Twisty Trampolines, All Alike"
+  state: 2
+- day:   6
+  name:  "Memory Reallocation"
+  state: 2
+- day:   7
+  name:  "Recursive Circus"
+  state: 2
+- day:   8
+  name:  "I Heard You Like Registers"
+  state: 2
+- day:   9
+  name:  "Stream Processing"
+  state: 2
+- day:   10
+  name:  "Knot Hash"
+  state: 2
+- day:   11
+  name:  "Hex Ed"
+  state: 2
+- day:   12
+  name:  "Digital Plumber"
+  state: 2
+- day:   13
+  name:  "Packet Scanners"
+  state: 2
+- day:   14
+  name:  "Disk Defragmentation"
+  state: 2
+- day:   15
+  name:  "Dueling Generators"
+  state: 2
+- day:   16
+  name:  "Permutation Promenade"
+  state: 2
+- day:   17
+  name:  "Spinlock"
+  state: 2
+- day:   18
+  name:  "Duet"
+  state: 2
+- day:   19
+  name:  "A Series of Tubes"
+  state: 2
+- day:   20
+  name:  "Particle Swarm"
+  state: 2
+- day:   21
+  name:  "Fractal Art"
+  state: 2
+- day:   22
+  name:  "Sporifica Virus"
+  state: 2
+- day:   23
+  name:  "Coprocessor Conflagration"
+  state: 2
+- day:   24
+  name:  "Electromagnetic Moat"
+  state: 2
+- day:   25
+  name:  "The Halting Problem"
+  state: 2
