@@ -47,9 +47,11 @@
                                     $("#homebutton").removeClass("active").children().attr("href", "/Advent-Of-Code");
                                     $("#homebuttonside").removeClass("active").children().attr("href", "/Advent-Of-Code");
                                     $(".button-collapse").sideNav();
+                                    view_puzzle = "<h6><a href=\"https://adventofcode.com/" + window.location.search.split("?")[1].split("-")[0] + "/day/" + parseInt(window.location.search.split("?")[1].split("-")[1]) + "\" target=\"_blank\">View puzzle description on AdventOfCode.com</a></h6>"
                                     if (window.location.search.split("?")[1].split("-")[1] == "Bonus")
                                     {
-                                        pname = "Bonus"
+                                        pname = "Bonus";
+                                        view_puzzle = "";
                                     }{% for y in page.years %}
 {% include nameheading.html year=y %}
 {%- endfor %}
@@ -57,7 +59,7 @@
                                     {
                                         pname = "Day " + window.location.search.split("?")[1].split("-")[1];
                                     }
-                                    $("#mainbody").html("<h4 class='deep-purple-text text-lighten-1'>" + window.location.search.split("?")[1].split("-")[0] + " - " + pname + "</h4><h5>Part 1</h5><pre class='language-python line-numbers fira'><code class='language-python fira'>" + response.replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)") + "</code></pre>");
+                                    $("#mainbody").html("<h4 class='deep-purple-text text-lighten-1'>" + window.location.search.split("?")[1].split("-")[0] + " - " + pname + "</h4>" + view_puzzle + "<h5>Part 1</h5><pre class='language-python line-numbers fira'><code class='language-python fira'>" + response.replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)") + "</code></pre>");
                                     $.ajax({type:   "GET",
                                             url:    "https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/" + window.location.search.split("?")[1].split("-")[0] + "/" + window.location.search.split("?")[1].split("-")[1] + "/Part2.py",
                                             success: function(response2, status2, xhr2) {
