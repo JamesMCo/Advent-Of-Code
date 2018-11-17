@@ -4,7 +4,7 @@
                     <h4 id="{{ y }}" class="deep-purple-text text-lighten-1">{{ y }}</h4>
                     <div class="row">
                         <div class="col s12 l7">
-                            <div class="collection">{% for puzzle in site.data[y] %}
+                            <div class="collection">{% for puzzle in site.data[y] -%}
 {% if puzzle.state != 0 %}{% include puzzlelist.html year=y puzzle=puzzle %}{% endif %}
 {%- endfor %}
                             </div>
