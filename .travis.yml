@@ -1,5 +1,5 @@
 language: python
 python:
-  - 3.7.0
+  - 3.7-dev
 script:
   - "cd 2018; python test.py;cd .."
