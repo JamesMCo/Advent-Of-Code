@@ -41,9 +41,9 @@ def main():
     puzzle_input = f.read()[:-1].split("\n")
     f.close()
 
-    inches = solve(puzzle_input)
+    claim_id = solve(puzzle_input)
 
-    print("The number of overlapping square inches is " + str(inches) + ".")
+    print("The id of the in tact claim is " + str(claim_id) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
