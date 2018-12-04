@@ -1,4 +1,5 @@
-/* http://prismjs.com/download.html?themes=prism-twilight&languages=python&plugins=line-numbers+autolinker */
+/* PrismJS 1.15.0
+https://prismjs.com/download.html#themes=prism-twilight&languages=python&plugins=line-numbers+autolinker */
 /**
  * prism.js Twilight theme
  * Based (more or less) on the Twilight theme originally of Textmate fame.
@@ -198,15 +199,15 @@ pre[data-line] {
 	top: auto;
 }
 
-pre.line-numbers {
+pre[class*="language-"].line-numbers {
 	position: relative;
 	padding-left: 3.8em;
 	counter-reset: linenumber;
 }
 
-pre.line-numbers > code {
+pre[class*="language-"].line-numbers > code {
 	position: relative;
-    white-space: inherit;
+	white-space: inherit;
 }
 
 .line-numbers .line-numbers-rows {
@@ -239,6 +240,7 @@ pre.line-numbers > code {
 			padding-right: 0.8em;
 			text-align: right;
 		}
+
 .token a {
 	color: inherit;
 }
