@@ -10,7 +10,7 @@ else:
     s = "python ./"
 
 names = ["",
-         "Chronal Calibration", "Inventory Management System", "No Matter How You Slice It", "", "",
+         "Chronal Calibration", "Inventory Management System", "No Matter How You Slice It", "Repose Record", "",
          "", "", "", "", "",
          "", "", "", "", "",
          "", "", "", "", "",
