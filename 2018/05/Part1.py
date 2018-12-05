@@ -15,16 +15,10 @@ def solve(puzzle_input):
         units = []
         for u in polymer:
             if len(units) > 0:
-                if units[-1] in string.ascii_lowercase:
-                    if units[-1] == u.lower() and u in string.ascii_uppercase:
-                        units.pop()
-                    else:
-                        units.append(u)
+                if units[-1].swapcase() == u:
+                    units.pop()
                 else:
-                    if units[-1] == u.upper() and u in string.ascii_lowercase:
-                        units.pop()
-                    else:
-                        units.append(u)
+                    units.append(u)
             else:
                 units.append(u)
         return "".join(units)
