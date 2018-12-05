@@ -29,13 +29,7 @@ def solve(puzzle_input):
                 units.append(u)
         return "".join(units)
 
-    prev = puzzle_input
-    while True:
-        puzzle_input = react(puzzle_input)
-        if prev == puzzle_input:
-            return len(puzzle_input)
-        else:
-            prev = puzzle_input
+    return len(react(puzzle_input))
 
 def main():
     f = open("puzzle_input.txt")

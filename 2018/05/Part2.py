@@ -31,19 +31,8 @@ def solve(puzzle_input):
 
     lengths = []
     for u in string.ascii_lowercase:
-        if u in puzzle_input or u.upper() in puzzle_input:
-            working = puzzle_input.replace(u, "").replace(u.upper(), "")
-        else:
-            continue
-
-        prev = working
-        while True:
-            working = react(working)
-            if prev == working:
-                lengths.append(len(working))
-                break
-            else:
-                prev = working
+        if u in puzzle_input.lower():
+            lengths.append(len(react(puzzle_input.replace(u, "").replace(u.upper(), ""))))
     
     return min(lengths)
 
