@@ -55,7 +55,9 @@ if __name__ == "__main__":
         start = time.time()
         main()
         end = time.time()
-        print(f"{colorama.Fore.CYAN}Solution found in {colorama.Fore.GREEN}{round(end - start, 3)}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
+        duration = str(round(end - start, 3))
+        duration += "0" * (3 - len(duration.split(".")[1]))
+        print(f"{colorama.Fore.CYAN}Solution found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
         exit(0)
     else:
         exit(1)
