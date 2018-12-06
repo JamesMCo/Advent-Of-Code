@@ -29,7 +29,7 @@ def solve(puzzle_input):
 
 def main():
     f = open("puzzle_input.txt")
-    puzzle_input = f.read()[:-1].split("\n")
+    puzzle_input = f.read().strip().split("\n")
     f.close()
 
     inches = solve(puzzle_input)

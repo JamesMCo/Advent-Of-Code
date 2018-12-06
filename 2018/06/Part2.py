@@ -48,7 +48,7 @@ def solve(puzzle_input, max_sum=10_000):
 
 def main():
     f = open("puzzle_input.txt")
-    puzzle_input = f.read()[:-1].split("\n")
+    puzzle_input = f.read().strip().split("\n")
     f.close()
 
     area = solve(puzzle_input)

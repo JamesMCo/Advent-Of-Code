@@ -27,7 +27,7 @@ def solve(puzzle_input):
 
 def main():
     f = open("puzzle_input.txt")
-    puzzle_input = f.read()[:-1]
+    puzzle_input = f.read().strip()
     f.close()
 
     units = solve(puzzle_input)
