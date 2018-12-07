@@ -6,7 +6,7 @@
 
 import os, sys
 sys.path.append(os.path.abspath("../.."))
-import unittest
+import unittest, util.read
 from util.tests import run
 
 def solve(puzzle_input):
@@ -29,9 +29,7 @@ def solve(puzzle_input):
     return find_largest(parts, 0, 0)
 
 def main():
-    f = open("puzzle_input.txt")
-    puzzle_input = f.read()[:-1].split("\n")
-    f.close()
+    puzzle_input = util.read.as_lines()
 
     strongest = solve(puzzle_input)
 

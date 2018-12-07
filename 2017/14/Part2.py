@@ -6,7 +6,7 @@
 
 import os, sys
 sys.path.append(os.path.abspath("../.."))
-import unittest
+import unittest, util.read
 from util.tests import run
 
 def knot(puzzle_input):
@@ -118,9 +118,7 @@ def solve(puzzle_input):
     return day12_p2(d12_input)
 
 def main():
-    f = open("puzzle_input.txt")
-    puzzle_input = f.read()[:-1]
-    f.close()
+    puzzle_input = util.read.as_string()
 
     regions = solve(puzzle_input)
 

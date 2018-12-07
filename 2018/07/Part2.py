@@ -6,7 +6,7 @@
 
 import os, sys, colorama, time
 sys.path.append(os.path.abspath("../.."))
-import unittest
+import unittest, util.read
 from util.tests import run
 
 from collections import defaultdict
@@ -60,9 +60,7 @@ def solve(puzzle_input, constant_additional_time=60, workers=5):
     return timer
 
 def main():
-    f = open("puzzle_input.txt")
-    puzzle_input = f.read().strip().split("\n")
-    f.close()
+    puzzle_input = util.read.as_lines()
 
     seconds = solve(puzzle_input)
 

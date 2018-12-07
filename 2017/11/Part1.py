@@ -6,7 +6,7 @@
 
 import os, sys
 sys.path.append(os.path.abspath("../.."))
-import unittest
+import unittest, util.read
 from util.tests import run
 
 def solve(puzzle_input):
@@ -49,9 +49,7 @@ def solve(puzzle_input):
     return steps
 
 def main():
-    f = open("puzzle_input.txt")
-    puzzle_input = f.read()[:-1].split(",")
-    f.close()
+    puzzle_input = util.read.as_string().split(",")
 
     steps = solve(puzzle_input)
 

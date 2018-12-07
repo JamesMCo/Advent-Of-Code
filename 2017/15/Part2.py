@@ -6,7 +6,7 @@
 
 import os, sys
 sys.path.append(os.path.abspath("../.."))
-import unittest
+import unittest, util.read
 from util.tests import run
 
 def solve(puzzle_input):
@@ -31,7 +31,7 @@ def solve(puzzle_input):
 
 def main():
     f = open("puzzle_input.txt")
-    puzzle_input = [int(x.split(" ")[-1]) for x in f.read()[:-1].split("\n")]
+    puzzle_input = [int(x.split(" ")[-1]) for x in util.read.as_lines()]
     f.close()
 
     count = solve(puzzle_input)

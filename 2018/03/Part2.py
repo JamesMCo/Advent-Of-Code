@@ -6,7 +6,7 @@
 
 import os, sys, colorama, time
 sys.path.append(os.path.abspath("../.."))
-import unittest
+import unittest, util.read
 from util.tests import run
 
 from collections import defaultdict
@@ -38,9 +38,7 @@ def solve(puzzle_input):
             return int(line.split()[0][1:])
 
 def main():
-    f = open("puzzle_input.txt")
-    puzzle_input = f.read().strip().split("\n")
-    f.close()
+    puzzle_input = util.read.as_lines()
 
     claim_id = solve(puzzle_input)
 

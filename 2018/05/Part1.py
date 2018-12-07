@@ -6,7 +6,7 @@
 
 import os, sys, colorama, time
 sys.path.append(os.path.abspath("../.."))
-import unittest
+import unittest, util.read
 from util.tests import run
 
 import string
@@ -27,9 +27,7 @@ def solve(puzzle_input):
     return len(react(puzzle_input))
 
 def main():
-    f = open("puzzle_input.txt")
-    puzzle_input = f.read().strip()
-    f.close()
+    puzzle_input = util.read.as_string()
 
     units = solve(puzzle_input)
 

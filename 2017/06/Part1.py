@@ -6,7 +6,7 @@
 
 import os, sys
 sys.path.append(os.path.abspath("../.."))
-import unittest
+import unittest, util.read
 from util.tests import run
 
 def solve(puzzle_input):
@@ -27,9 +27,7 @@ def solve(puzzle_input):
     return len(history)
 
 def main():
-    f = open("puzzle_input.txt")
-    puzzle_input = [int(x) for x in f.read()[:-1].split(" ") if x != ""]
-    f.close()
+    puzzle_input = [int(x) for x in util.read.as_string().split() if x != ""]
 
     cycles = solve(puzzle_input)
 

@@ -6,7 +6,7 @@
 
 import os, sys, colorama, time
 sys.path.append(os.path.abspath("../.."))
-import unittest
+import unittest, util.read
 from util.tests import run
 
 def solve(puzzle_input, max_sum=10_000):
@@ -48,9 +48,7 @@ def solve(puzzle_input, max_sum=10_000):
     return region
 
 def main():
-    f = open("puzzle_input.txt")
-    puzzle_input = f.read().strip().split("\n")
-    f.close()
+    puzzle_input = util.read.as_lines()
 
     area = solve(puzzle_input)
 
