@@ -1,5 +1,6 @@
 import unittest, sys
 import colorama
+import time
 
 Fore = colorama.Fore
 colorama.init()
@@ -48,3 +49,17 @@ class Runner(unittest.TextTestRunner):
                  *, tb_locals=False):
         super().__init__(stream, descriptions, verbosity,
                          failfast, buffer, resultclass, warnings, tb_locals=tb_locals)
+
+def run(main):
+    if unittest.main(verbosity=2, exit=False, testRunner=Runner).result.wasSuccessful():
+        start = time.time()
+        main()
+        end = time.time()
+
+        duration = str(round(end - start, 3))
+        duration += "0" * (3 - len(duration.split(".")[1]))
+
+        print(f"{colorama.Fore.CYAN}Solution found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
+
+    else:
+        exit(1)

@@ -6,7 +6,8 @@
 
 import os, sys
 sys.path.append(os.path.abspath("../.."))
-import unittest, util.tests
+import unittest
+from util.tests import run
 
 def solve(puzzle_input, size=16, iters=1000000000):
     programs = [chr(x + 97) for x in range(size)]
@@ -50,9 +51,4 @@ class AOC_Tests(unittest.TestCase):
     def test_ex3(self):
         self.assertEqual(solve(["s1"], 5, 5), "abcde")
 
-if __name__ == "__main__":
-    if unittest.main(verbosity=2, exit=False, testRunner=util.tests.Runner).result.wasSuccessful():
-        main()
-        exit(0)
-    else:
-        exit(1)
+run(main)

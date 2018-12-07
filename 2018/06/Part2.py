@@ -6,7 +6,8 @@
 
 import os, sys, colorama, time
 sys.path.append(os.path.abspath("../.."))
-import unittest, util.tests
+import unittest
+from util.tests import run
 
 def solve(puzzle_input, max_sum=10_000):
     def distance(a, b):
@@ -64,14 +65,4 @@ class AOC_Tests(unittest.TestCase):
                                 "5, 5",
                                 "8, 9"], 32), 16)
 
-if __name__ == "__main__":
-    if unittest.main(verbosity=2, exit=False, testRunner=util.tests.Runner).result.wasSuccessful():
-        start = time.time()
-        main()
-        end = time.time()
-        duration = str(round(end - start, 3))
-        duration += "0" * (3 - len(duration.split(".")[1]))
-        print(f"{colorama.Fore.CYAN}Solution found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
-        exit(0)
-    else:
-        exit(1)
+run(main)

@@ -6,7 +6,8 @@
 
 import os, sys
 sys.path.append(os.path.abspath("../.."))
-import unittest, util.tests
+import unittest
+from util.tests import run
 
 import collections
 
@@ -87,9 +88,4 @@ class AOC_Tests(unittest.TestCase):
                                 "p=<-2,0,0>, v=< 1,0,0>, a=< 0,0,0>",
                                 "p=< 3,0,0>, v=<-1,0,0>, a=< 0,0,0>"]), 1)
 
-if __name__ == "__main__":
-    if unittest.main(verbosity=2, exit=False, testRunner=util.tests.Runner).result.wasSuccessful():
-        main()
-        exit(0)
-    else:
-        exit(1)
+run(main)

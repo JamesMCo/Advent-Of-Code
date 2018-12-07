@@ -6,7 +6,8 @@
 
 import os, sys
 sys.path.append(os.path.abspath("../.."))
-import unittest, util.tests
+import unittest
+from util.tests import run
 
 def solve(puzzle_input):
     registers = {}
@@ -42,9 +43,4 @@ class AOC_Tests(unittest.TestCase):
                                 "c dec -10 if a >= 1",
                                 "c inc -20 if c == 10"]), 1)
 
-if __name__ == "__main__":
-    if unittest.main(verbosity=2, exit=False, testRunner=util.tests.Runner).result.wasSuccessful():
-        main()
-        exit(0)
-    else:
-        exit(1)
+run(main)

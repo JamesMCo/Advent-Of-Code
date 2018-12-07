@@ -6,7 +6,8 @@
 
 import os, sys
 sys.path.append(os.path.abspath("../.."))
-import unittest, util.tests
+import unittest
+from util.tests import run
 
 def knot(puzzle_input):
     def rotate(l, n):
@@ -71,9 +72,4 @@ class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
         self.assertEqual(solve("flqrgnkx"), 8108)
 
-if __name__ == "__main__":
-    if unittest.main(verbosity=2, exit=False, testRunner=util.tests.Runner).result.wasSuccessful():
-        main()
-        exit(0)
-    else:
-        exit(1)
+run(main)

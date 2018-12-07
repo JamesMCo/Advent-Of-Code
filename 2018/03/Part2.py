@@ -6,7 +6,8 @@
 
 import os, sys, colorama, time
 sys.path.append(os.path.abspath("../.."))
-import unittest, util.tests
+import unittest
+from util.tests import run
 
 from collections import defaultdict
 
@@ -51,14 +52,4 @@ class AOC_Tests(unittest.TestCase):
                                 "#2 @ 3,1: 4x4",
                                 "#3 @ 5,5: 2x2"]), 3)
 
-if __name__ == "__main__":
-    if unittest.main(verbosity=2, exit=False, testRunner=util.tests.Runner).result.wasSuccessful():
-        start = time.time()
-        main()
-        end = time.time()
-        duration = str(round(end - start, 3))
-        duration += "0" * (3 - len(duration.split(".")[1]))
-        print(f"{colorama.Fore.CYAN}Solution found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
-        exit(0)
-    else:
-        exit(1)
+run(main)

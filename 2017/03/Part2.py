@@ -6,7 +6,8 @@
 
 import os, sys
 sys.path.append(os.path.abspath("../.."))
-import unittest, util.tests
+import unittest
+from util.tests import run
 
 grid = {(0, 0): 1}
 def get_grid(x, y):
@@ -96,9 +97,4 @@ class AOC_Tests(unittest.TestCase):
     def test_ex5(self):
         self.assertEqual(get_grid(-1, -1), 5)
 
-if __name__ == "__main__":
-    if unittest.main(verbosity=2, exit=False, testRunner=util.tests.Runner).result.wasSuccessful():
-        main()
-        exit(0)
-    else:
-        exit(1)
+run(main)
