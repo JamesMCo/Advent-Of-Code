@@ -8,20 +8,16 @@ import os, sys, colorama, time
 sys.path.append(os.path.abspath("../.."))
 import unittest, util.tests
 
+from collections import defaultdict
+
 def solve(puzzle_input, constant_additional_time=60, workers=5):
-    steps = {}
+    steps = defaultdict(str)
     letters = set()
     for step in puzzle_input:
-        requirement = step.split()[1]
-        after       = step.split()[7]
-
-        letters.add(requirement)
-        letters.add(after)
-
-        if after not in steps:
-            steps[after]  = requirement
-        else:
-            steps[after] += requirement
+        step = step.split()
+        letters.add(step[1])
+        letters.add(step[7])
+        steps[step[7]] += step[1]
 
     done = ""
     working = []
@@ -62,16 +58,14 @@ def solve(puzzle_input, constant_additional_time=60, workers=5):
 
     return timer
 
-        
-
 def main():
     f = open("puzzle_input.txt")
     puzzle_input = f.read().strip().split("\n")
     f.close()
 
-    order = solve(puzzle_input)
+    seconds = solve(puzzle_input)
 
-    print("The order to complete the steps is " + str(order) + ".")
+    print("The number of seconds to complete the steps is " + str(seconds) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):

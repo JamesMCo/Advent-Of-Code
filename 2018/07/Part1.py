@@ -8,27 +8,22 @@ import os, sys, colorama, time
 sys.path.append(os.path.abspath("../.."))
 import unittest, util.tests
 
+from collections import defaultdict
+
 def solve(puzzle_input):
-    steps = {}
+    steps = defaultdict(str)
     letters = set()
     for step in puzzle_input:
-        requirement = step.split()[1]
-        after       = step.split()[7]
-
-        letters.add(requirement)
-        letters.add(after)
-
-        if after not in steps:
-            steps[after]  = requirement
-        else:
-            steps[after] += requirement
+        step = step.split()
+        letters.add(step[1])
+        letters.add(step[7])
+        steps[step[7]] += step[1]
 
     order = ""
 
-    while len(order) != len(letters):
-        options = sorted([x for x in letters if x not in steps and x not in order])
-        chosen  = options[0]
-        order  += chosen
+    for i in range(len(letters)):
+        chosen = sorted([x for x in letters if x not in steps and x not in order])[0]
+        order += chosen
 
         to_remove = []
         for s in steps:
