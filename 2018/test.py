@@ -11,7 +11,7 @@ else:
 
 names = ["",
          "Chronal Calibration", "Inventory Management System", "No Matter How You Slice It", "Repose Record", "Alchemical Reduction",
-         "Chronal Coordinates", "The Sum of Its Parts", "", "", "",
+         "Chronal Coordinates", "The Sum of Its Parts", "Memory Maneuver", "", "",
          "", "", "", "", "",
          "", "", "", "", "",
          "", "", "", "", ""]
