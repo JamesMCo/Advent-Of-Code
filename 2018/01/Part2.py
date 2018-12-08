@@ -15,10 +15,7 @@ def solve(puzzle_input):
 
     while True:
         for f in puzzle_input:
-            if f[0] == "+":
-                freq += int(f[1:])
-            else:
-                freq -= int(f[1:])
+            freq += int(f)
 
             if freq in seen:
                 return freq

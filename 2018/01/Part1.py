@@ -10,15 +10,7 @@ import unittest, util.read
 from util.tests import run
 
 def solve(puzzle_input):
-    freq = 0
-
-    for f in puzzle_input:
-        if f[0] == "+":
-            freq += int(f[1:])
-        else:
-            freq -= int(f[1:])
-
-    return freq
+    return sum(int(x) for x in puzzle_input)
 
 def main():
     puzzle_input = util.read.as_lines()
