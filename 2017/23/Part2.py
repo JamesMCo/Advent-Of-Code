@@ -34,6 +34,7 @@ def main():
     print("The value of register h is " + str(h) + ".")
 
 class AOC_Tests(unittest.TestCase):
+    @unittest.skip("No test cases")
     def test_ex1(self):
         pass
 
