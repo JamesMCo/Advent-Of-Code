@@ -4,7 +4,7 @@
 #Day 2, Part 1
 #Solution by James C. (https://github.com/JamesMCo)
 
-import os, sys, colorama, time
+import os, sys
 sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
