@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Advent of Code
-#Day 17, Part 1
+#2015 Day 17, Part 1
 #Solution by James C. (https://github.com/JamesMCo)
 
 from itertools import combinations

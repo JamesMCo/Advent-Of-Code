@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Advent of Code
-#Day 14, Part 1
+#2016 Day 14, Part 1
 #Solution by James C. (https://github.com/JamesMCo)
 
 f = open("puzzle_input.txt")

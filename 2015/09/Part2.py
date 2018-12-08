@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Advent of Code
-#Day 9, Part 2
+#2015 Day 9, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
 from itertools import permutations

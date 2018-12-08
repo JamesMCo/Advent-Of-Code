@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Advent of Code
-#Day 9, Part 2
+#2016 Day 9, Part 2
 #Solution by /u/rhardih (https://reddit.com/r/adventofcode/comments/5hbygy/-/dazentu/)
 #Implementation by James C. (https://github.com/JamesMCo)
 #Gosh darn, I'm annoyed I couldn't figure out a solution myself :(
