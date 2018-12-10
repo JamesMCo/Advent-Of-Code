@@ -11,41 +11,39 @@ from util.tests import run
 
 from math import inf
 
-interactive = os.environ.get("TRAVIS") != "true"
-
 def solve(puzzle_input):
     class Controller:
         def __init__(self):
             self.dots = []
 
-        def print_grid(self):
-            print()
+        def generate_grid(self):
+            p = set([x.get_pos() for x in self.dots])
+            left  = min(x[0] for x in p)
+            right = max(x[0] for x in p)
+            top   = min(x[1] for x in p)
+            bot   = max(x[1] for x in p)
+            return [["#" if (x, y) in p else "." for x in range(left, right+1)] for y in range(top, bot+1)]
+
+        def move(self):
+            for dot in self.dots:
+                dot.move()
+
+        def reverse(self):
+            for dot in self.dots:
+                dot.reverse()
+
+        def move_until_closest(self):
+            prev_area = inf
 
             p = set([x.get_pos() for x in self.dots])
             left  = min(x[0] for x in p)
             right = max(x[0] for x in p)
             top   = min(x[1] for x in p)
             bot   = max(x[1] for x in p)
+            area = (right - left - 1) * (bot - top - 1)
+            while area < prev_area:
+                prev_area = area
 
-            for y in range(top, bot+1):
-                for x in range(left, right+1):
-                    if (x, y) in p:
-                        print("#", end="")
-                    else:
-                        print(".", end="")
-                print()
-
-        def move(self):
-            for dot in self.dots:
-                dot.move()
-
-        def move_until_close(self, dx, dy):
-            left  = 0
-            right = inf
-            top   = 0
-            bot   = inf
-
-            while right - left > dx and bot - top > dy:
                 self.move()
 
                 p = set([x.get_pos() for x in self.dots])
@@ -53,6 +51,8 @@ def solve(puzzle_input):
                 right = max(x[0] for x in p)
                 top   = min(x[1] for x in p)
                 bot   = max(x[1] for x in p)
+                area = (right - left - 1) * (bot - top - 1)
+            self.reverse()
 
     class Dot:
         def __init__(self, line, controller):
@@ -69,30 +69,26 @@ def solve(puzzle_input):
         def move(self):
             self.x += self.dx
             self.y += self.dy
+
+        def reverse(self):
+            self.x -= self.dx
+            self.y -= self.dy
     
     c = Controller()
     for line in puzzle_input:
         Dot(line, c)
 
-    c.move_until_close(50, 50)
-
-    i = ""
-    while i == "":
-        c.print_grid()
-        i = input("\nType the message seen and press Enter to quit, just press Enter to iterate.\n> ")
-        c.move()
-    return i
+    c.move_until_closest()
+    return c.generate_grid()
 
 def main():
     puzzle_input = util.read.as_lines()
 
-    if interactive:
-        solve(puzzle_input)
-    else:
-        print("Skipping running solution due to interactivity requirement")
+    message = solve(puzzle_input)
+
+    print("The message is:\n" + "\n".join(["".join(x) for x in message]))
 
 class AOC_Tests(unittest.TestCase):
-    @unittest.skipIf(not interactive, "Test cases skipped on Travis due to interactivity requirement")
     def test_ex1(self):
         self.assertEqual(solve(["position=< 9,  1> velocity=< 0,  2>",
                                 "position=< 7,  0> velocity=<-1,  0>",
@@ -124,6 +120,13 @@ class AOC_Tests(unittest.TestCase):
                                 "position=<-6,  0> velocity=< 2,  0>",
                                 "position=< 5,  9> velocity=< 1, -2>",
                                 "position=<14,  7> velocity=<-2,  0>",
-                                "position=<-3,  6> velocity=< 2, -1>"]), "HI")
+                                "position=<-3,  6> velocity=< 2, -1>"]), [["#",".",".",".","#",".",".","#","#","#"],
+                                                                          ["#",".",".",".","#",".",".",".","#","."],
+                                                                          ["#",".",".",".","#",".",".",".","#","."],
+                                                                          ["#","#","#","#","#",".",".",".","#","."],
+                                                                          ["#",".",".",".","#",".",".",".","#","."],
+                                                                          ["#",".",".",".","#",".",".",".","#","."],
+                                                                          ["#",".",".",".","#",".",".",".","#","."],
+                                                                          ["#",".",".",".","#",".",".","#","#","#"]])
 
 run(main)
