@@ -22,7 +22,7 @@ def solve(puzzle_input):
     for rule in puzzle_input:
         rules[rule.split()[0]] = rule.split()[2]
     
-    for gen in range(500):
+    for gen in range(20):
         working = []
         start -= 2
         pots.insert(0, ".")
@@ -53,8 +53,6 @@ def main():
     print("The sum of the numbers of all pots which contain a plant is " + str(pot_sum) + ".")
 
 class AOC_Tests(unittest.TestCase):
-    def test_ex2(self):
-        self.assertEqual(solve(util.read.as_lines()), None)
     def test_ex1(self):
         self.assertEqual(solve(["initial state: #..#.#..##......###...###",
                                 "",
