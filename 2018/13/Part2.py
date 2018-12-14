@@ -108,7 +108,7 @@ def main():
 
     coord = solve(puzzle_input)
 
-    print("The location of the first crash is " + str(coord) + ".")
+    print("The location of final remaining cart is " + str(coord) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
