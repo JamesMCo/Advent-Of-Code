@@ -13,7 +13,7 @@ names = ["",
          "Chronal Calibration", "Inventory Management System", "No Matter How You Slice It", "Repose Record", "Alchemical Reduction",
          "Chronal Coordinates", "The Sum of Its Parts", "Memory Maneuver", "Marble Mania", "The Stars Align",
          "Chronal Charge", "Subterranean Sustainability", "Mine Cart Madness", "Chocolate Charts", "Beverage Bandits",
-         "", "", "", "", "",
+         "Chronal Classification", "", "", "", "",
          "", "", "", "", ""]
 
 printed = False

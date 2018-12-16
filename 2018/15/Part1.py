@@ -240,6 +240,7 @@ class AOC_Tests(unittest.TestCase):
                                 "#..G#E#",
                                 "#.....#",
                                 "#######"]), 27730)
+    
     def test_ex2(self):
         self.assertEqual(solve(["#######",
                                 "#G..#E#",
