@@ -9,6 +9,7 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+import colorama, time
 from math import inf
 from collections import defaultdict
 
@@ -208,8 +209,11 @@ def solve(puzzle_input, actual=True):
     initial_elf_count = "".join(puzzle_input).count("E")
     ap = 4
     if actual:
-        print("\n(Note: The following line is in place to avoid timing out the Travis build)\n[", end="")
+        print("\n(Note: The following lines are in place to avoid timing out the Travis build)")
+
     while True:
+        start = time.time()
+
         cavern = Cavern()
         for y, row in enumerate(puzzle_input):
             for x, col in enumerate(row):
@@ -229,13 +233,16 @@ def solve(puzzle_input, actual=True):
                 break
             rounds += 1
 
+        end = time.time()
+        duration = str(round(end - start, 3))
+        duration += "0" * (3 - len(duration.split(".")[1]))
         if sum(1 for u in cavern.units if u.alive and u.type == Unit.elf) == initial_elf_count:
             if actual:
-                print("]", end="")
+                print(f"{colorama.Fore.CYAN}Tested AP of {colorama.Fore.YELLOW}{ap}{colorama.Fore.CYAN} in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN} - it was {colorama.Fore.GREEN}correct{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
             return rounds * outcome
         else:
             if actual:
-                print("*", end="")
+                print(f"{colorama.Fore.CYAN}Tested AP of {colorama.Fore.YELLOW}{ap}{colorama.Fore.CYAN} in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN} - it was {colorama.Fore.RED}incorrect{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
             ap += 1
 
 def main():
