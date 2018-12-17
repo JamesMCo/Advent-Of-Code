@@ -120,7 +120,6 @@ def solve(puzzle_input):
         prev_state = new_state
         drop_and_settle(500, 0, scan, set())
         new_state = render(scan)
-    print("\n" + new_state)
     return new_state.count("~")
 
 def main():
