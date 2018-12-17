@@ -19,12 +19,14 @@ min_y = inf
 max_y = -inf
 
 def render(scan):
-    to_return = ""
+    settled, to_return = 0, 0
     for y in range(min_y, max_y+1):
         for x in range(min_x-1, max_x+2):
-            to_return += scan[f"{x},{y}"]
-        to_return += "\n"
-    return to_return
+            if scan[f"{x},{y}"] in "|~+":
+                to_return += 1
+                if scan[f"{x},{y}"] == "~":
+                    settled += 1
+    return settled, to_return
 
 def enclosed(init_x, y, scan):
     enclosed_left  = False
@@ -115,13 +117,12 @@ def solve(puzzle_input):
                 scan[f"{x},{y}"] = "#"
 
     prev_state = ""
-    new_state  = render(scan)
+    settled, new_state  = render(scan)
     while prev_state != new_state:
         prev_state = new_state
         drop_and_settle(500, 0, scan, set())
-        new_state = render(scan)
-    print("\n" + new_state)
-    return new_state.count("~")
+        settled, new_state = render(scan)
+    return settled
 
 def main():
     puzzle_input = util.read.as_lines()
