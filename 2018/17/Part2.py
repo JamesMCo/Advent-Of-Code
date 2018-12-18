@@ -127,7 +127,7 @@ def main():
 
     reachable = solve(puzzle_input)
 
-    print("The number of tiles the water can reach is " + str(reachable) + ".")
+    print("The number of water tiles left after the water spring stops is " + str(reachable) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
