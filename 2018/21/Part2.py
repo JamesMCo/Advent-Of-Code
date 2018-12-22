@@ -9,8 +9,6 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
-import colorama, time
-
 def solve(puzzle_input):
     potential = set()
 
