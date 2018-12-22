@@ -14,7 +14,7 @@ names = ["",
          "Chronal Coordinates", "The Sum of Its Parts", "Memory Maneuver", "Marble Mania", "The Stars Align",
          "Chronal Charge", "Subterranean Sustainability", "Mine Cart Madness", "Chocolate Charts", "Beverage Bandits",
          "Chronal Classification", "Reservoir Research", "Settlers of The North Pole", "Go With The Flow", "A Regular Map",
-         "Chronal Conversion", "", "", "", ""]
+         "Chronal Conversion", "Mode Maze", "", "", ""]
 
 printed = False
 p_day   = False
