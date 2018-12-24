@@ -65,8 +65,8 @@
   name:  "Mode Maze"
   state: 2
 - day:   23
-  name:  ""
-  state: 0
+  name:  "Experimental Emergency Teleportation"
+  state: 1
 - day:   24
   name:  ""
   state: 0
