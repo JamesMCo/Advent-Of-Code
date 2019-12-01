@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Advent of Code
-#2019 Day 1, Part 1
+#2019 Day 1, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
 import os, sys
