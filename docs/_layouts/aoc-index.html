@@ -1,3 +1,160 @@
-{% include head.html %}
-{% include header.html %}
-{% include main.html %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>James Cordon - Advent of Code</title>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="https://mrjamesco.uk/css/materialize.min.css" rel="stylesheet" type="text/css" media="screen,projection" />
+        <link href="https://mrjamesco.uk/css/styles.css" rel="stylesheet" type="text/css" media="screen,projection" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" media="screen,projection" />
+        <link href="css/prism.css" rel="stylesheet" type="text/css" media="screen,projection" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <meta property="og:title" content="James Cordon - Advent of Code" />
+        <meta property="og:url" content="https://mrjamesco.uk/Advent-Of-Code" />
+        <meta property="og:type" content="website" />
+        <meta property="og:description" content="My solutions to the Advent of Code programming challenges" />
+        <meta property="og:image" content="https://mrjamesco.uk/me.png" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="James Cordon - Advent of Code" />
+        <meta name="twitter:description" content="My solutions to the Advent of Code programming challenges" />
+        <meta name="twitter:url" content="https://mrjamesco.uk/Advent-Of-Code" />
+        <meta name="twitter:image" content="https://mrjamesco.uk/me.png" />
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/prism.js"></script>
+        <script>{% for y in page.years %}
+{% include namelist.html year=y %}
+{%- endfor %}
+            $(document).ready(function() {
+                if (window.location.search !== "")
+                {
+                    if (window.location.search == "?latest")
+                    {
+                        window.location.search = "?{{ page.latest }}";
+                        $("#mainbody").html("");
+                    }
+                    if (window.location.search.split("?")[1].split("-").length == 2)
+                    {
+                        $.ajax({type:    "GET",
+                                url:     "https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/" + window.location.search.split("?")[1].split("-")[0] + "/" + window.location.search.split("?")[1].split("-")[1] + "/Part1.py",
+                                success: function(response, status, xhr) {
+                                    $("#homebutton").removeClass("active").children().attr("href", "/Advent-Of-Code");
+                                    $("#homebuttonside").removeClass("active").children().attr("href", "/Advent-Of-Code");
+                                    view_puzzle = "<h6><a href=\"https://adventofcode.com/" + window.location.search.split("?")[1].split("-")[0] + "/day/" + parseInt(window.location.search.split("?")[1].split("-")[1]) + "\" target=\"_blank\" class=\"link\">View puzzle description on AdventOfCode.com</a></h6>"
+                                    if (window.location.search.split("?")[1].split("-")[1] == "Bonus")
+                                    {
+                                        pname = "Bonus";
+                                        view_puzzle = "";
+                                    }{% for y in page.years %}
+{% include nameheading.html year=y %}
+{%- endfor %}
+                                    else
+                                    {
+                                        pname = "Day " + window.location.search.split("?")[1].split("-")[1];
+                                    }
+                                    $(".nav-content>div").html($(".nav-content>div").html() + "<a href=\"/Advent-Of-Code/#" + window.location.search.split("?")[1].split("-")[0] + "\" class=\"breadcrumb\">" + window.location.search.split("?")[1].split("-")[0] + "</a><a href=\"\" class=\"breadcrumb\">Day " + parseInt(window.location.search.split("?")[1].split("-")[1]) + "</a>");
+                                    $("#mainbody").html("<h4 style='color: #1A237E'>" + window.location.search.split("?")[1].split("-")[0] + " - " + pname + "</h4>" + view_puzzle + "<h5>Part 1</h5><pre class='language-python line-numbers fira'><code class='language-python fira'>" + response.replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)") + "</code></pre>");
+                                    $.ajax({type:   "GET",
+                                            url:    "https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/" + window.location.search.split("?")[1].split("-")[0] + "/" + window.location.search.split("?")[1].split("-")[1] + "/Part2.py",
+                                            success: function(response2, status2, xhr2) {
+                                                $("#mainbody").html($("#mainbody").html() + "<h5>Part 2</h5><pre class='language-python line-numbers fira'><code class='language-python fira'>" + response2.replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)") + "</code></pre>");
+                                            },
+                                            complete: function(xhr, status) {
+                                                $.ajax({type:    "GET",
+                                                        url:     "https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/" + window.location.search.split("?")[1].split("-")[0] + "/" + window.location.search.split("?")[1].split("-")[1] + "/puzzle_input.txt",
+                                                        success: function(response, status, xhr) {
+                                                            $("#mainbody").html($("#mainbody").html() + "<h5>Puzzle Input <i style='cursor: pointer;color: #FF9800' onclick='$(\"#puzzle_input\").slideToggle();'>[Show/Hide]</i></h5><pre class='language-none line-numbers fira'><code id='puzzle_input' class='language-none line-numbers fira' style='display: none;'>" + response + "</code></pre><a href='/Advent-Of-Code' class='waves-effect waves-light btn-large orange'>Return to solution index</a>");
+                                                            Prism.highlightAll();
+                                                            $("#content").fadeIn();
+                                                        }
+                                                });
+                                            }
+                                    });
+                                },
+                                error: function(xhr, status, error) {
+                                    $("#content").fadeIn();
+                                    if (window.location.hash != "")
+                                    {
+                                        window.location.hash = window.location.hash;
+                                    }
+                                }
+                        });
+                    }
+                    else
+                    {
+                        $("#content").fadeIn();
+                        if (window.location.hash != "")
+                        {
+                            window.location.hash = window.location.hash;
+                        }
+                    }
+                }
+                else
+                {
+                    $("#content").fadeIn();
+                    if (window.location.hash != "")
+                    {
+                        window.location.hash = window.location.hash;
+                    }
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <nav class="nav-extended indigo">
+            <div class="nav-wrapper container">
+                <a href="/" class="brand-logo hide-on-small-only">James Cordon</a>
+                <a href="/" class="brand-logo hide-on-med-and-up">James C.</a>
+
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/projects/">Projects</a></li>
+                    <li class="active"><a href="/Advent-Of-Code/" class="active">Advent of Code</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-content container">
+                <div class="col s12">
+                    <a href="{% link index.html %}" class="breadcrumb">Home</a>
+                    <a href="/Advent-Of-Code/" class="breadcrumb">Advent of Code</a>
+                </div>
+            </div>
+        </nav>
+        <ul id="mobile-nav" class="sidenav">
+            <li class="indigo"><a class="white-text">James C.</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects/">Projects</a></li>
+            <li class="active"><a href="/Advent-Of-Code/" class="active">Advent of Code</a></li>
+        </ul>
+        <main>
+            <div id="content" style="display: none;">
+                <div id="mainbody" class="container">{% for y in page.years reversed %}
+                    <h4 id="{{ y }}" style="color: #1A237E">{{ y }}</h4>
+                    <div class="row">
+                        <div class="col s12 l7">
+                            <div class="collection">{% for puzzle in site.data[y] -%}
+{% if puzzle.state != 0 %}{% include puzzlelist.html year=y puzzle=puzzle %}{% endif %}
+{%- endfor %}
+                            </div>
+                        </div>
+{% include calendar.html year=y %}
+                    </div>
+{% endfor %}
+                </div>
+            </div>
+        </main>
+        <script src="https://mrjamesco.uk/js/materialize.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                //Initialise mobile navigation panel
+                M.Sidenav.init(document.querySelectorAll('.sidenav'));
+                {% if page.init contains "materialboxed" %}
+                //Initialise image boxes
+                M.Materialbox.init(document.querySelectorAll('.materialboxed'))
+                {% endif %}
+            });
+        </script>
+    </body>
+</html>

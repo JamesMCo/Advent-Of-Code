@@ -6,9 +6,6 @@ body {
 main {
   flex: 1 0 auto;
 }
-a {
-  color: #673AB7;
-}
 .fira {
     font-family: "Fira Code" !important;
 }
