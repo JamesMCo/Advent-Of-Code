@@ -10,7 +10,7 @@ else:
     s = "python ./"
 
 names = ["",
-         "The Tyranny of the Rocket Equation", "", "", "", "",
+         "The Tyranny of the Rocket Equation", "1202 Program Alarm", "", "", "",
          "", "", "", "", "",
          "", "", "", "", "",
          "", "", "", "", "",

@@ -2,8 +2,8 @@
   name:  "The Tyranny of the Rocket Equation"
   state: 2
 - day:   2
-  name:  ""
-  state: 0
+  name:  "1202 Program Alarm"
+  state: 2
 - day:   3
   name:  ""
   state: 0
