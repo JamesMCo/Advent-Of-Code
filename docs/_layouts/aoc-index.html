@@ -4,7 +4,6 @@
         <title>James Cordon - Advent of Code</title>
 
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-        <link href="https://mrjamesco.uk/css/materialize.min.css" rel="stylesheet" type="text/css" media="screen,projection" />
         <link href="https://mrjamesco.uk/css/styles.css" rel="stylesheet" type="text/css" media="screen,projection" />
         <link href="css/style.css" rel="stylesheet" type="text/css" media="screen,projection" />
         <link href="css/prism.css" rel="stylesheet" type="text/css" media="screen,projection" />
@@ -129,8 +128,10 @@
             <li class="active"><a href="/Advent-Of-Code/" class="active">Advent of Code</a></li>
         </ul>
         <main>
+            
             <div id="content" style="display: none;">
-                <div id="mainbody" class="container">{% for y in page.years reversed %}
+                <div id="mainbody" class="container">
+                    <h5><a href="https://github.com/JamesMCo/Advent-Of-Code" class="link">View Repo on GitHub</a><span class="hide-on-small-only"> | </span><span class="hide-on-med-and-up"><br></span><a href="https://travis-ci.org/JamesMCo/Advent-Of-Code" class="link">View Tests on Travis CI</a></h5>{% for y in page.years reversed %}
                     <h4 id="{{ y }}" style="color: #1A237E">{{ y }}</h4>
                     <div class="row">
                         <div class="col s12 l7">
@@ -145,7 +146,7 @@
                 </div>
             </div>
         </main>
-        <script src="https://mrjamesco.uk/js/materialize.min.js"></script>
+        <script src="/js/materialize.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 //Initialise mobile navigation panel
