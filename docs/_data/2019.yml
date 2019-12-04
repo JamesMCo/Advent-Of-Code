@@ -8,8 +8,8 @@
   name:  "Crossed Wires"
   state: 2
 - day:   4
-  name:  ""
-  state: 0
+  name:  "Secure Container"
+  state: 2
 - day:   5
   name:  ""
   state: 0
