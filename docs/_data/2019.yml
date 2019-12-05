@@ -11,8 +11,8 @@
   name:  "Secure Container"
   state: 2
 - day:   5
-  name:  ""
-  state: 0
+  name:  "Sunny with a Chance of Asteroids"
+  state: 5
 - day:   6
   name:  ""
   state: 0
