@@ -83,8 +83,8 @@ def main():
     print("The diagnostic code the program produces is " + str(diag_code) + ".")
 
 class AOC_Tests(unittest.TestCase):
+    @unittest.skip("No test cases")
     def test_ex1(self):
-        self.assertEqual(True, True)
-        # self.assertEqual(solve([]), )
+        pass
 
 run(main)
