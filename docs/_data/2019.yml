@@ -12,10 +12,10 @@
   state: 2
 - day:   5
   name:  "Sunny with a Chance of Asteroids"
-  state: 5
+  state: 2
 - day:   6
-  name:  ""
-  state: 0
+  name:  "Universal Orbit Map"
+  state: 2
 - day:   7
   name:  ""
   state: 0
