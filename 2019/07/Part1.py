@@ -1,0 +1,286 @@
+#!/usr/bin/env python3
+
+#Advent of Code
+#2019 Day 7, Part 1
+#Solution by James C. (https://github.com/JamesMCo)
+
+import os, sys
+sys.path.append(os.path.abspath("../.."))
+import unittest, util.read
+from util.tests import run
+
+from colorama import Fore
+from itertools import permutations
+
+def solve(puzzle_input):
+    class Intcode:
+        def __init__(self, code, instream):
+            self.opcodes   = {1:  self.add,
+                              2:  self.mul,
+                              3:  self.inp,
+                              4:  self.out,
+                              5:  self.jit,
+                              6:  self.jif,
+                              7:  self.lss,
+                              8:  self.eql,
+                              99: self.hlt}
+            self.instream  = instream
+            self.outstream = []
+
+            self.code      = code
+            self.ip        = 0
+            self.halted    = False
+
+            self.debug     = False
+
+        def step(self):
+            if not self.halted and (0 <= self.ip <= len(self.code)):
+                op = self.code[self.ip]
+                try:
+                    self.opcodes[op % 100](op)
+                except KeyError:
+                    self.halted = True
+                    raise NotImplementedError(f"Intcode opcode {op} not understood")
+
+        def read(self, mode, offset):
+            value = 0
+            if mode == "0":   #Position mode
+                value = self.code[self.code[self.ip + offset]]
+            elif mode == "1": #Immediate mode
+                value = self.code[self.ip + offset]
+            else:
+                raise NotImplementedError(f"Intcode read mode {mode} not understood")
+            return value
+
+        def add(self, op):
+            o = str(op).zfill(5)
+            a = self.read(o[2], 1)
+            b = self.read(o[1], 2)
+            l = self.read("1",  3)
+
+            if self.debug:
+                pad = " " * (len(str(self.ip)) + 2)
+                print(f"[{Fore.CYAN}{self.ip}{Fore.RESET}] {Fore.YELLOW}{op} {Fore.GREEN}{self.code[self.ip + 1]} {self.code[self.ip + 2]} {self.code[self.ip + 3]}{Fore.RESET}")
+                print(f"{pad} - {Fore.YELLOW}ADD{Fore.RESET}")
+                if o[2]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in position mode (value {a})")
+                elif o[2] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in immediate mode")
+                if o[1]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in position mode (value {b})")
+                elif o[1] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in immediate mode")
+                print(f"{pad}   = {a} + {b} = {a + b}")
+                print(f"{pad} - storing in {Fore.GREEN}{l}{Fore.RESET}")
+            
+            self.code[l] = a + b
+            self.ip += 4
+
+        def mul(self, op):
+            o = str(op).zfill(5)
+            a = self.read(o[2], 1)
+            b = self.read(o[1], 2)
+            l = self.read("1",  3)
+
+            if self.debug:
+                pad = " " * (len(str(self.ip)) + 2)
+                print(f"[{Fore.CYAN}{self.ip}{Fore.RESET}] {Fore.YELLOW}{op} {Fore.GREEN}{self.code[self.ip + 1]} {self.code[self.ip + 2]} {self.code[self.ip + 3]}{Fore.RESET}")
+                print(f"{pad} - {Fore.YELLOW}MUL{Fore.RESET}")
+                if o[2]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in position mode (value {a})")
+                elif o[2] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in immediate mode")
+                if o[1]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in position mode (value {b})")
+                elif o[1] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in immediate mode")
+                print(f"{pad}   = {a} * {b} = {a * b}")
+                print(f"{pad} - storing in {Fore.GREEN}{l}{Fore.RESET}")
+            
+            self.code[l] = a * b
+            self.ip += 4
+
+        def inp(self, op):
+            o = str(op).zfill(3)
+            l = self.read("1",  1)
+
+            if self.debug:
+                pad = " " * (len(str(self.ip)) + 2)
+                print(f"[{Fore.CYAN}{self.ip}{Fore.RESET}] {Fore.YELLOW}{op} {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET}")
+                print(f"{pad} - {Fore.YELLOW}INP{Fore.RESET}")
+                print(f"{pad}   = {self.instream[0]}")
+                print(f"{pad} - storing in {Fore.GREEN}{l}{Fore.RESET}")
+            
+            self.code[l] = self.instream.pop(0)
+            self.ip += 2
+
+        def out(self, op):
+            o = str(op).zfill(3)
+            v = self.read(o[0], 1)
+
+            if self.debug:
+                pad = " " * (len(str(self.ip)) + 2)
+                print(f"[{Fore.CYAN}{self.ip}{Fore.RESET}] {Fore.YELLOW}{op} {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET}")
+                print(f"{pad} - {Fore.YELLOW}OUT{Fore.RESET}")
+                if o[0]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in position mode (value {v})")
+                elif o[0] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in immediate mode")
+                print(f"{pad}   = {v}")
+
+            self.outstream.append(v)
+            self.ip += 2
+
+        def jit(self, op):
+            o = str(op).zfill(4)
+            b = self.read(o[1], 1)
+            p = self.read(o[0], 2)
+
+            if self.debug:
+                pad = " " * (len(str(self.ip)) + 2)
+                print(f"[{Fore.CYAN}{self.ip}{Fore.RESET}] {Fore.YELLOW}{op} {Fore.GREEN}{self.code[self.ip + 1]} {self.code[self.ip + 2]}{Fore.RESET}")
+                print(f"{pad} - {Fore.YELLOW}JIT{Fore.RESET}")
+                if o[1]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in position mode (value {b})")
+                elif o[1] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in immediate mode")
+                if o[0]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in position mode (value {p})")
+                elif o[0] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in immediate mode")
+                if b != 0:
+                    print(f"{pad}   = {b} != 0, jumping to address {p}")
+                else:
+                    print(f"{pad}   = {b} == 0, not jumping")
+
+            if b != 0:
+                self.ip = p
+            else:
+                self.ip += 3
+
+        def jif(self, op):
+            o = str(op).zfill(4)
+            b = self.read(o[1], 1)
+            p = self.read(o[0], 2)
+
+            if self.debug:
+                pad = " " * (len(str(self.ip)) + 2)
+                print(f"[{Fore.CYAN}{self.ip}{Fore.RESET}] {Fore.YELLOW}{op} {Fore.GREEN}{self.code[self.ip + 1]} {self.code[self.ip + 2]}{Fore.RESET}")
+                print(f"{pad} - {Fore.YELLOW}JIF{Fore.RESET}")
+                if o[1]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in position mode (value {b})")
+                elif o[1] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in immediate mode")
+                if o[0]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in position mode (value {p})")
+                elif o[0] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in immediate mode")
+                if b == 0:
+                    print(f"{pad}   = {b} == 0, jumping to address {p}")
+                else:
+                    print(f"{pad}   = {b} != 0, not jumping")
+
+            if b == 0:
+                self.ip = p
+            else:
+                self.ip += 3
+
+        def lss(self, op):
+            o = str(op).zfill(5)
+            a = self.read(o[2], 1)
+            b = self.read(o[1], 2)
+            l = self.read("1",  3)
+
+            if self.debug:
+                pad = " " * (len(str(self.ip)) + 2)
+                print(f"[{Fore.CYAN}{self.ip}{Fore.RESET}] {Fore.YELLOW}{op} {Fore.GREEN}{self.code[self.ip + 1]} {self.code[self.ip + 2]}{Fore.RESET}")
+                print(f"{pad} - {Fore.YELLOW}LSS{Fore.RESET}")
+                if o[2]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in position mode (value {a})")
+                elif o[2] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in immediate mode")
+                if o[1]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in position mode (value {b})")
+                elif o[1] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in immediate mode")
+                if a < b:
+                    print(f"{pad}   = {a} < {b}, result 1")
+                else:
+                    print(f"{pad}   = {a} !< {b}, result 0")
+                print(f"{pad} - storing in {Fore.GREEN}{l}{Fore.RESET}")
+
+            if a < b:
+                self.code[l] = 1
+            else:
+                self.code[l] = 0
+            self.ip += 4
+
+        def eql(self, op):
+            o = str(op).zfill(5)
+            a = self.read(o[2], 1)
+            b = self.read(o[1], 2)
+            l = self.read("1",  3)
+
+            if self.debug:
+                pad = " " * (len(str(self.ip)) + 2)
+                print(f"[{Fore.CYAN}{self.ip}{Fore.RESET}] {Fore.YELLOW}{op} {Fore.GREEN}{self.code[self.ip + 1]} {self.code[self.ip + 2]}{Fore.RESET}")
+                print(f"{pad} - {Fore.YELLOW}EQL{Fore.RESET}")
+                if o[2]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in position mode (value {a})")
+                elif o[2] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET} in immediate mode")
+                if o[1]   == "0":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in position mode (value {b})")
+                elif o[1] == "1":
+                    print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in immediate mode")
+                if a < b:
+                    print(f"{pad}   = {a} == {b}, result 1")
+                else:
+                    print(f"{pad}   = {a} != {b}, result 0")
+                print(f"{pad} - storing in {Fore.GREEN}{l}{Fore.RESET}")
+
+            if a == b:
+                self.code[l] = 1
+            else:
+                self.code[l] = 0
+            self.ip += 4
+
+        def hlt(self, op):
+            if self.debug:
+                pad = " " * (len(str(self.ip)) + 2)
+                print(f"[{Fore.CYAN}{self.ip}{Fore.RESET}] {Fore.YELLOW}{op}{Fore.RESET}")
+                print(f"{pad} - {Fore.YELLOW}HLT{Fore.RESET}")
+
+            self.halted = True
+
+    def try_sequence(seq):
+        prev_output = 0
+        for phase in seq:
+            i = Intcode(puzzle_input, [phase, prev_output])
+            while not i.halted:
+                i.step()
+            prev_output = i.outstream[-1]
+        return prev_output
+
+    return max(try_sequence(x) for x in permutations([0, 1, 2, 3, 4]))
+
+def main():
+    puzzle_input = util.read.as_int_list(",")
+
+    signal = solve(puzzle_input)
+
+    print("The highest signal that can be sent to the thrusters is " + str(signal) + ".")
+
+class AOC_Tests(unittest.TestCase):
+    def test_ex1(self):
+        self.assertEqual(solve([3, 15, 3, 16, 1002, 16, 10, 16, 1, 16, 15, 15, 4, 15 , 99, 0, 0]), 43210)
+
+    def test_ex2(self):
+        self.assertEqual(solve([3,   23,  3, 24, 1002, 24, 10, 24, 1002, 23, -1, 23,
+                                101,  5, 23, 23,    1, 24, 23, 23,    4, 23, 99,  0, 0]), 54321)
+
+    def test_ex3(self):
+        self.assertEqual(solve([3,    31, 3, 32, 1002, 32, 10, 32, 1001, 31, -2, 31, 1007, 31,  0, 33,
+                                1002, 33, 7, 33,    1, 33, 31, 31,    1, 32, 31, 31,    4, 31, 99,  0, 0, 0]), 65210)
+
+run(main)
