@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Advent of Code
-#2019 Day 7, Part 1
+#2019 Day 7, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
 import os, sys
@@ -52,11 +52,19 @@ def solve(puzzle_input):
                 raise NotImplementedError(f"Intcode read mode {mode} not understood")
             return value
 
+        def addr(self, mode, offset):
+            value = 0
+            if mode == "0":   #Position mode
+                value = self.code[self.ip + offset]
+            elif mode == "1": #Immediate mode
+                raise NotImplementedError(f"Intcode read mode {mode} not supported on output addresses")
+            return value
+
         def add(self, op):
             o = str(op).zfill(5)
             a = self.read(o[2], 1)
             b = self.read(o[1], 2)
-            l = self.read("1",  3)
+            l = self.addr(o[0], 3)
 
             if self.debug:
                 pad = " " * (len(str(self.ip)) + 2)
@@ -71,7 +79,7 @@ def solve(puzzle_input):
                 elif o[1] == "1":
                     print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in immediate mode")
                 print(f"{pad}   = {a} + {b} = {a + b}")
-                print(f"{pad} - storing in {Fore.GREEN}{l}{Fore.RESET}")
+                print(f"{pad} - storing in {Fore.GREEN}{self.code[self.ip + 3]}{Fore.RESET} in position mode (value {l})")
             
             self.code[l] = a + b
             self.ip += 4
@@ -80,7 +88,7 @@ def solve(puzzle_input):
             o = str(op).zfill(5)
             a = self.read(o[2], 1)
             b = self.read(o[1], 2)
-            l = self.read("1",  3)
+            l = self.addr(o[0], 3)
 
             if self.debug:
                 pad = " " * (len(str(self.ip)) + 2)
@@ -95,24 +103,28 @@ def solve(puzzle_input):
                 elif o[1] == "1":
                     print(f"{pad}   * {Fore.GREEN}{self.code[self.ip + 2]}{Fore.RESET} in immediate mode")
                 print(f"{pad}   = {a} * {b} = {a * b}")
-                print(f"{pad} - storing in {Fore.GREEN}{l}{Fore.RESET}")
+                print(f"{pad} - storing in {Fore.GREEN}{self.code[self.ip + 3]}{Fore.RESET} in position mode (value {l})")
             
             self.code[l] = a * b
             self.ip += 4
 
         def inp(self, op):
             o = str(op).zfill(3)
-            l = self.read("1",  1)
+            l = self.addr(o[0], 1)
 
             if self.debug:
                 pad = " " * (len(str(self.ip)) + 2)
                 print(f"[{Fore.CYAN}{self.ip}{Fore.RESET}] {Fore.YELLOW}{op} {Fore.GREEN}{self.code[self.ip + 1]}{Fore.RESET}")
                 print(f"{pad} - {Fore.YELLOW}INP{Fore.RESET}")
-                print(f"{pad}   = {self.instream[0]}")
-                print(f"{pad} - storing in {Fore.GREEN}{l}{Fore.RESET}")
+                if len(self.instream) > 0:
+                    print(f"{pad}   = {self.instream[0]}")
+                    print(f"{pad} - storing in {Fore.GREEN}{self.code[self.ip + 3]}{Fore.RESET} in position mode (value {l})")
+                else:
+                    print(f"{pad}   = Input stream empty, pausing")
             
-            self.code[l] = self.instream.pop(0)
-            self.ip += 2
+            if len(self.instream) > 0:
+                self.code[l] = self.instream.pop(0)
+                self.ip += 2
 
         def out(self, op):
             o = str(op).zfill(3)
@@ -129,6 +141,7 @@ def solve(puzzle_input):
                 print(f"{pad}   = {v}")
 
             self.outstream.append(v)
+            self.last_out = v
             self.ip += 2
 
         def jit(self, op):
@@ -189,7 +202,7 @@ def solve(puzzle_input):
             o = str(op).zfill(5)
             a = self.read(o[2], 1)
             b = self.read(o[1], 2)
-            l = self.read("1",  3)
+            l = self.addr(o[0], 3)
 
             if self.debug:
                 pad = " " * (len(str(self.ip)) + 2)
@@ -207,7 +220,7 @@ def solve(puzzle_input):
                     print(f"{pad}   = {a} < {b}, result 1")
                 else:
                     print(f"{pad}   = {a} !< {b}, result 0")
-                print(f"{pad} - storing in {Fore.GREEN}{l}{Fore.RESET}")
+                print(f"{pad} - storing in {Fore.GREEN}{self.code[self.ip + 3]}{Fore.RESET} in position mode (value {l})")
 
             if a < b:
                 self.code[l] = 1
@@ -219,7 +232,7 @@ def solve(puzzle_input):
             o = str(op).zfill(5)
             a = self.read(o[2], 1)
             b = self.read(o[1], 2)
-            l = self.read("1",  3)
+            l = self.addr(o[0], 3)
 
             if self.debug:
                 pad = " " * (len(str(self.ip)) + 2)
@@ -237,7 +250,7 @@ def solve(puzzle_input):
                     print(f"{pad}   = {a} == {b}, result 1")
                 else:
                     print(f"{pad}   = {a} != {b}, result 0")
-                print(f"{pad} - storing in {Fore.GREEN}{l}{Fore.RESET}")
+                print(f"{pad} - storing in {Fore.GREEN}{self.code[self.ip + 3]}{Fore.RESET} in relative mode (value {l})")
 
             if a == b:
                 self.code[l] = 1
@@ -254,15 +267,33 @@ def solve(puzzle_input):
             self.halted = True
 
     def try_sequence(seq):
-        prev_output = 0
-        for phase in seq:
-            i = Intcode(puzzle_input, [phase, prev_output])
-            while not i.halted:
-                i.step()
-            prev_output = i.outstream[-1]
-        return prev_output
+        amps = [Intcode(puzzle_input, [phase], machine) for machine, phase in enumerate(seq)]
+        amps[0].instream.append(0)
 
-    return max(try_sequence(x) for x in permutations([0, 1, 2, 3, 4]))
+        while not all(a.halted for a in amps):
+            amps[0].step()
+            if len(amps[0].outstream) == 1:
+                amps[1].instream.append(amps[0].outstream.pop())
+
+            amps[1].step()
+            if len(amps[1].outstream) == 1:
+                amps[2].instream.append(amps[1].outstream.pop())
+
+            amps[2].step()
+            if len(amps[2].outstream) == 1:
+                amps[3].instream.append(amps[2].outstream.pop())
+
+            amps[3].step()
+            if len(amps[3].outstream) == 1:
+                amps[4].instream.append(amps[3].outstream.pop())
+
+            amps[4].step()
+            if len(amps[4].outstream) == 1:
+                amps[0].instream.append(amps[4].outstream.pop())
+
+        return amps[4].last_out
+
+    return max(try_sequence(x) for x in permutations([5, 6, 7, 8, 9]))
 
 def main():
     puzzle_input = util.read.as_int_list(",")
@@ -273,14 +304,12 @@ def main():
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
-        self.assertEqual(solve([3, 15, 3, 16, 1002, 16, 10, 16, 1, 16, 15, 15, 4, 15 , 99, 0, 0]), 43210)
+        self.assertEqual(solve([3,  26, 1001,   26, -4, 26,  3,   27, 1002, 27,  2, 27, 1, 27, 26,
+                                27,  4,   27, 1001, 28, -1, 28, 1005,   28,  6, 99,  0, 0,  5]), 139629729)
 
     def test_ex2(self):
-        self.assertEqual(solve([3,   23,  3, 24, 1002, 24, 10, 24, 1002, 23, -1, 23,
-                                101,  5, 23, 23,    1, 24, 23, 23,    4, 23, 99,  0, 0]), 54321)
-
-    def test_ex3(self):
-        self.assertEqual(solve([3,    31, 3, 32, 1002, 32, 10, 32, 1001, 31, -2, 31, 1007, 31,  0, 33,
-                                1002, 33, 7, 33,    1, 33, 31, 31,    1, 32, 31, 31,    4, 31, 99,  0, 0, 0]), 65210)
+        self.assertEqual(solve([ 3,   52, 1001, 52, -5,   52,  3, 53,  1,   52, 56, 54, 1007,   54,  5, 55, 1005, 55, 26, 1001, 54,
+                                -5,   54, 1105,  1, 12,    1, 53, 54, 53, 1008, 54,  0,   55, 1001, 55,  1,   55,  2, 53,   55, 53, 4,
+                                53, 1001,   56, -1, 56, 1005, 56,  6, 99,    0,  0,  0,    0,   10]), 18216)
 
 run(main)
