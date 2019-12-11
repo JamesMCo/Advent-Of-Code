@@ -11,7 +11,6 @@ from util.tests import run
 
 from collections import defaultdict
 from colorama import Fore
-from itertools import permutations
 
 def solve(puzzle_input):
     class Intcode:
