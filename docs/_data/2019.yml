@@ -23,8 +23,8 @@
   name:  ""
   state: 0
 - day:   9
-  name:  ""
-  state: 0
+  name:  "Sensor Boost"
+  state: 2
 - day:   10
   name:  ""
   state: 0
