@@ -11,7 +11,7 @@ else:
 
 names = ["",
          "The Tyranny of the Rocket Equation", "1202 Program Alarm", "Crossed Wires", "Secure Container", "Sunny with a Chance of Asteroids",
-         "Universal Orbit Map", "Amplification Circuit", "", "Sensor Boost", "",
+         "Universal Orbit Map", "Amplification Circuit", "Space Image Format", "Sensor Boost", "",
          "", "", "", "", "",
          "", "", "", "", "",
          "", "", "", "", ""]
