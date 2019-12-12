@@ -267,7 +267,7 @@ def solve(puzzle_input):
             self.halted = True
 
     def try_sequence(seq):
-        amps = [Intcode(puzzle_input, [phase], machine) for machine, phase in enumerate(seq)]
+        amps = [Intcode(puzzle_input, [phase]) for phase in seq]
         amps[0].instream.append(0)
 
         while not all(a.halted for a in amps):
