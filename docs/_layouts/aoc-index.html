@@ -56,8 +56,6 @@
 
                 Promise.all([part1, part2, puzzin])
                 .then((responses) => {
-                    console.log(responses);
-
                     if (responses[0].status === 404) {
                         // Couldn't find a solution for part 1 - return to calendar
                         window.location.search = "";
@@ -90,7 +88,7 @@
                         }
 
                         // Puzzle Input
-                        body.innerHTML += `${$("#mainbody").html()}<h5>Puzzle Input <i style="cursor: pointer;color: #FF9800" onclick="$('#puzzle_input').slideToggle();">[Show/Hide]</i></h5><pre class="language-none line-numbers fira"><code id="puzzle_input" class="language-none line-numbers fira" style="display: none;">${texts[2]}</code></pre><a href="/Advent-Of-Code" class="waves-effect waves-light btn-large orange">Return to solution index</a>`;
+                        body.innerHTML += `<h5>Puzzle Input <i style="cursor: pointer;color: #FF9800" onclick="$('#puzzle_input').slideToggle();">[Show/Hide]</i></h5><pre class="language-none line-numbers fira"><code id="puzzle_input" class="language-none line-numbers fira" style="display: none;">${texts[2]}</code></pre><a href="/Advent-Of-Code" class="waves-effect waves-light btn-large orange">Return to solution index</a>`;
                         
                         // Perform syntax highlighting, and reveal page
                         Prism.highlightAll();
