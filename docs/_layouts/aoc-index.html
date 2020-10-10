@@ -27,6 +27,8 @@
                 if (window.location.search === "") {
                     // No day requested
                     $("#content").fadeIn();
+                    // Set the hash in the url to itself, causing the browser to scroll to the requested part of the page
+                    window.location.hash = window.location.hash;
                     return;
                 }
 
