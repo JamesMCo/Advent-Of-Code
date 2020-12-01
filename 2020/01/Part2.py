@@ -21,7 +21,7 @@ def main():
 
     product = solve(puzzle_input)
 
-    print("The product of the two entries that sum to 2020 is " + str(product) + ".")
+    print("The product of the three entries that sum to 2020 is " + str(product) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
