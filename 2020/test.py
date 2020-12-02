@@ -10,7 +10,7 @@ else:
     s = "python ./"
 
 names = ["",
-         "Report Repair", "", "", "", "",
+         "Report Repair", "Password Philosophy", "", "", "",
          "", "", "", "", "",
          "", "", "", "", "",
          "", "", "", "", "",
