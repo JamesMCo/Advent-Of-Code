@@ -9,12 +9,12 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from itertools import combinations
+
 def solve(puzzle_input):
-    for i, a in enumerate(puzzle_input):
-        for j, b in enumerate(puzzle_input):
-            for k, c in enumerate(puzzle_input):
-                if i != j != k and a + b + c == 2020:
-                    return a * b * c
+    for a, b, c in combinations(puzzle_input, 3):
+        if a + b + c == 2020:
+            return a * b * c
 
 def main():
     puzzle_input = util.read.as_int_list("\n")
