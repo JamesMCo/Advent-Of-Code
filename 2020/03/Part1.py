@@ -10,11 +10,14 @@ import unittest, util.read
 from util.tests import run
 
 def solve(puzzle_input):
-    x, y = (0, 0)
+    width  = len(puzzle_input[0])
+    height = len(puzzle_input)
+
+    x = y = 0
     trees = 0
     
-    while y < len(puzzle_input):
-        if puzzle_input[y][x%len(puzzle_input[0])] == "#":
+    while y < height:
+        if puzzle_input[y][x % width] == "#":
             trees += 1
         x += 3
         y += 1

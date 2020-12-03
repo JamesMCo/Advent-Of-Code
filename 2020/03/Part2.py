@@ -9,21 +9,25 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
-def solve(puzzle_input):
-    results = 1
+from math import prod
 
-    for slope in [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]:
-      x, y = (0, 0)
+def solve(puzzle_input):
+    width  = len(puzzle_input[0])
+    height = len(puzzle_input)
+
+    def aux(slope):
+      x = y = 0
       trees = 0
 
-      while y < len(puzzle_input):
-          if puzzle_input[y][x%len(puzzle_input[0])] == "#":
+      while y < height:
+          if puzzle_input[y][x % width] == "#":
               trees += 1
           x += slope[0]
           y += slope[1]
-      results *= trees
 
-    return results
+      return trees
+
+    return prod(aux(slope) for slope in [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)])
 
 
 def main():
@@ -31,7 +35,7 @@ def main():
 
     trees = solve(puzzle_input)
 
-    print("The number of trees encountered is " + str(trees) + ".")
+    print("The product of the number of trees encountered on the listed slopes is " + str(trees) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
