@@ -22,6 +22,15 @@ def solve(puzzle_input):
     colour_name = re.compile("(amb)|(blu)|(brn)|(gry)|(grn)|(hzl)|(oth)")
     pid         = re.compile("\d{9}")
     
+    def consume_passport():
+        output = []
+        while puzzle_input:
+            line = puzzle_input.pop(0)
+            if line == "":
+                break
+            output.append(line)
+        return " ".join(output)
+    
     def make_passport(data):
         output = {}
         for entry in data.split():
@@ -53,13 +62,8 @@ def solve(puzzle_input):
         return True
 
     passports = []
-    working = ""
-    for line in puzzle_input + [""]:
-        if line != "":
-            working += line + " "
-        else:
-            passports.append(make_passport(working))
-            working = ""
+    while puzzle_input:
+        passports.append(make_passport(consume_passport()))
 
     return sum(validate_passport(p) for p in passports)
 
