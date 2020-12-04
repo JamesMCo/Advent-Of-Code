@@ -24,7 +24,6 @@ def solve(puzzle_input):
 
     return trees
 
-
 def main():
     puzzle_input = util.read.as_lines()
 

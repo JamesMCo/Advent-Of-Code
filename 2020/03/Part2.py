@@ -29,7 +29,6 @@ def solve(puzzle_input):
 
     return prod(aux(slope) for slope in [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)])
 
-
 def main():
     puzzle_input = util.read.as_lines()
 
