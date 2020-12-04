@@ -9,7 +9,11 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+import re
+
 def solve(puzzle_input):
+    passport_data = re.compile("(\w+):(\S+)")
+
     def consume_passport():
         output = []
         while puzzle_input:
@@ -20,12 +24,7 @@ def solve(puzzle_input):
         return " ".join(output)
 
     def make_passport(data):
-        output = {}
-        for entry in data.split():
-            key = entry.split(":")[0]
-            val = entry.split(":")[1]
-            output[key] = val
-        return output
+        return {key:val for (key, val) in re.findall(passport_data, data)}
 
     def validate_passport(passport):
         for field in ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]:

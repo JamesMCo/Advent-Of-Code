@@ -12,6 +12,7 @@ from util.tests import run
 import re
 
 def solve(puzzle_input):
+    passport_data = re.compile("(\w+):(\S+)")
     birth_year  = re.compile("(19[2-9][0-9])|(200[0-2])")
     issue_year  = re.compile("(201[0-9])|(2020)")
     exp_year    = re.compile("(202[0-9])|(2030)")
@@ -30,14 +31,9 @@ def solve(puzzle_input):
                 break
             output.append(line)
         return " ".join(output)
-    
+
     def make_passport(data):
-        output = {}
-        for entry in data.split():
-            key = entry.split(":")[0]
-            val = entry.split(":")[1]
-            output[key] = val
-        return output
+        return {key:val for (key, val) in re.findall(passport_data, data)}
 
     def validate_passport(passport):
         for field in ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]:
