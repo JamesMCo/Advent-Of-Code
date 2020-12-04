@@ -9,7 +9,19 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+import re
+
 def solve(puzzle_input):
+    birth_year  = re.compile("(19[2-9][0-9])|(200[0-2])")
+    issue_year  = re.compile("(201[0-9])|(2020)")
+    exp_year    = re.compile("(202[0-9])|(2030)")
+    height_cm   = "((1[5-8][0-9])|(19[0-3]))cm"
+    height_in   = "((59|6[0-9]|7[0-6]))in"
+    height      = re.compile(f"({height_cm})|({height_in})")
+    colour_hex  = re.compile("#[0-9a-f]{6}")
+    colour_name = re.compile("(amb)|(blu)|(brn)|(gry)|(grn)|(hzl)|(oth)")
+    pid         = re.compile("\d{9}")
+    
     def make_passport(data):
         output = {}
         for entry in data.split():
@@ -23,28 +35,19 @@ def solve(puzzle_input):
             if field not in passport.keys():
                 return False
 
-        try:
-            if not (1920 <= int(passport["byr"]) <= 2002):
-                return False
-            if not (2010 <= int(passport["iyr"]) <= 2020):
-                return False
-            if not (2020 <= int(passport["eyr"]) <= 2030):
-                return False
-            if passport["hgt"][-2:] == "cm":
-                if not (150 <= int(passport["hgt"][:-2]) <= 193):
-                    return False
-            elif passport["hgt"][-2:] == "in":
-                if not (59 <= int(passport["hgt"][:-2]) <= 76):
-                    return False
-            else:
-                return False
-            if not (len(passport["hcl"]) == 7 and passport["hcl"][0] == "#" and all(x in "0123456789abcdef" for x in passport["hcl"][1:])):
-                return False
-            if not (passport["ecl"] in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]):
-                return False
-            if not (len(passport["pid"]) == 9 and all(x in "0123456789" for x in passport["pid"])):
-                return False
-        except:
+        if not re.fullmatch(birth_year, passport["byr"]):
+            return False
+        if not re.fullmatch(issue_year, passport["iyr"]):
+            return False
+        if not re.fullmatch(exp_year, passport["eyr"]):
+            return False
+        if not re.fullmatch(height, passport["hgt"]):
+            return False
+        if not re.fullmatch(colour_hex, passport["hcl"]):
+            return False
+        if not re.fullmatch(colour_name, passport["ecl"]):
+            return False
+        if not re.fullmatch(pid, passport["pid"]):
             return False
 
         return True
