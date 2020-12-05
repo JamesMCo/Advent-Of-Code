@@ -26,10 +26,10 @@ class AOC_Tests(unittest.TestCase):
     def test_ex2(self):
         return self.assertEqual(solve(["BFFFBBFRRR"]), 567)
 
-    def test_ex2(self):
+    def test_ex3(self):
         return self.assertEqual(solve(["FFFBBBFRRR"]), 119)
 
-    def test_ex2(self):
+    def test_ex4(self):
         return self.assertEqual(solve(["BBFFBBFRLL"]), 820)
 
 run(main)
