@@ -11,8 +11,8 @@
   name:  "Passport Processing"
   state: 2
 - day:   5
-  name:  ""
-  state: 0
+  name:  "Binary Boarding"
+  state: 2
 - day:   6
   name:  ""
   state: 0
