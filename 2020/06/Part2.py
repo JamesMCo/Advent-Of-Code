@@ -30,7 +30,7 @@ def main():
 
     counts = solve(puzzle_input)
 
-    print("The sum of the number of questions to which anyone answered \"yes\" for all groups is " + str(counts) + ".")
+    print("The sum of the number of questions to which everyone answered \"yes\" for all groups is " + str(counts) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
