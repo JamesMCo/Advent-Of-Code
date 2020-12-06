@@ -17,7 +17,7 @@ def solve(puzzle_input):
             if line == "":
                 break
             output.append(set(line))
-        return output[0].intersection(*output[1:])
+        return set.intersection(*output)
 
     groups = []
     while puzzle_input:
