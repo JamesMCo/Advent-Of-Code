@@ -12,7 +12,7 @@ from util.tests import run
 from itertools import combinations
 
 def solve(puzzle_input):
-    for a, b, c in combinations(puzzle_input, 3):
+    for a, b, c in combinations(sorted(puzzle_input), 3):
         if a + b + c == 2020:
             return a * b * c
 
