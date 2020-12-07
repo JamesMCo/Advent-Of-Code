@@ -18,20 +18,20 @@ def solve(puzzle_input):
     colour_rules = {}
     for colour in puzzle_input:
         if "no other bags" in colour:
-            colour_rules[re.match(parent_name, colour).group(1)] = set()
+            colour_rules[re.match(parent_name, colour).group(1)] = []
         else:
-            colour_rules[re.match(parent_name, colour).group(1)] = set(re.findall(children, colour))
+            colour_rules[re.match(parent_name, colour).group(1)] = re.findall(children, colour)
 
     found = 0
-    just_found = ["shiny gold"]
+    just_found = set(["shiny gold"])
     while just_found:
-        just_found_prev = just_found[:]
-        just_found = []
+        just_found_prev = just_found.copy()
+        just_found = set()
 
         for current in list(colour_rules.keys()):
             if any(child[1] in just_found_prev for child in colour_rules[current]):
                 found += 1
-                just_found.append(current)
+                just_found.add(current)
                 del colour_rules[current]
     return found
 

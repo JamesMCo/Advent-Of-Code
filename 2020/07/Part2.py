@@ -18,9 +18,9 @@ def solve(puzzle_input):
     colour_rules = {}
     for colour in puzzle_input:
         if "no other bags" in colour:
-            colour_rules[re.match(parent_name, colour).group(1)] = set()
+            colour_rules[re.match(parent_name, colour).group(1)] = []
         else:
-            colour_rules[re.match(parent_name, colour).group(1)] = set(re.findall(children, colour))
+            colour_rules[re.match(parent_name, colour).group(1)] = re.findall(children, colour)
 
     processing = collections.deque(["shiny gold"])
     processed  = -1
