@@ -37,7 +37,7 @@ def main():
 
     colours = solve(puzzle_input)
 
-    print("The number of bag colours that can eventually contain at least one shiny gold bag is " + str(colours) + ".")
+    print("The number of individual bags required inside a single shiny gold bag is " + str(colours) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
