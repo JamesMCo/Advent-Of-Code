@@ -20,8 +20,8 @@
   name:  "Handy Haversacks"
   state: 2
 - day:   8
-  name:  ""
-  state: 0
+  name:  "Handheld Halting"
+  state: 2
 - day:   9
   name:  ""
   state: 0
