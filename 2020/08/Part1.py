@@ -17,11 +17,12 @@ def solve(puzzle_input):
 
             self.acc = 0
             self.ip  = 0
+            
+            self.seen = set()
 
         def run(self):
-            seen = set()
-            while self.ip not in seen:
-                seen.add(self.ip)
+            while self.ip not in self.seen:
+                self.seen.add(self.ip)
                 self.execute(*self.program[self.ip])
 
         def execute(self, op, arg):

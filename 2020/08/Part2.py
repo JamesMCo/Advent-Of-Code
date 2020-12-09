@@ -19,10 +19,11 @@ def solve(puzzle_input):
             self.acc = 0
             self.ip  = 0
 
+            self.seen = set()
+
         def run(self):
-            seen = set()
-            while self.ip not in seen and 0 <= self.ip < self.bounds:
-                seen.add(self.ip)
+            while self.ip not in self.seen and 0 <= self.ip < self.bounds:
+                self.seen.add(self.ip)
                 if self.ip == self.patch_location:
                     if self.program[self.ip][0] == "jmp":
                         self.execute("nop", self.program[self.ip][1])
@@ -42,7 +43,17 @@ def solve(puzzle_input):
                 self.ip += 1
 
     program = [(line.split()[0], int(line.split()[1])) for line in puzzle_input]
-    for i in range(len(program)):
+
+    # Optimisation based on a conversation with a friend (@DavidDwittyy on Twitter)
+    # The corrupted operation will be one of those executed in Part 1, so only
+    # those operations need to be checked.
+    #
+    # On my hardware, this reduces the runtime to somewhere in the neighbourhood
+    # of 3/8 of its original runtime (from about 40ms to about 15ms)
+    part1 = HGC(program, -1)
+    part1.run()
+
+    for i in list(part1.seen):
         if program[i][0] == "acc": continue
         console = HGC(program, i)
         if console.run():
