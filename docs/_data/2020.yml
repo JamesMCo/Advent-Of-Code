@@ -26,8 +26,8 @@
   name:  "Encoding Error"
   state: 2
 - day:   10
-  name:  ""
-  state: 0
+  name:  "Adapter Array"
+  state: 2
 - day:   11
   name:  ""
   state: 0
