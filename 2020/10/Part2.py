@@ -9,6 +9,7 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from functools import cache
 import networkx as nx
 
 def solve(puzzle_input):
@@ -21,14 +22,12 @@ def solve(puzzle_input):
             if candidate - base <= 3:
                 graph.add_edge(base, candidate)
 
-    cache = {}
+    @cache
     def paths_out(node):
-        if node not in cache:
-            if len(graph.succ[node]) == 0:
-                cache[node] = 1
-            else:
-                cache[node] = sum(paths_out(child) for child in graph.succ[node])
-        return cache[node]
+        if len(graph.succ[node]) == 0:
+            return 1
+        else:
+            return sum(paths_out(child) for child in graph.succ[node])
 
     return paths_out(0)
 
