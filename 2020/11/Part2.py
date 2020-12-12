@@ -22,14 +22,24 @@ def solve(puzzle_input):
     def look_for_seat(x, y, dx, dy):
         if in_bounds("x", x) and in_bounds("y", y):
             if (x, y) in seat_locations_set:
-                return puzzle_input[(x, y)]
+                return (x, y)
             return look_for_seat(x + dx, y + dy, dx, dy)
-        return ""
+        return None
+
+    # Precalculate lines of sight
+    visible_seats = {}
+    for x, y in seat_locations_list:
+        seats = []
+        for dx, dy in vectors:
+            result = look_for_seat(x + dx, y + dy, dx, dy)
+            if result:
+                seats.append(result)
+        visible_seats[(x, y)] = seats
 
     def visible(x, y):
         total = 0
-        for dx, dy in vectors:
-            total += look_for_seat(x + dx, y + dy, dx, dy) == "#"
+        for check_x, check_y in visible_seats[(x, y)]:
+            total += puzzle_input[(check_x, check_y)] == "#"
         return total
 
     def step():

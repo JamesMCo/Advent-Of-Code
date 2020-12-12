@@ -16,11 +16,19 @@ def solve(puzzle_input):
     seat_locations_list = [(x, y) for x in range(width) for y in range(height) if puzzle_input[y][x] != "."]
     seat_locations_set  = set(seat_locations_list)
 
-    def adjacent(x, y):
-        total = 0
+    # Precalculate neighbours
+    neighbour_seats = {}
+    for x, y in seat_locations_list:
+        seats = []
         for dx, dy in vectors:
             if (x + dx, y + dy) in seat_locations_set:
-                total += puzzle_input[(x + dx, y + dy)] == "#"
+                seats.append((x + dx, y + dy))
+        neighbour_seats[(x, y)] = seats
+
+    def adjacent(x, y):
+        total = 0
+        for check_x, check_y in neighbour_seats[(x, y)]:
+            total += puzzle_input[(check_x, check_y)] == "#"
         return total
 
     def step():
