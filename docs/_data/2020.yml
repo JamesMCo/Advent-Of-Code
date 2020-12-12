@@ -32,8 +32,8 @@
   name:  "Seating System"
   state: 2
 - day:   12
-  name:  ""
-  state: 0
+  name:  "Rain Risk"
+  state: 2
 - day:   13
   name:  ""
   state: 0
