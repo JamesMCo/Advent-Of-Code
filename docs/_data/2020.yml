@@ -35,8 +35,8 @@
   name:  "Rain Risk"
   state: 2
 - day:   13
-  name:  ""
-  state: 0
+  name:  "Shuttle Search"
+  state: 2
 - day:   14
   name:  ""
   state: 0
