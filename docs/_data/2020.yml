@@ -38,8 +38,8 @@
   name:  "Shuttle Search"
   state: 2
 - day:   14
-  name:  ""
-  state: 0
+  name:  "Docking Data"
+  state: 2
 - day:   15
   name:  ""
   state: 0

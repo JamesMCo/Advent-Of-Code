@@ -12,7 +12,7 @@ else:
 names = ["",
          "Report Repair", "Password Philosophy", "Toboggan Trajectory", "Passport Processing", "Binary Boarding",
          "Custom Customs", "Handy Haversacks", "Handheld Halting", "Encoding Error", "Adapter Array",
-         "Seating System", "Rain Risk", "Shuttle Search", "", "",
+         "Seating System", "Rain Risk", "Shuttle Search", "Docking Data", "",
          "", "", "", "", "",
          "", "", "", "", ""]
 
