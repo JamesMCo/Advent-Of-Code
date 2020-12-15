@@ -9,59 +9,48 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
-def solve(puzzle_input):
-    width  = len(puzzle_input[0])
-    height = len(puzzle_input)
-    vectors = [(0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1)]
-    seat_locations_list = [(x, y) for x in range(width) for y in range(height) if puzzle_input[y][x] != "."]
-    seat_locations_set  = set(seat_locations_list)
+import util.two_d_world
 
-    def in_bounds(axis, coordinate):
-        return 0 <= coordinate < (width if axis == "x" else height)
+def solve(puzzle_input):
+    vectors = [(0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1)]
+    world = util.two_d_world.World(".")
+    world.load_from_lists(puzzle_input, filter_func=lambda x: x != ".")
 
     def look_for_seat(x, y, dx, dy):
-        if in_bounds("x", x) and in_bounds("y", y):
-            if (x, y) in seat_locations_set:
+        if world.in_bounds(x, y):
+            if (x, y) in world.keys():
                 return (x, y)
             return look_for_seat(x + dx, y + dy, dx, dy)
         return None
 
     # Precalculate lines of sight
     visible_seats = {}
-    for x, y in seat_locations_list:
-        seats = []
-        for dx, dy in vectors:
-            result = look_for_seat(x + dx, y + dy, dx, dy)
-            if result:
-                seats.append(result)
-        visible_seats[(x, y)] = seats
+    for x, y in world.keys():
+        visible_seats[(x, y)] = [result for dx, dy in vectors if (result := look_for_seat(x + dx, y + dy, dx, dy))]
 
     def visible(x, y):
-        total = 0
-        for check_x, check_y in visible_seats[(x, y)]:
-            total += puzzle_input[(check_x, check_y)] == "#"
-        return total
+        return sum(world[(check_x, check_y)] == "#" for check_x, check_y in visible_seats[(x, y)])
 
     def step():
         output = {}
         changed = False
-        for x, y in seat_locations_list:
+        for x, y in world.keys():
             seen_seats = visible(x, y)
-            if puzzle_input[(x, y)] == "L" and seen_seats == 0:
+            if world[(x, y)] == "L" and seen_seats == 0:
                 output[(x, y)] = "#"
                 changed = True
-            elif puzzle_input[(x, y)] == "#" and seen_seats >= 5:
+            elif world[(x, y)] == "#" and seen_seats >= 5:
                 output[(x, y)] = "L"
                 changed = True
             else:
-                output[(x, y)] = puzzle_input[(x, y)]
+                output[(x, y)] = world[(x, y)]
         return output, changed
 
-    puzzle_input = {(x, y):puzzle_input[y][x] for (x, y) in seat_locations_list}
     while True:
-        puzzle_input, changed = step()
+        new_state, changed = step()
         if not changed:
-            return sum(puzzle_input[(x, y)] == "#" for x, y in seat_locations_list)
+            return sum(seat == "#" for seat in world.values())
+        world.load_from_dict(new_state)
 
 def main():
     puzzle_input = util.read.as_lines()

@@ -9,48 +9,41 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+import util.two_d_world
+
 def solve(puzzle_input):
-    width  = len(puzzle_input[0])
-    height = len(puzzle_input)
     vectors = [(0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0), (-1, 1)]
-    seat_locations_list = [(x, y) for x in range(width) for y in range(height) if puzzle_input[y][x] != "."]
-    seat_locations_set  = set(seat_locations_list)
+    world = util.two_d_world.World(".")
+    world.load_from_lists(puzzle_input, filter_func=lambda x: x != ".")
 
     # Precalculate neighbours
     neighbour_seats = {}
-    for x, y in seat_locations_list:
-        seats = []
-        for dx, dy in vectors:
-            if (x + dx, y + dy) in seat_locations_set:
-                seats.append((x + dx, y + dy))
-        neighbour_seats[(x, y)] = seats
+    for x, y in world.keys():
+        neighbour_seats[(x, y)] = [(x + dx, y + dy) for dx, dy in vectors if (x + dx, y + dy) in world.keys()]
 
     def adjacent(x, y):
-        total = 0
-        for check_x, check_y in neighbour_seats[(x, y)]:
-            total += puzzle_input[(check_x, check_y)] == "#"
-        return total
+        return sum(world[(check_x, check_y)] == "#" for check_x, check_y in neighbour_seats[(x, y)])
 
     def step():
         output = {}
         changed = False
-        for x, y in seat_locations_list:
+        for x, y in world.keys():
             neighbours = adjacent(x, y)
-            if puzzle_input[(x, y)] == "L" and neighbours == 0:
+            if world[(x, y)] == "L" and neighbours == 0:
                 output[(x, y)] = "#"
                 changed = True
-            elif puzzle_input[(x, y)] == "#" and neighbours >= 4:
+            elif world[(x, y)] == "#" and neighbours >= 4:
                 output[(x, y)] = "L"
                 changed = True
             else:
-                output[(x, y)] = puzzle_input[(x, y)]
+                output[(x, y)] = world[(x, y)]
         return output, changed
 
-    puzzle_input = {(x, y):puzzle_input[y][x] for (x, y) in seat_locations_list}
     while True:
-        puzzle_input, changed = step()
+        new_state, changed = step()
         if not changed:
-            return sum(puzzle_input[(x, y)] == "#" for x, y in seat_locations_list)
+            return sum(seat == "#" for seat in world.values())
+        world.load_from_dict(new_state)
 
 def main():
     puzzle_input = util.read.as_lines()
