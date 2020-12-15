@@ -9,6 +9,8 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from util.two_d_world import manhattan_distance
+
 def solve(puzzle_input):
     # North = 0, East = 90, South = 180, West = 270
     facing = 90
@@ -30,7 +32,7 @@ def solve(puzzle_input):
         elif action == "L":
             facing = (facing - amount) % 360
 
-    return abs(x) + abs(y)
+    return manhattan_distance(0, 0, x, y)
 
 def main():
     puzzle_input = util.read.as_lines()

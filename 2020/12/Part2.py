@@ -9,6 +9,8 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from util.two_d_world import manhattan_distance
+
 def solve(puzzle_input):
     ship_x,     ship_y     = (0, 0)
     waypoint_x, waypoint_y = (10, -1) 
@@ -34,7 +36,7 @@ def solve(puzzle_input):
         elif (action == "L" or action == "R") and amount == 180:
             waypoint_x, waypoint_y = -waypoint_x, -waypoint_y
 
-    return abs(ship_x) + abs(ship_y)
+    return manhattan_distance(0, 0, ship_x, ship_y)
 
 def main():
     puzzle_input = util.read.as_lines()
