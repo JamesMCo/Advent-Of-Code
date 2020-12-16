@@ -45,7 +45,7 @@
   state: 2
 - day:   16
   name:  "Ticket Translation"
-  state: 1
+  state: 2
 - day:   17
   name:  ""
   state: 0
