@@ -13,12 +13,6 @@ from math import prod
 import re
 
 def solve(puzzle_input):
-    # So far, this solution is able to determine all but 2 of the correct positions for the fields,
-    # but is unable to find any valid options for the 2 remaining fields. To get the second star, I
-    # found what the products would be under both options for the field orders, and tried to submit
-    # both to the website (with the second attempt working). I plan to try to make part 2 work
-    # fully later today.
-
     field_rule = re.compile("(\d+)-(\d+) or (\d+)-(\d+)")
 
     def consume_section():
