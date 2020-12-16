@@ -44,8 +44,8 @@
   name:  "Rambunctious Recitation"
   state: 2
 - day:   16
-  name:  ""
-  state: 0
+  name:  "Ticket Translation"
+  state: 1
 - day:   17
   name:  ""
   state: 0
