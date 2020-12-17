@@ -47,8 +47,8 @@
   name:  "Ticket Translation"
   state: 2
 - day:   17
-  name:  ""
-  state: 0
+  name:  "Conway Cubes"
+  state: 2
 - day:   18
   name:  ""
   state: 0
