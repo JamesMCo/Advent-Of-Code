@@ -50,8 +50,8 @@
   name:  "Conway Cubes"
   state: 2
 - day:   18
-  name:  ""
-  state: 0
+  name:  "Operation Order"
+  state: 2
 - day:   19
   name:  ""
   state: 0
