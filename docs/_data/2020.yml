@@ -53,8 +53,8 @@
   name:  "Operation Order"
   state: 2
 - day:   19
-  name:  ""
-  state: 0
+  name:  "Monster Messages"
+  state: 2
 - day:   20
   name:  ""
   state: 0
