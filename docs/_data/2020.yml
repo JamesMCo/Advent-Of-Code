@@ -62,8 +62,8 @@
   name:  "Allergen Assessment"
   state: 2
 - day:   22
-  name:  ""
-  state: 0
+  name:  "Crab Combat"
+  state: 2
 - day:   23
   name:  ""
   state: 0
