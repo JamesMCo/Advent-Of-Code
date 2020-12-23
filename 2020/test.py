@@ -14,7 +14,7 @@ names = ["",
          "Custom Customs", "Handy Haversacks", "Handheld Halting", "Encoding Error", "Adapter Array",
          "Seating System", "Rain Risk", "Shuttle Search", "Docking Data", "Rambunctious Recitation",
          "Ticket Translation", "Conway Cubes", "Operation Order", "Monster Messages", "Jurassic Jigsaw",
-         "Allergen Assessment", "Crab Combat", "", "", ""]
+         "Allergen Assessment", "Crab Combat", "Crab Cups", "", ""]
 
 printed = False
 p_day   = False
