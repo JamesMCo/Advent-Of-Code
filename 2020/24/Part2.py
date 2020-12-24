@@ -52,7 +52,6 @@ def solve(puzzle_input):
 
     @cache
     def neighbours(x, y):
-        # print(f"neighbours{(x, y)} => {[(x + dx, y + dy) for dx, dy in [(1, 0), (0.5, 1), (-0.5, 1), (-1, 0), (-0.5, -1), (0.5, -1)]]}")
         return [(x + dx, y + dy) for dx, dy in [(1.0, 0), (0.5, 1), (-0.5, 1), (-1.0, 0), (-0.5, -1), (0.5, -1)]]
 
     def day(prev_floor):
@@ -77,7 +76,6 @@ def solve(puzzle_input):
 
     for d in range(100):
         floor = day(floor)
-        # print(f"Day {d+1}: {sum(floor.values())}")
     return sum(floor.values())
 
 def main():
