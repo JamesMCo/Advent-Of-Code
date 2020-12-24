@@ -68,8 +68,8 @@
   name:  "Crab Cups"
   state: 2
 - day:   24
-  name:  ""
-  state: 0
+  name:  "Lobby Layout"
+  state: 2
 - day:   25
   name:  ""
   state: 0
