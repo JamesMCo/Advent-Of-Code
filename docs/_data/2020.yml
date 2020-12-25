@@ -71,5 +71,5 @@
   name:  "Lobby Layout"
   state: 2
 - day:   25
-  name:  ""
-  state: 0
+  name:  "Combo Breaker"
+  state: 2
