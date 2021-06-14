@@ -22,4 +22,4 @@ jobs:
       - name: 📋 Run Tests
         run: |
           cd 2020
-          script -e -c python test.py
+          script -e -c "python test.py"
