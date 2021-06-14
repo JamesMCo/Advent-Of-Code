@@ -3,7 +3,7 @@ import colorama
 import time
 
 Fore = colorama.Fore
-colorama.init()
+colorama.init(strip=False)
 
 
 class Result(unittest.TextTestResult):
