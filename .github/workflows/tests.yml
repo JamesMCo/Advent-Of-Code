@@ -1,25 +1,25 @@
-name: "Run Tests"
+name: Run Tests
 
 on:
   push:
-    branches: ["master"]
+    branches: [master]
   workflow_dispatch:
 jobs:
   run-tests:
-    name: "Run Tests"
-    runs-on: "ubuntu-latest"
+    name: Run Tests
+    runs-on: ubuntu-latest
     steps:
-      - name: "📂 Check-Out Repository"
-        uses: "actions/checkout@v2"
-      - name: "🐍 Set Up Python"
-        uses: "actions/setup-python@v2"
+      - name: 📂 Check-Out Repository
+        uses: actions/checkout@v2
+      - name: 🐍 Set Up Python
+        uses: actions/setup-python@v2
         with:
           python-version: "3.9"
-      - name: "⏬ Install Required Packages"
+      - name: ⏬ Install Required Packages
         run: |
-          "python -m pip install --upgrade pip;"
-          "pip install -r requirements.txt;"
-      - name: "📋 Run Tests"
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: 📋 Run Tests
         run: |
-          "cd 2020;"
-          "python test.py;"
+          cd 2020
+          python test.py
