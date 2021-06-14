@@ -2,7 +2,7 @@
 
 import colorama, os
 
-colorama.init(strip=False)
+colorama.init()
 
 if os.name == "nt":
     s = ""
