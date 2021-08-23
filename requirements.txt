@@ -1,4 +1,5 @@
 colorama
 networkx
 numpy==1.19.3
+pyyaml
 regex

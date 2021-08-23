@@ -21,8 +21,4 @@ jobs:
           pip install -r requirements.txt
       - name: 📋 Run Tests
         run: |
-          if [ $(date +'%m') -eq 12 ];
-            then cd $(date '+%Y');
-            else cd $(expr $(date '+%Y') - 1);
-          fi;
           script -e -c "python test.py";
