@@ -4,17 +4,33 @@
 #2015 Day 8, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
-f = open("puzzle_input.txt")
-puzzle_input = f.read().split("\n")
-f.close()
+import os, sys
+sys.path.append(os.path.abspath("../.."))
+import unittest, util.read
+from util.tests import run
 
-literals = 0
-encoded = 0
+def solve(puzzle_input):
+    literals = 0
+    encoded = 0
 
-for i in puzzle_input[0:-1]:
-    literals += len(i)
-    encoded += len("\""+i.replace('"', '/"').replace("\\", "\\\\").replace("/", "\\")+"\"")
+    for i in puzzle_input:
+        literals += len(i)
+        encoded += len("\""+i.replace('"', '/"').replace("\\", "\\\\").replace("/", "\\")+"\"")
 
-print("Characers of code in encoding: " + str(encoded))
-print("Charaters of code in literals: " + str(literals))
-print("Encoded - Literals = " + str(encoded - literals))
+    return encoded - literals
+
+def main():
+    puzzle_input = util.read.as_lines()
+
+    v = solve(puzzle_input)
+
+    print("The number of characters of code for encoded strings minus number of characters of code for literals is " + str(v) + ".")
+
+class AOC_Tests(unittest.TestCase):
+    def test_ex1(self):
+        return self.assertEqual(solve(["\"\"",
+                                       "\"abc\"",
+                                       "\"aaa\\\"aaa\"",
+                                       "\"\\x27\""]), 19)
+
+run(main)

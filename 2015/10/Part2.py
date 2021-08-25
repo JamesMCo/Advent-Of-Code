@@ -4,14 +4,14 @@
 #2015 Day 10, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
-f = open("puzzle_input.txt")
-puzzle_input = f.read()
-f.close()
-
+import os, sys
+sys.path.append(os.path.abspath("../.."))
+import unittest, util.read
+from util.tests import run
 import itertools
 
-def look_and_say(original, repeats):
-    current = original
+def solve(puzzle_input, repeats=50):
+    current = puzzle_input
     for i in range(repeats):
         split = ["".join(grp) for num, grp in itertools.groupby(current)]
         new = ""
@@ -19,6 +19,18 @@ def look_and_say(original, repeats):
             new += str(len(x))
             new += x[0]
         current = new
-    return(current)
+    return len(current)
 
-print("The final result is " + str(len(look_and_say(puzzle_input[0:-1], 50))) + " characters long.")
+def main():
+    puzzle_input = util.read.as_string()
+
+    length = solve(puzzle_input)
+
+    print("The length of the final result is " + str(length) + ".")
+
+class AOC_Tests(unittest.TestCase):
+    @unittest.skip("No test cases")
+    def test_ex1(self):
+        pass
+
+run(main)

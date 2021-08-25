@@ -4,17 +4,33 @@
 #2015 Day 8, Part 1
 #Solution by James C. (https://github.com/JamesMCo)
 
-f = open("puzzle_input.txt")
-puzzle_input = f.read().split("\n")
-f.close()
+import os, sys
+sys.path.append(os.path.abspath("../.."))
+import unittest, util.read
+from util.tests import run
 
-literals = 0
-memory = 0
+def solve(puzzle_input):
+    literals = 0
+    memory = 0
 
-for i in puzzle_input[0:-1]:
-    literals += len(i)
-    memory += len(eval(i))
+    for i in puzzle_input:
+        literals += len(i)
+        memory += len(eval(i))
 
-print("Characers of code in literal: " + str(literals))
-print("Charaters of code in memory:  " + str(memory))
-print("Literals - Memory = " + str(literals - memory))
+    return literals - memory
+
+def main():
+    puzzle_input = util.read.as_lines()
+
+    v = solve(puzzle_input)
+
+    print("The number of characters of code for literals minus the values of the strings is " + str(v) + ".")
+
+class AOC_Tests(unittest.TestCase):
+    def test_ex1(self):
+        return self.assertEqual(solve(["\"\"",
+                                       "\"abc\"",
+                                       "\"aaa\\\"aaa\"",
+                                       "\"\\x27\""]), 12)
+
+run(main)
