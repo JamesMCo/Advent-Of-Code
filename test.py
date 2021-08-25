@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
 
-import colorama, os, time, yaml
+import argparse, colorama, os, time, yaml
+
+if time.gmtime().tm_mon == 12:
+    current_year = time.gmtime().tm_year
+else:
+    current_year = time.gmtime().tm_year - 1
+
+parser = argparse.ArgumentParser(description="Runs either the current year's or a given year's tests", allow_abbrev=False)
+parser.add_argument("year", help="specify which year to test", nargs="?", default=current_year)
+args = parser.parse_args()
 
 colorama.init()
 
@@ -9,15 +18,10 @@ if os.name == "nt":
 else:
     s = "python ./"
 
-if time.gmtime().tm_mon == 12:
-    year = time.gmtime().tm_year
-else:
-    year = time.gmtime().tm_year - 1
+with open(f"docs/_data/{args.year}.yml") as f:
+    names = [day["name"] for day in sorted([full_day for full_day in yaml.safe_load(f)], key=lambda x: x["day"] if isinstance(x["day"], int) else 26)]
 
-with open(f"docs/_data/{year}.yml") as f:
-    names = [day["name"] for day in sorted([full_day for full_day in yaml.safe_load(f)], key=lambda x: x["day"])]
-
-os.chdir(str(year))
+os.chdir(str(args.year))
 
 printed = False
 p_day   = False
