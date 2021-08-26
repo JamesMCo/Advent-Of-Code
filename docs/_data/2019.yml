@@ -39,7 +39,7 @@
   state: 2
 - day:   14
   name:  "Space Stoichiometry"
-  state: 0
+  state: 1
 - day:   15
   name:  "Oxygen System"
   state: 0
