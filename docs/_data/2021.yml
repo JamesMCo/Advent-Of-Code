@@ -5,8 +5,8 @@
   name:  "Dive!"
   state: 2
 - day:   3
-  name:  ""
-  state: 0
+  name:  "Binary Diagnostic"
+  state: 2
 - day:   4
   name:  ""
   state: 0
