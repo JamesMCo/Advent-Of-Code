@@ -11,8 +11,8 @@
   name:  "Giant Squid"
   state: 2
 - day:   5
-  name:  ""
-  state: 0
+  name:  "Hydrothermal Venture"
+  state: 2
 - day:   6
   name:  ""
   state: 0
