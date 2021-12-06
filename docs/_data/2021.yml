@@ -14,8 +14,8 @@
   name:  "Hydrothermal Venture"
   state: 2
 - day:   6
-  name:  ""
-  state: 0
+  name:  "Lanternfish"
+  state: 2
 - day:   7
   name:  ""
   state: 0
