@@ -26,8 +26,8 @@
   name:  "Smoke Basin"
   state: 2
 - day:   10
-  name:  ""
-  state: 0
+  name:  "Syntax Scoring"
+  state: 2
 - day:   11
   name:  ""
   state: 0
