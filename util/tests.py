@@ -1,6 +1,7 @@
 import unittest, sys
 import colorama
 import time
+import os
 
 Fore = colorama.Fore
 colorama.init()
