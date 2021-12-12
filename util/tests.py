@@ -61,5 +61,8 @@ def run(main):
 
         print(f"{colorama.Fore.CYAN}Solution found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
 
+        if os.path.isfile("../../times.txt"):
+            with open("../../times.txt", "a") as f:
+                f.write(f"{end - start}\n")
     else:
         exit(1)

@@ -21,6 +21,8 @@ else:
 with open(f"docs/_data/{args.year}.yml") as f:
     names = [day["name"] for day in sorted([full_day for full_day in yaml.safe_load(f)], key=lambda x: x["day"] if isinstance(x["day"], int) else 26)]
 
+open("times.txt", "w").close()
+
 os.chdir(str(args.year))
 
 printed = False
@@ -45,3 +47,12 @@ for day in range(1, 26):
                 printed = True
                 p_day = True
         os.chdir("..")
+os.chdir("..")
+
+with open("times.txt") as f:
+    duration = str(round(sum(float(t) for t in f), 3))
+    duration += "0" * (3 - len(duration.split(".")[1]))
+
+    print(f"\n{colorama.Fore.CYAN}All solutions found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
+
+os.remove("times.txt")
