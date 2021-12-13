@@ -60,15 +60,25 @@ class World:
         return self.min_x <= x <= self.max_x and self.min_y <= y <= self.max_y
 
     def __str__(self):
+        return self.pprint()
+
+    def pprint(self, empty=None, full=None):
+        if empty == None:
+            empty = self.empty_cell
+        if full == None:
+            fullf = lambda c: c
+        else:
+            fullf = lambda c: full
+
         self.grid.default_factory = None
         s = ""
 
         for y in range(self.min_y, self.max_y + 1):
             for x in range(self.min_x, self.max_x + 1):
                 try:
-                    s += self.grid[(x, y)]
+                    s += fullf(self.grid[(x, y)])
                 except KeyError:
-                    s += self.empty_cell
+                    s += empty
             s += "\n"
 
         if self.ddict:

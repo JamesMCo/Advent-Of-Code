@@ -33,7 +33,7 @@ def solve(puzzle_input):
     for instruction in folds:
         paper.load_from_dict({coord: "#" for coord in fold(paper, *instruction)})
 
-    return paper
+    return paper.pprint(" ", "█")
 
 def main():
     puzzle_input = util.read.as_lines()
