@@ -41,8 +41,8 @@
   name:  "Extended Polymerization"
   state: 2
 - day:   15
-  name:  ""
-  state: 0
+  name:  "Chiton"
+  state: 2
 - day:   16
   name:  ""
   state: 0
