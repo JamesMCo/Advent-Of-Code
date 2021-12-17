@@ -47,8 +47,8 @@
   name:  "Packet Decoder"
   state: 2
 - day:   17
-  name:  ""
-  state: 0
+  name:  "Trick Shot"
+  state: 2
 - day:   18
   name:  ""
   state: 0
