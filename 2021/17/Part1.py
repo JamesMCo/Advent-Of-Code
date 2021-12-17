@@ -51,16 +51,20 @@ def solve(puzzle_input):
 
         def overshoots(self):
             return past_region(self.final_x, self.final_y, self.final_vx, self.final_vy)
-    
-    # This search logic is not particularly efficient, and checks a far greater
-    # range of vertical velocities than is necessary to ensure it doesn't miss any
-    # pairs of velocities that would result in a target hit. Hopefully this will
-    # be cleaned up somewhat after some sleep and reading through some ideas on the
-    # subreddit!
+
+    # Bounds logic from various commenters on the subreddit
+    # Range searched for y velocity is:
+    # from: lowest point in target region
+    # to:   negative of lowest point in target region + 1
+    #       (when y = 0 the second time, the velocity will be the negative of the
+    #       initial velocity, and then the velocity will be increased by one.
+    #       the largest velocity at this point would land the probe at the bottom
+    #       row of the target region. this velocity would be r_y1, and thus working
+    #       backwards the initial velocity would need to be -(r_y1 + 1))
 
     highest_y = -inf
-    vy = 0
-    while True and vy < 2000:
+    vy = r_y1
+    while True and vy <= -(r_y1 + 1):
         vx = -1
         targets_hit = 0
         while True:
@@ -73,8 +77,6 @@ def solve(puzzle_input):
                 targets_hit += 1
                 continue
             elif p.overshoots():
-                # if targets_hit == 0:
-                #     return highest_y
                 break
         vy += 1
     return highest_y
