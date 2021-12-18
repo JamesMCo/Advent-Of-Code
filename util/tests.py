@@ -51,7 +51,13 @@ class Runner(unittest.TextTestRunner):
         super().__init__(stream, descriptions, verbosity,
                          failfast, buffer, resultclass, warnings, tb_locals=tb_locals)
 
+def sort_tests(_, x, y):
+    x_num = int(x[7:])
+    y_num = int(y[7:])
+    return x_num - y_num
+
 def run(main):
+    unittest.TestLoader.sortTestMethodsUsing = sort_tests
     if unittest.main(verbosity=2, exit=False, testRunner=Runner).result.wasSuccessful():
         start = time.time()
         main()
