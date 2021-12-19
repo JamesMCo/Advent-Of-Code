@@ -53,8 +53,8 @@
   name:  "Snailfish"
   state: 2
 - day:   19
-  name:  ""
-  state: 0
+  name:  "Beacon Scanner"
+  state: 2
 - day:   20
   name:  ""
   state: 0
