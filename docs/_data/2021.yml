@@ -59,8 +59,8 @@
   name:  "Trench Map"
   state: 2
 - day:   21
-  name:  ""
-  state: 0
+  name:  "Dirac Dice"
+  state: 2
 - day:   22
   name:  ""
   state: 0
