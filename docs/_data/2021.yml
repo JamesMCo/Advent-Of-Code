@@ -63,7 +63,7 @@
   state: 2
 - day:   22
   name:  "Reactor Reboot"
-  state: 1
+  state: 2
 - day:   23
   name:  ""
   state: 0
