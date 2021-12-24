@@ -1,0 +1,51 @@
+inp w     | inp w     | inp w     | inp w     | inp w     | inp w     | inp w     | inp w     | inp w     | inp w     | inp w     | inp w     | inp w     | inp w     | 
+mul x 0   | mul x 0   | mul x 0   | mul x 0   | mul x 0   | mul x 0   | mul x 0   | mul x 0   | mul x 0   | mul x 0   | mul x 0   | mul x 0   | mul x 0   | mul x 0   | 
+add x z   | add x z   | add x z   | add x z   | add x z   | add x z   | add x z   | add x z   | add x z   | add x z   | add x z   | add x z   | add x z   | add x z   | 
+mod x 26  | mod x 26  | mod x 26  | mod x 26  | mod x 26  | mod x 26  | mod x 26  | mod x 26  | mod x 26  | mod x 26  | mod x 26  | mod x 26  | mod x 26  | mod x 26  | 
+div z 1   | div z 1   | div z 1   | div z 1   | div z 1   | div z 26  | div z 1   | div z 26  | div z 26  | div z 1   | div z 26  | div z 26  | div z 26  | div z 26  | 
+add x 12  | add x 11  | add x 13  | add x 11  | add x 14  | add x -10 | add x 11  | add x -9  | add x -3  | add x 13  | add x -5  | add x -10 | add x -4  | add x -5  | value_a
+eql x w   | eql x w   | eql x w   | eql x w   | eql x w   | eql x w   | eql x w   | eql x w   | eql x w   | eql x w   | eql x w   | eql x w   | eql x w   | eql x w   | 
+eql x 0   | eql x 0   | eql x 0   | eql x 0   | eql x 0   | eql x 0   | eql x 0   | eql x 0   | eql x 0   | eql x 0   | eql x 0   | eql x 0   | eql x 0   | eql x 0   | 
+mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | 
+add y 25  | add y 25  | add y 25  | add y 25  | add y 25  | add y 25  | add y 25  | add y 25  | add y 25  | add y 25  | add y 25  | add y 25  | add y 25  | add y 25  | 
+mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | 
+add y 1   | add y 1   | add y 1   | add y 1   | add y 1   | add y 1   | add y 1   | add y 1   | add y 1   | add y 1   | add y 1   | add y 1   | add y 1   | add y 1   | 
+mul z y   | mul z y   | mul z y   | mul z y   | mul z y   | mul z y   | mul z y   | mul z y   | mul z y   | mul z y   | mul z y   | mul z y   | mul z y   | mul z y   | 
+mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | mul y 0   | 
+add y w   | add y w   | add y w   | add y w   | add y w   | add y w   | add y w   | add y w   | add y w   | add y w   | add y w   | add y w   | add y w   | add y w   | 
+add y 4   | add y 11  | add y 5   | add y 11  | add y 14  | add y 7   | add y 11  | add y 4   | add y 6   | add y 5   | add y 9   | add y 12  | add y 14  | add y 14  | value_b
+mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | mul y x   | 
+add z y   | add z y   | add z y   | add z y   | add z y   | add z y   | add z y   | add z y   | add z y   | add z y   | add z y   | add z y   | add z y   | add z y   | 
+
+A           B           C           D           E           F           G           H           I           J           K           L           M           N
+
+Pairs are:
+E and F
+G and H
+D and I
+J and K
+C and L
+B and M
+A and N
+
+
+(E_INPUT + 14) - 10 == F_INPUT
+E_INPUT + 4 == F_INPUT
+
+(G_INPUT + 11) - 9 == H_INPUT
+G_INPUT + 2 == H_INPUT
+
+(D_INPUT + 11) - 3 == I_INPUT
+D_INPUT + 8 == I_INPUT
+
+(J_INPUT + 5) - 5 == K_INPUT
+J_INPUT == K_INPUT
+
+(C_INPUT + 5) - 10 == L_INPUT
+C_INPUT - 5 == L_INPUT
+
+(B_INPUT + 11) - 4 == M_INPUT
+B_INPUT + 7 == M_INPUT
+
+(A_INPUT + 4) - 5 == N_INPUT
+A_INPUT - 1 == N_INPUT

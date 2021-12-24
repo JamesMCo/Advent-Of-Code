@@ -68,8 +68,8 @@
   name:  "Amphipod"
   state: 2
 - day:   24
-  name:  ""
-  state: 0
+  name:  "Arithmetic Logic Unit"
+  state: 2
 - day:   25
   name:  ""
   state: 0
