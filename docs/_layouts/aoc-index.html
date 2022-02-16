@@ -13,6 +13,8 @@
             @keyframes fadeIn {from {opacity: 0;} to {opacity: 1;}}
             #content:not(.fadeIn) {display: none;}
             .fadeIn {animation-name: fadeIn; animation-duration: 0.4s;}
+            #puzzle_input:not(.show) {display: none; animation-name: fadeIn; animation-duration: 0.4s; animation-direction: reverse;}
+            .show {animation-name: fadeIn; animation-duration: 0.4s;}
         </style>
         <link href="css/prism.css" rel="stylesheet" type="text/css" media="screen,projection" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -96,7 +98,7 @@
                         }
 
                         // Puzzle Input
-                        body.innerHTML += `<h5>Puzzle Input <i style="cursor: pointer;color: #E65100" onclick="$('#puzzle_input').slideToggle();">[Show/Hide]</i></h5><pre class="language-none line-numbers fira"><code id="puzzle_input" class="language-none line-numbers fira" style="display: none;">${texts[2]}</code></pre><a href="/Advent-Of-Code" class="waves-effect waves-light btn btn-large orange darken-3">Return to solution index</a>`;
+                        body.innerHTML += `<h5>Puzzle Input <i style="cursor: pointer;color: #E65100" onclick="if (document.querySelector('#puzzle_input.show')) {document.querySelector('#puzzle_input').classList.remove('show')} else {document.querySelector('#puzzle_input').classList.add('show')};">[Show/Hide]</i></h5><pre class="language-none line-numbers fira"><code id="puzzle_input" class="language-none line-numbers fira">${texts[2]}</code></pre><a href="/Advent-Of-Code" class="waves-effect waves-light btn btn-large orange darken-3">Return to solution index</a>`;
                         
                         // Perform syntax highlighting, and reveal page
                         Prism.highlightAll();
@@ -154,7 +156,7 @@
                 </div>
             </div>
         </main>
-        <script src="/js/materialize.min.js"></script>
+        <script src="https://mrjamesco.uk/js/materialize.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 //Initialise mobile navigation panel
