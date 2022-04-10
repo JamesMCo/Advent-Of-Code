@@ -8,15 +8,13 @@
         <link href="/css/materialize.min.css" rel="stylesheet" type="text/css" media="screen,projection" />
         <link href="/css/styles.css" rel="stylesheet" type="text/css" media="screen,projection" />
         <style>
-            .fira {font-family: "Fira Code", monospace !important}
-
             @keyframes fadeIn {from {opacity: 0;} to {opacity: 1;}}
             #content:not(.fadeIn) {display: none;}
             .fadeIn {animation-name: fadeIn; animation-duration: 0.4s;}
             #puzzle_input:not(.show) {display: none; animation-name: fadeIn; animation-duration: 0.4s; animation-direction: reverse;}
             .show {animation-name: fadeIn; animation-duration: 0.4s;}
         </style>
-        <link href="css/prism.css" rel="stylesheet" type="text/css" media="screen,projection" />
+        <link href="/css/prism.min.css" rel="stylesheet" type="text/css" media="screen,projection" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <meta property="og:title" content="James Cordon - Advent of Code" />
@@ -27,7 +25,7 @@
         <meta property="site_name" content="Advent of Code Solutions by James C." />
         <meta name="twitter:site" content="@MrJamesCo" />
 
-        <script src="js/prism.js"></script>
+        <script src="/js/prism.min.js"></script>
         <script>{% for y in page.years %}
 {% include namelist.html year=y %}
 {%- endfor %}
@@ -90,15 +88,15 @@
                     Promise.all(texts)
                     .then((texts) => {
                         // Part 1
-                        body.innerHTML = `<h4>${year} - ${pname}</h4>${view_puzzle}<h5>Part 1</h5><pre class="language-python line-numbers fira"><code class="language-python fira">${texts[0].replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)")}</code></pre>`;
+                        body.innerHTML = `<h4>${year} - ${pname}</h4>${view_puzzle}<h5>Part 1</h5><pre class="language-python line-numbers"><code class="language-python">${texts[0].replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)")}</code></pre>`;
                         
                         // Part 2
                         if (responses[1].status !== 404) {
-                            body.innerHTML += `<h5>Part 2</h5><pre class="language-python line-numbers fira"><code class="language-python fira">${texts[1].replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)")}</code></pre>`;
+                            body.innerHTML += `<h5>Part 2</h5><pre class="language-python line-numbers"><code class="language-python">${texts[1].replace("https://github.com/JamesMCo", "[https://github.com/JamesMCo](https://github.com/JamesMCo)")}</code></pre>`;
                         }
 
                         // Puzzle Input
-                        body.innerHTML += `<h5>Puzzle Input <i style="cursor: pointer;color: #E65100" onclick="if (document.querySelector('#puzzle_input.show')) {document.querySelector('#puzzle_input').classList.remove('show')} else {document.querySelector('#puzzle_input').classList.add('show')};">[Show/Hide]</i></h5><pre class="language-none line-numbers fira"><code id="puzzle_input" class="language-none line-numbers fira">${texts[2]}</code></pre><a href="/Advent-Of-Code" class="waves-effect waves-light btn btn-large orange darken-3">Return to solution index</a>`;
+                        body.innerHTML += `<h5>Puzzle Input <i style="cursor: pointer;color: #E65100" onclick="if (document.querySelector('#puzzle_input.show')) {document.querySelector('#puzzle_input').classList.remove('show')} else {document.querySelector('#puzzle_input').classList.add('show')};">[Show/Hide]</i></h5><pre class="language-none line-numbers"><code id="puzzle_input" class="language-none line-numbers">${texts[2]}</code></pre><a href="/Advent-Of-Code" class="waves-effect waves-light btn btn-large orange darken-3">Return to solution index</a>`;
                         
                         // Perform syntax highlighting, and reveal page
                         Prism.highlightAll();
