@@ -96,7 +96,7 @@
                         }
 
                         // Puzzle Input
-                        body.innerHTML += `<h5>Puzzle Input <i style="cursor: pointer;color: #E65100" onclick="if (document.querySelector('#puzzle_input.show')) {document.querySelector('#puzzle_input').classList.remove('show')} else {document.querySelector('#puzzle_input').classList.add('show')};">[Show/Hide]</i></h5><pre class="language-none line-numbers"><code id="puzzle_input" class="language-none line-numbers">${texts[2]}</code></pre><a href="/Advent-Of-Code" class="waves-effect waves-light btn btn-large orange darken-3">Return to solution index</a>`;
+                        body.innerHTML += `<h5>Puzzle Input <i style="cursor: pointer" onclick="if (document.querySelector('#puzzle_input.show')) {document.querySelector('#puzzle_input').classList.remove('show')} else {document.querySelector('#puzzle_input').classList.add('show')};">[Show/Hide]</i></h5><pre class="language-none line-numbers"><code id="puzzle_input" class="language-none line-numbers">${texts[2]}</code></pre><a href="/Advent-Of-Code" class="waves-effect waves-light btn btn-large">Return to solution index</a>`;
                         
                         // Perform syntax highlighting, and reveal page
                         Prism.highlightAll();
