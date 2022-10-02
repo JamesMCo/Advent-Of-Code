@@ -57,7 +57,7 @@
   state: 1
 - day:   20
   name:  "Infinite Elves and Infinite Houses"
-  state: 0
+  state: 2
 - day:   21
   name:  "RPG Simulator 20XX"
   state: 0
