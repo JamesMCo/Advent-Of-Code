@@ -59,17 +59,19 @@ def sort_tests(_, x, y):
 def run(main):
     unittest.TestLoader.sortTestMethodsUsing = sort_tests
     if unittest.main(verbosity=2, exit=False, testRunner=Runner).result.wasSuccessful():
-        start = time.time()
+        start = time.perf_counter_ns()
         main()
-        end = time.time()
+        end = time.perf_counter_ns()
 
-        duration = str(round(end - start, 3))
+        seconds = (end - start) / 1_000_000_000 # ns -> s by dividing by 10^9
+
+        duration = str(round(seconds, 3))
         duration += "0" * (3 - len(duration.split(".")[1]))
 
         print(f"{colorama.Fore.CYAN}Solution found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
 
         if os.path.isfile("../../times.txt"):
             with open("../../times.txt", "a") as f:
-                f.write(f"{end - start}\n")
+                f.write(f"{seconds}\n")
     else:
         exit(1)
