@@ -41,7 +41,7 @@ class Result(unittest.TextTestResult):
         self.stream.writeln(Fore.GREEN + "Expected Failure" + Fore.RESET)
 
     def addUnexpectedSuccess(self, test):
-        super(unittestTextTestResult, self).addUnexpectedSuccess(test)
+        super(unittest.TextTestResult, self).addUnexpectedSuccess(test)
         self.stream.writeln(Fore.RED + "Unexpected Success" + Fore.RESET)
 
 class Runner(unittest.TextTestRunner):
