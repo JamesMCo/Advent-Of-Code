@@ -2,8 +2,8 @@
   name:  "Calorie Counting"
   state: 2
 - day:   2
-  name:  ""
-  state: 0
+  name:  "Rock Paper Scissors"
+  state: 2
 - day:   3
   name:  ""
   state: 0
