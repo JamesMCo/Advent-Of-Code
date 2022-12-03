@@ -13,7 +13,7 @@ from string import ascii_lowercase
 
 def solve(puzzle_input):
     def find_dupe(first, second, third):
-        return list(set(first).intersection(second).intersection(third))[0]
+        return list(set(first).intersection(second, third))[0]
 
     def priority(item):
         return ord(item) + (1 - ord("a") if item in ascii_lowercase else 27 - ord("A"))
