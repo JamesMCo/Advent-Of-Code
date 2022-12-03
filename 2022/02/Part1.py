@@ -10,31 +10,34 @@ import unittest, util.read
 from util.tests import run
 
 def solve(puzzle_input):
-    moves = {
-        "A": "rock",
-        "B": "paper",
-        "C": "scissors",
-        "X": "rock",
-        "Y": "paper",
-        "Z": "scissors"
-    }
-    beats = {
-        "rock":     "scissors",
-        "paper":    "rock",
-        "scissors": "paper"
-    }
-    shape_score = {
-        "rock":     1,
-        "paper":    2,
-        "scissors": 3
-    }
+    class Shape:
+        def __init__(self, letter):
+            match letter:
+                case "A" | "X":
+                    self.shape = "rock"
+                    self.score = 1
+                case "B" | "Y":
+                    self.shape = "paper"
+                    self.score = 2
+                case "C" | "Z":
+                    self.shape = "scissors"
+                    self.score = 3
+
+        def beats(self, opponent):
+            match self.shape:
+                case "rock":     return opponent.shape == "scissors"
+                case "paper":    return opponent.shape == "rock"
+                case "scissors": return opponent.shape == "paper"
+
+        def __eq__(self, other):
+            return self.shape == other.shape
 
     def round_outcome(opponent, player):
-        opponent = moves[opponent]
-        player   = moves[player]
+        opponent = Shape(opponent)
+        player   = Shape(player)
 
-        if beats[opponent] == player:
-            # The move that the opponent's move beats is the move that the player made
+        if opponent.beats(player):
+            # The opponent's move wins
             return 0
         elif opponent == player:
             # It's a tie
@@ -43,7 +46,7 @@ def solve(puzzle_input):
             # The player's move wins
             return 6
 
-    return sum(shape_score[moves[player]] + round_outcome(opponent, player) for opponent, player in [turn.split() for turn in puzzle_input])
+    return sum(Shape(player).score + round_outcome(opponent, player) for opponent, player in [turn.split() for turn in puzzle_input])
 
 def main():
     puzzle_input = util.read.as_lines()

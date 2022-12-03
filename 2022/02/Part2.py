@@ -10,30 +10,34 @@ import unittest, util.read
 from util.tests import run
 
 def solve(puzzle_input):
-    moves = {
-        "A": "rock",
-        "B": "paper",
-        "C": "scissors"
-    }
-    beats = {
-        "rock":     "scissors",
-        "paper":    "rock",
-        "scissors": "paper"
-    }
-    beaten_by = {
-        "rock":     "paper",
-        "paper":    "scissors",
-        "scissors": "rock"
-    }
-    shape_score = {
-        "rock":     1,
-        "paper":    2,
-        "scissors": 3
-    }
+    class Shape:
+        def __init__(self, letter):
+            match letter:
+                case "A" | "rock":
+                    self.shape    = "rock"
+                    self.score    = 1
+                    self.wins_to  = "scissors"
+                    self.loses_to = "paper"
+                case "B" | "paper":
+                    self.shape    = "paper"
+                    self.score    = 2
+                    self.wins_to  = "rock"
+                    self.loses_to = "scissors"
+                case "C" | "scissors":
+                    self.shape    = "scissors"
+                    self.score    = 3
+                    self.wins_to  = "paper"
+                    self.loses_to = "rock"
+
+        def beats(self, opponent):
+            return self.wins_to == opponent.shape
+
+        def __eq__(self, other):
+            return self.shape == other.shape
 
     def round_outcome(opponent, player):
-        if beats[opponent] == player:
-            # The move that the opponent's move beats is the move that the player made
+        if opponent.beats(player):
+            # The opponent's move wins
             return 0
         elif opponent == player:
             # It's a tie
@@ -45,21 +49,22 @@ def solve(puzzle_input):
     total = 0
     for turn in puzzle_input:
         opponent, desired_outcome = turn.split()
-        opponent = moves[opponent]
-        if desired_outcome == "X":
-            # Need to lose
-            # Play the move that the opponent beats
-            player = beats[opponent]
-        elif desired_outcome == "Y":
-            # Need to tie
-            # Play the same move as the opponent
-            player = opponent
-        else:
-            # Need to win
-            # Play the move that beats the opponent, i.e. the move that the opponent is beaten by
-            player = beaten_by[opponent]
+        opponent = Shape(opponent)
+        match desired_outcome:
+            case "X":
+                # Need to lose
+                # Play the move that the opponent beats
+                player = Shape(opponent.wins_to)
+            case "Y":
+                # Need to tie
+                # Play the same move as the opponent
+                player = opponent
+            case "Z":
+                # Need to win
+                # Play the move that beats the opponent, i.e. the move that the opponent is beaten by
+                player = Shape(opponent.loses_to)
 
-        total += shape_score[player] + round_outcome(opponent, player)
+        total += player.score + round_outcome(opponent, player)
 
     return total
 
