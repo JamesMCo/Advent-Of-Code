@@ -11,8 +11,8 @@
   name:  "Camp Cleanup"
   state: 2
 - day:   5
-  name:  ""
-  state: 0
+  name:  "Supply Stacks"
+  state: 2
 - day:   6
   name:  ""
   state: 0
