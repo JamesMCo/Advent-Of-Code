@@ -42,8 +42,7 @@ def solve(puzzle_input):
             to_stack -= 1
 
             lifted_crates = stacks[from_stack][-quant:]
-            for crate in range(quant):
-                stacks[from_stack].pop()
+            del stacks[from_stack][-quant:]
             stacks[to_stack].extend(lifted_crates)
 
         return stacks
