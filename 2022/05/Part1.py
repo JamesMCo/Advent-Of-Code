@@ -54,7 +54,7 @@ def main():
 
     crates = solve(puzzle_input)
 
-    print("The crates is " + str(crates) + ".")
+    print("The crates on top of the stacks are " + str(crates) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):

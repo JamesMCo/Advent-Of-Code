@@ -29,7 +29,7 @@ def main():
 
     pairs = solve(puzzle_input)
 
-    print("The number of pairs where one assignment fully contains the other is " + str(pairs) + ".")
+    print("The number of pairs where the assignments overlap is " + str(pairs) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
