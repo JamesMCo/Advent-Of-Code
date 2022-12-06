@@ -12,21 +12,26 @@ from util.tests import run
 import re
 
 def solve(puzzle_input):
-    def parse_stacks(lines):
-        stacks = []
-        for i, line in enumerate(lines):
-            if line[1] == "1":
-                return [stack[::-1] for stack in stacks], i
+    def parse_input(puzzle_input):
+        separator = puzzle_input.index("")
+        stacks_description = puzzle_input[:separator]
+        instructions = puzzle_input[separator+1:]
 
-            for stack_num, pos_in_line in enumerate(range(1, len(line), 4)):
-                if i == 0:
-                    if line[pos_in_line] != " ":
-                        stacks.append([line[pos_in_line]])
-                    else:
-                        stacks.append([])
-                else:
-                    if line[pos_in_line] != " ":
-                        stacks[stack_num].append(line[pos_in_line])
+        # Find the number of stacks (number of stack labels just above the separator line)
+        number_of_stacks = len(re.findall("\d+", puzzle_input[separator - 1]))
+        # Create enough empty stacks in a list
+        stacks = [[] for stack in range(number_of_stacks)]
+        # Matches "[X]" or "   ", followed by an optional space, finding this "number_of_stacks" times on one line
+        row_pattern = re.compile("(?:(?:\[(\w)\]| {3}) ?)" * number_of_stacks)
+
+        # Reverse the stacks described in the puzzle input (i.e. work from bottom to top)
+        for row in stacks_description[:-1][::-1]:
+            for i, crate in enumerate(re.match(row_pattern, row).groups()):
+                # If a crate exists, create equals that letter. Otherwise, it equals None.
+                if crate:
+                    stacks[i].append(crate)
+
+        return stacks, instructions
 
     def manipulate_stacks(stacks, instructions):
         for instruction in instructions:
@@ -41,10 +46,8 @@ def solve(puzzle_input):
 
         return stacks
 
-    stacks, line_of_indices = parse_stacks(puzzle_input)
-    stacks = manipulate_stacks(stacks, puzzle_input[line_of_indices+2:])
-
-    return "".join([stack[-1] for stack in stacks])
+    # The top of the each stack is at the end of the list
+    return "".join([stack[-1] for stack in manipulate_stacks(*parse_input(puzzle_input))])
 
 def main():
     puzzle_input = util.read.as_lines_only_rstrip()
