@@ -70,18 +70,21 @@
                         return;
                     }
 
+                    // Cake?
+                    cake = (iday == 9) ? " 🎂" : "";
+
                     // Generate puzzle name and "view puzzle on adventofcode.com" strings
                     if (day === "Bonus") {
                         pname = "Bonus";
                         view_puzzle = "";
                     } {% for y in page.years -%}
                     else if (year === "{{ y }}") {
-                        pname = `Day ${iday} (${n{{ y }}[iday]})`;
+                        pname = `Day ${iday}${cake} (${n{{ y }}[iday]})`;
                         view_puzzle = `<h6><a href="https://adventofcode.com/{{ y }}/day/${iday}" target="_blank" class="link">View puzzle description on AdventOfCode.com</a></h6>`;
                     } {% endfor %}
 
                     // Update the breadcrumb to include year and day
-                    document.querySelector(".nav-content>div").innerHTML += `<a href="/Advent-Of-Code/#${year}" class="breadcrumb">${year}</a><a href="" class="breadcrumb">Day ${iday}</a>`;
+                    document.querySelector(".nav-content>div").innerHTML += `<a href="/Advent-Of-Code/#${year}" class="breadcrumb">${year}</a><a href="" class="breadcrumb">Day ${iday}${cake}</a>`;
 
                     // Get the text from the responses
                     texts = [responses[0].text(), responses[1].text(), responses[2].text()];
