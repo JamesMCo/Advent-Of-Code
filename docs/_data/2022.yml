@@ -26,8 +26,8 @@
   name:  "Rope Bridge"
   state: 2
 - day:   10
-  name:  ""
-  state: 0
+  name:  "Cathode-Ray Tube"
+  state: 2
 - day:   11
   name:  ""
   state: 0
