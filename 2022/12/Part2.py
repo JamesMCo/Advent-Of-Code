@@ -9,7 +9,6 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
-import math
 import networkx as nx
 
 def solve(puzzle_input):
@@ -55,16 +54,9 @@ def solve(puzzle_input):
                 if neighbour_strength <= strength + 1:
                     heightmap_graph.add_edge((x, y), neighbour)
 
-    distance = math.inf
-    for start in starts:
-        try:
-            distance = min(distance, nx.shortest_path_length(heightmap_graph, start, target))
-        except nx.exception.NetworkXNoPath:
-            # Not all starting locations are possible to reach the top from
-            # (e.g. an area of "a"s surrounded on all sides by "c"s)
-            pass
-            
-    return distance
+    distances = nx.shortest_path_length(heightmap_graph, target=target)
+        
+    return min(distances[start] for start in starts if start in distances)
 
 def main():
     puzzle_input = util.read.as_lines()
