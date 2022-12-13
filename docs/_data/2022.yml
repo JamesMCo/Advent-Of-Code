@@ -35,8 +35,8 @@
   name:  "Hill Climbing Algorithm"
   state: 2
 - day:   13
-  name:  ""
-  state: 0
+  name:  "Distress Signal"
+  state: 2
 - day:   14
   name:  ""
   state: 0
