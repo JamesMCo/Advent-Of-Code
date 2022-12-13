@@ -9,12 +9,13 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from ast import literal_eval
 from itertools import zip_longest
 
 def solve(puzzle_input):
     def pairs(puzzle_input):
         for i in range(0, len(puzzle_input), 3):
-            yield eval(puzzle_input[i]), eval(puzzle_input[i+1])
+            yield literal_eval(puzzle_input[i]), literal_eval(puzzle_input[i+1])
 
     def compare(left, right):
         # If left should be before right/if in correct order, return -1

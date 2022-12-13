@@ -9,6 +9,7 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from ast import literal_eval
 from functools import cmp_to_key
 from itertools import zip_longest
 
@@ -45,7 +46,7 @@ def solve(puzzle_input):
         # Neither left nor right should be before the other (otherwise, would have returned in the for loop)
         return 0
 
-    sorted_packets = sorted([eval(line) for line in puzzle_input if line != ""] + [[[2]], [[6]]], key=cmp_to_key(compare))
+    sorted_packets = sorted([literal_eval(line) for line in puzzle_input if line != ""] + [[[2]], [[6]]], key=cmp_to_key(compare))
     return (sorted_packets.index([[2]]) + 1) * (sorted_packets.index([[6]]) + 1)
 
 def main():
