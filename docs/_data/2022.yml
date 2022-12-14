@@ -38,8 +38,8 @@
   name:  "Distress Signal"
   state: 2
 - day:   14
-  name:  ""
-  state: 0
+  name:  "Regolith Reservoir"
+  state: 2
 - day:   15
   name:  ""
   state: 0

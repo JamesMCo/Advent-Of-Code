@@ -39,7 +39,7 @@ class World:
         self.min_y = self.max_y = 0
 
         for x, y in d:
-            if filter_func == None or (filter_func and filter_func(v)):
+            if filter_func == None or (filter_func and filter_func(d[(x,y)])):
                 self.grid[(x, y)] = d[(x, y)]
 
                 if x < self.min_x: self.min_x = x
