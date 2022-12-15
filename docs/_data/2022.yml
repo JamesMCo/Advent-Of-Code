@@ -41,8 +41,8 @@
   name:  "Regolith Reservoir"
   state: 2
 - day:   15
-  name:  ""
-  state: 0
+  name:  "Beacon Exclusion Zone"
+  state: 2
 - day:   16
   name:  ""
   state: 0
