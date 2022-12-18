@@ -50,8 +50,8 @@
   name:  "Pyroclastic Flow"
   state: 2
 - day:   18
-  name:  ""
-  state: 0
+  name:  "Boiling Boulders"
+  state: 2
 - day:   19
   name:  ""
   state: 0
