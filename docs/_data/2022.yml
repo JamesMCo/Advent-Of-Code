@@ -47,8 +47,8 @@
   name:  "Proboscidea Volcanium"
   state: 2
 - day:   17
-  name:  ""
-  state: 0
+  name:  "Pyroclastic Flow"
+  state: 2
 - day:   18
   name:  ""
   state: 0
