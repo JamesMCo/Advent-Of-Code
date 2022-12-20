@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Advent of Code
-#2022 Day 19, Part 1
+#2022 Day 19, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
 import os, sys
@@ -22,7 +22,11 @@ def solve(puzzle_input):
     # and the pruning based on best time method described in this reddit comment by /u/DrunkHacker
     # https://www.reddit.com/r/adventofcode/comments/zpihwi/comment/j0wtmjq/
 
-    time_limit = 24
+    time_limit = 32
+
+    def additional_geodes_if_making_one_robot_per_minute(minutes_remaining):
+        n = minutes_remaining - 1
+        return int((n*(n+1))/2)
 
     def worth_making_robot(existing_robot_count, existing_material_count, minutes_remaining, max_material_needed):
         return (existing_robot_count * minutes_remaining) + existing_material_count < minutes_remaining * max_material_needed
@@ -56,21 +60,24 @@ def solve(puzzle_input):
         to_explore = deque([(time_limit, 0, 0, 0, 0, 1, 0, 0)])
 
         while to_explore:
+            # input()
             minutes_remaining, inv_ore, inv_clay, inv_obsidian, inv_geode, robots_ore, robots_clay, robots_obsidian = to_explore.popleft()
+            seen_key = (inv_ore, inv_clay, inv_obsidian, inv_geode, robots_ore, robots_clay, robots_obsidian)
             if best_at_time[minutes_remaining] > inv_geode:
                 # Had more geodes at this timestep before
                 continue
-            else:
-                seen_key = (inv_ore, inv_clay, inv_obsidian, inv_geode, robots_ore, robots_clay, robots_obsidian)
-                if seen_key in seen and seen[seen_key] > minutes_remaining:
-                    # Have seen this state at an earlier timestep before
-                    continue
+            elif seen_key in seen and seen[seen_key] >= minutes_remaining:
+                # Have seen this state at an earlier or equal timestep before
+                continue
             best_at_time[minutes_remaining] = inv_geode
             seen[seen_key] = minutes_remaining
+            # print(f"{minutes_remaining=}, {inv_ore=}, {inv_clay=}, {inv_obsidian=}, {inv_geode=}, {robots_ore=}, {robots_clay=}, {robots_obsidian=}")
 
             # It is always worth trying to make a geode robot (no max needed)
+            # print("trying geode")
             minutes_to_make_geode_robot = minutes_to_make_robot(inv_ore, geode_ore_cost, robots_ore, inv_obsidian, geode_obsidian_cost, robots_obsidian)
             if minutes_remaining - minutes_to_make_geode_robot > 0:
+                # print("can make one")
                 # When creating a geode robot, immediately add the geodes it could crack to inv_geode and don't track the number of geode robots directly
                 # https://www.reddit.com/r/adventofcode/comments/zpy5rm/comment/j0vk97a/
                 to_explore.append((minutes_remaining - minutes_to_make_geode_robot,
@@ -82,11 +89,15 @@ def solve(puzzle_input):
                                    robots_clay,
                                    robots_obsidian
                                  ))
+            # else:
+                # print("can't make one")
 
             # If it is worth making an obsidian robot, and it is possible in the time remaining, then do so
             if worth_making_robot(robots_obsidian, inv_obsidian, minutes_remaining, max_obsidian_needed):
+                # print("trying obsidian")
                 minutes_to_make_obsidian_robot = minutes_to_make_robot(inv_ore, obsidian_ore_cost, robots_ore, inv_clay, obsidian_clay_cost, robots_clay)
                 if minutes_remaining - minutes_to_make_obsidian_robot > 0:
+                    # print("can make one")
                     to_explore.append((minutes_remaining - minutes_to_make_obsidian_robot,
                                        inv_ore + (minutes_to_make_obsidian_robot * robots_ore) - obsidian_ore_cost,
                                        inv_clay + (minutes_to_make_obsidian_robot * robots_clay) - obsidian_clay_cost,
@@ -96,11 +107,15 @@ def solve(puzzle_input):
                                        robots_clay,
                                        robots_obsidian + 1
                                      ))
+                # else:
+                    # print("can't make one")
 
             # If it is worth making a clay robot, and it is possible in the time remaining, then do so
             if worth_making_robot(robots_clay, inv_clay, minutes_remaining, max_clay_needed):
+                # print("trying clay")
                 minutes_to_make_clay_robot = minutes_to_make_robot(inv_ore, clay_cost, robots_ore)
                 if minutes_remaining - minutes_to_make_clay_robot > 0:
+                    # print("can make one")
                     to_explore.append((minutes_remaining - minutes_to_make_clay_robot,
                                        inv_ore + (minutes_to_make_clay_robot * robots_ore) - clay_cost,
                                        inv_clay + (minutes_to_make_clay_robot * robots_clay),
@@ -110,11 +125,15 @@ def solve(puzzle_input):
                                        robots_clay + 1,
                                        robots_obsidian
                                      ))
+                # else:
+                    # print("can't make one")
 
             # If it is worth making an ore robot, and it is possible in the time remaining, then do so
             if worth_making_robot(robots_ore, inv_ore, minutes_remaining, max_ore_needed):
+                # print("trying ore")
                 minutes_to_make_ore_robot = minutes_to_make_robot(inv_ore, ore_cost, robots_ore)
                 if minutes_remaining - minutes_to_make_ore_robot > 0:
+                    # print("can make one")
                     to_explore.append((minutes_remaining - minutes_to_make_ore_robot,
                                        inv_ore + (minutes_to_make_ore_robot * robots_ore) - ore_cost,
                                        inv_clay + (minutes_to_make_ore_robot * robots_clay),
@@ -124,27 +143,31 @@ def solve(puzzle_input):
                                        robots_clay,
                                        robots_obsidian
                                      ))
+                # else:
+                    # print("can't make one")
 
+        input(best_at_time)
         return max(x for x in best_at_time.values())
 
-    total_quality = 0
-    for line in puzzle_input:
+    total_quality = 1
+    for line in puzzle_input[:3]:
         blueprint_id, ore_cost, clay_cost, obsidian_ore_cost, obsidian_clay_cost, geode_ore_cost, geode_obsidian_cost = [int(x) for x in re.match("Blueprint (\d+): Each ore robot costs (\d+) ore. Each clay robot costs (\d+) ore. Each obsidian robot costs (\d+) ore and (\d+) clay. Each geode robot costs (\d+) ore and (\d+) obsidian.", line).groups()]
         max_geodes = simulate(ore_cost, clay_cost, obsidian_ore_cost, obsidian_clay_cost, geode_ore_cost, geode_obsidian_cost)
-        total_quality += blueprint_id * max_geodes
+        total_quality *= max_geodes
+        input(f"Blueprint {blueprint_id} can crack a maximum of {max_geodes} geodes")
 
     return total_quality
 
 def main():
     puzzle_input = util.read.as_lines()
 
-    quality_levels = solve(puzzle_input)
+    prod_of_maxes = solve(puzzle_input)
 
-    print("The sum of all quality levels is " + str(quality_levels) + ".")
+    print("The product of the maximum number of geodes collectable by the first three blueprints is " + str(prod_of_maxes) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
         return self.assertEqual(solve(["Blueprint 1: Each ore robot costs 4 ore. Each clay robot costs 2 ore. Each obsidian robot costs 3 ore and 14 clay. Each geode robot costs 2 ore and 7 obsidian.",
-                                       "Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsidian robot costs 3 ore and 8 clay. Each geode robot costs 3 ore and 12 obsidian."]), 33)
+                                       "Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsidian robot costs 3 ore and 8 clay. Each geode robot costs 3 ore and 12 obsidian."]), 56*62)
 
 run(main)
