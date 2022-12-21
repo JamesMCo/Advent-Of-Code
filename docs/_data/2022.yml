@@ -54,7 +54,7 @@
   state: 2
 - day:   19
   name:  "Not Enough Minerals"
-  state: 1
+  state: 2
 - day:   20
   name:  "Grove Positioning System"
   state: 2
