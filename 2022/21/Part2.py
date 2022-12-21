@@ -174,7 +174,7 @@ def main():
 
     root = solve(puzzle_input)
 
-    print("The number that root will yell is " + str(root) + ".")
+    print("The number that the human will need to yell is " + str(root) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
