@@ -137,6 +137,8 @@ def solve(puzzle_input):
     equation_left, _, equation_right = Monkey.monkeys["root"].to_equation()
     if type(equation_left) != tuple:
         equation_left, equation_right = equation_right, equation_left
+    if not equation_side_has_humn(equation_left[0]) and equation_left[1] in "+*":
+        equation_left = equation_left[::-1]
 
     while True:
         match equation_left:
@@ -154,6 +156,8 @@ def solve(puzzle_input):
 
         if not equation_side_has_humn(equation_left):
             equation_left, equation_right = equation_right, equation_left
+        if not equation_side_has_humn(equation_left[0]) and equation_left[1] in "+*":
+            equation_left = equation_left[::-1]
 
         match equation_right:
             case (right_left_val, "+", right_right_val):
