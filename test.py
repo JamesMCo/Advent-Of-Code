@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import argparse, colorama, os, time, yaml
+import argparse, collections, colorama, os, time, yaml
 
 if time.gmtime().tm_mon == 12:
     current_year = time.gmtime().tm_year
@@ -26,6 +26,7 @@ open("times.txt", "w").close()
 os.chdir(str(args.year))
 
 printed = False
+failed  = False
 for day in range(1, 26):
     p_day = False
     if os.path.isdir(str(day).zfill(2)):
@@ -39,10 +40,14 @@ for day in range(1, 26):
                     print(f"{colorama.Fore.YELLOW}{sep}{colorama.Fore.RESET}\n{colorama.Fore.YELLOW}**  Day {day}  - {names[day - 1]}  **{colorama.Fore.RESET}\n{colorama.Fore.YELLOW}{sep}{colorama.Fore.RESET}\n\n\n{colorama.Fore.GREEN}Testing Part {part}{colorama.Fore.RESET}\n")
                 else:
                     print(f"{colorama.Fore.GREEN}Testing Part {part}{colorama.Fore.RESET}\n")
+                
+                with open("../../times.txt", "a") as f:
+                    f.write(f"{day}-{part}-")
 
-                r = os.system(s + f"Part{part}.py")
-                if r:
-                    exit(r)
+                if os.system(s + f"Part{part}.py"):
+                    failed = True
+                    with open("../../times.txt", "a") as f:
+                        f.write("fail\n")
 
                 printed = True
                 p_day = True
@@ -50,9 +55,31 @@ for day in range(1, 26):
 os.chdir("..")
 
 with open("times.txt") as f:
-    duration = str(round(sum(int(t) for t in f) / 1_000_000_000, 3))
+    duration = 0
+    durations = collections.defaultdict(lambda: ("Not attempted", "Not attempted"))
+
+    for line in f.read().strip().split("\n"):
+        day, part, dur = line.split("-")
+        if dur != "fail":
+            duration += int(dur)
+            dur = str(round(int(dur) / 1_000_000_000, 3))
+        if part == "1":
+            durations[day] = (dur, durations[day][1])
+        elif part == "2":
+            durations[day] = (durations[day][0], dur)
+
+    if (github_summary := os.getenv("GITHUB_STEP_SUMMARY")):
+        with open(github_summary, "w") as g:
+            g.write("| Day | Part 1 | Part 2|\n|-----|--------|-------|\n")
+            for day, parts in sorted(durations.items(), key=lambda x: int(x[0])):
+                g.write(f"| {day} | {parts[0]}{'s' if parts[0] != 'fail' else ''} | {parts[1]}{'s' if parts[1] != 'fail' else ''} |\n")
+
+    duration = str(round(duration / 1_000_000_000, 3))
     duration += "0" * (3 - len(duration.split(".")[1]))
 
-    print(f"\n{colorama.Fore.CYAN}All solutions found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
+    if failed:
+        print(f"\n{colorama.Fore.CYAN}All non-failed solutions found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
+    else:
+        print(f"\n{colorama.Fore.CYAN}All solutions found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
 
 os.remove("times.txt")
