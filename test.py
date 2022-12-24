@@ -68,14 +68,14 @@ with open("times.txt") as f:
         elif part == "2":
             durations[day] = (durations[day][0], dur)
 
-    if (github_summary := os.getenv("GITHUB_STEP_SUMMARY")):
-        with open(github_summary, "w") as g:
-            g.write("| Day | Part 1 | Part 2|\n|-----|--------|-------|\n")
-            for day, parts in sorted(durations.items(), key=lambda x: int(x[0])):
-                g.write(f"| {day} | {parts[0]}{'s' if parts[0] != 'fail' else ''} | {parts[1]}{'s' if parts[1] != 'fail' else ''} |\n")
-
     duration = str(round(duration / 1_000_000_000, 3))
     duration += "0" * (3 - len(duration.split(".")[1]))
+
+    if (github_summary := os.getenv("GITHUB_STEP_SUMMARY")):
+        with open(github_summary, "w") as g:
+            g.write(f"# {current_year} Solution Runtimes\nAll{' non-failed' if failed else ''} solutions found in {duration}s.\n| Day | Part 1 | Part 2|\n|-----|--------|-------|\n")
+            for day, parts in sorted(durations.items(), key=lambda x: int(x[0])):
+                g.write(f"| {day} | {parts[0]}{'s' if parts[0] != 'fail' else ''} | {parts[1]}{'s' if parts[1] != 'fail' else ''} |\n")
 
     if failed:
         print(f"\n{colorama.Fore.CYAN}All non-failed solutions found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
