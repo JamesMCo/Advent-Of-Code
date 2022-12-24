@@ -77,7 +77,7 @@ def solve(puzzle_input):
             if coords == end_coords:
                 return minute
 
-            for next_coords in get_next_coords(minute, *coords)[::-1]:
+            for next_coords in get_next_coords(minute, *coords):
                 if ((minute+1) % cycle_length, next_coords) not in seen_states and (minute+1, next_coords) not in states:
                     states.append((minute+1, next_coords))
         return shortest
