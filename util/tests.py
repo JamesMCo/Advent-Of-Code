@@ -72,6 +72,6 @@ def run(main):
 
         if os.path.isfile("../../times.txt"):
             with open("../../times.txt", "a") as f:
-                f.write(f"{seconds}\n")
+                f.write(f"{end - start}\n")
     else:
         exit(1)

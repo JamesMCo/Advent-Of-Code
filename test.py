@@ -50,7 +50,7 @@ for day in range(1, 26):
 os.chdir("..")
 
 with open("times.txt") as f:
-    duration = str(round(sum(float(t) for t in f), 3))
+    duration = str(round(sum(int(t) for t in f) / 1_000_000_000, 3))
     duration += "0" * (3 - len(duration.split(".")[1]))
 
     print(f"\n{colorama.Fore.CYAN}All solutions found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
