@@ -68,8 +68,8 @@
   name:  "Unstable Diffusion"
   state: 2
 - day:   24
-  name:  ""
-  state: 0
+  name:  "Blizzard Basin"
+  state: 2
 - day:   25
   name:  ""
   state: 0
