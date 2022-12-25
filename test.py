@@ -70,7 +70,7 @@ with open("times.txt") as f:
         elif part == "2":
             durations[day] = (durations[day][0], dur)
     if "25" in durations:
-        durations["25"] = (durations["25"]["N/A"])
+        durations["25"] = (durations["25"][0], "N/A")
 
     duration = str(round(duration / 1_000_000_000, 3))
     duration += "0" * (3 - len(duration.split(".")[1]))
