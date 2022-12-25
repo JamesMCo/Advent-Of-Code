@@ -63,6 +63,8 @@ with open("times.txt") as f:
         if dur != "fail":
             duration += int(dur)
             dur = str(round(int(dur) / 1_000_000_000, 3))
+        else:
+            dur = "Fail"
         if part == "1":
             durations[day] = (dur, durations[day][1])
         elif part == "2":
@@ -75,7 +77,7 @@ with open("times.txt") as f:
         with open(github_summary, "w") as g:
             g.write(f"# {current_year} Solution Runtimes\nAll{' non-failed' if failed else ''} solutions found in {duration}s.\n| Day | Part 1 | Part 2|\n|-----|--------|-------|\n")
             for day, parts in sorted(durations.items(), key=lambda x: int(x[0])):
-                g.write(f"| {day} | {parts[0]}{'s' if parts[0] != 'fail' else ''} | {parts[1]}{'s' if parts[1] != 'fail' else ''} |\n")
+                g.write(f"| {day} | {parts[0]}{'s' if parts[0] != 'Fail' else ''} | {parts[1]}{'s' if parts[1] != 'Fail' else ''} |\n")
 
     if failed:
         print(f"\n{colorama.Fore.CYAN}All non-failed solutions found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
