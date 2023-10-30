@@ -15,7 +15,7 @@ from util.two_d_world import World
 def solve(puzzle_input):
     board = World(" ", ddict=True)
     board.load_from_lists(puzzle_input[:puzzle_input.index("")], origin=(-1, -1))
-    instructions = re.findall("(\d+|[LR])", puzzle_input[puzzle_input.index("") + 1])
+    instructions = re.findall(r"(\d+|[LR])", puzzle_input[puzzle_input.index("") + 1])
 
     def try_to_move(start_x, start_y, facing):
         offset_x = offset_y = 0

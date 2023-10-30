@@ -19,7 +19,7 @@ def solve(puzzle_input):
         return max(min(a, b), lowest), min(max(a, b), highest)
 
     for step in puzzle_input:
-        state, x1, x2, y1, y2, z1, z2 = re.match("(on|off) x=(-?\d+)..(-?\d+),y=(-?\d+)..(-?\d+),z=(-?\d+)..(-?\d+)", step).groups()
+        state, x1, x2, y1, y2, z1, z2 = re.match(r"(on|off) x=(-?\d+)..(-?\d+),y=(-?\d+)..(-?\d+),z=(-?\d+)..(-?\d+)", step).groups()
 
         x1, x2 = sort_and_clamp(int(x1), int(x2), -50, 50)
         y1, y2 = sort_and_clamp(int(y1), int(y2), -50, 50)

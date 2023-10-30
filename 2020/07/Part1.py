@@ -12,8 +12,8 @@ from util.tests import run
 import re
 
 def solve(puzzle_input):
-    parent_name = re.compile("([\w ]+?) bags")
-    children    = re.compile("(\d+) ([\w ]+) bags?")
+    parent_name = re.compile(r"([\w ]+?) bags")
+    children    = re.compile(r"(\d+) ([\w ]+) bags?")
 
     colour_rules = {}
     for colour in puzzle_input:

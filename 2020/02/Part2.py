@@ -12,7 +12,7 @@ from util.tests import run
 import re
 
 def solve(puzzle_input):
-    pattern = re.compile("(\d+)-(\d+) (\w): (\w+)")
+    pattern = re.compile(r"(\d+)-(\d+) (\w): (\w+)")
 
     def aux(entry):
         pos1, pos2, character, password = re.match(pattern, entry).groups()

@@ -12,7 +12,7 @@ from util.tests import run
 import re
 
 def solve(puzzle_input):
-    passport_data = re.compile("(\w+):(\S+)")
+    passport_data = re.compile(r"(\w+):(\S+)")
 
     def consume_passport():
         output = []

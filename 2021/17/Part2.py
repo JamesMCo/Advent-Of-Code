@@ -13,7 +13,7 @@ from math import inf
 import re
 
 def solve(puzzle_input):
-    r_x1, r_x2, r_y1, r_y2 = re.match("target area: x=(-?\d+)..(-?\d+), y=(-?\d+)..(-?\d+)", puzzle_input).groups()
+    r_x1, r_x2, r_y1, r_y2 = re.match(r"target area: x=(-?\d+)..(-?\d+), y=(-?\d+)..(-?\d+)", puzzle_input).groups()
     r_x1, r_x2 = sorted(int(n) for n in [r_x1, r_x2])
     r_y1, r_y2 = sorted(int(n) for n in [r_y1, r_y2])
     in_region = lambda x, y: r_x1 <= x <= r_x2 and r_y1 <= y <= r_y2

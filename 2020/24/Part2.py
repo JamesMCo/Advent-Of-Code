@@ -15,7 +15,7 @@ import math
 import re
 
 def solve(puzzle_input):
-    direction = re.compile("e|se|sw|w|nw|ne")
+    direction = re.compile(r"e|se|sw|w|nw|ne")
 
     floor = defaultdict(bool)
 

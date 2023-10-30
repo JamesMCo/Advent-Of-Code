@@ -16,7 +16,7 @@ def solve(puzzle_input):
     vents = defaultdict(int)
 
     for line in puzzle_input:
-        x1, y1, x2, y2 = [int(n) for n in re.match("(\d+),(\d+) -> (\d+),(\d+)", line).groups()]
+        x1, y1, x2, y2 = [int(n) for n in re.match(r"(\d+),(\d+) -> (\d+),(\d+)", line).groups()]
         if x1 == x2:
             for y in range(min(y1, y2), max(y1, y2)+1):
                 vents[(x1, y)] += 1

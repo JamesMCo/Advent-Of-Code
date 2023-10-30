@@ -12,16 +12,16 @@ from util.tests import run
 import re
 
 def solve(puzzle_input):
-    passport_data = re.compile("(\w+):(\S+)")
-    birth_year  = re.compile("(19[2-9][0-9])|(200[0-2])")
-    issue_year  = re.compile("(201[0-9])|(2020)")
-    exp_year    = re.compile("(202[0-9])|(2030)")
-    height_cm   = "((1[5-8][0-9])|(19[0-3]))cm"
-    height_in   = "((59|6[0-9]|7[0-6]))in"
-    height      = re.compile(f"({height_cm})|({height_in})")
-    colour_hex  = re.compile("#[0-9a-f]{6}")
-    colour_name = re.compile("(amb)|(blu)|(brn)|(gry)|(grn)|(hzl)|(oth)")
-    pid         = re.compile("\d{9}")
+    passport_data = re.compile(r"(\w+):(\S+)")
+    birth_year  = re.compile(r"(19[2-9][0-9])|(200[0-2])")
+    issue_year  = re.compile(r"(201[0-9])|(2020)")
+    exp_year    = re.compile(r"(202[0-9])|(2030)")
+    height_cm   = r"((1[5-8][0-9])|(19[0-3]))cm"
+    height_in   = r"((59|6[0-9]|7[0-6]))in"
+    height      = re.compile(fr"({height_cm})|({height_in})")
+    colour_hex  = re.compile(r"#[0-9a-f]{6}")
+    colour_name = re.compile(r"(amb)|(blu)|(brn)|(gry)|(grn)|(hzl)|(oth)")
+    pid         = re.compile(r"\d{9}")
     
     def consume_passport():
         output = []

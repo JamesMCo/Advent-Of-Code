@@ -13,7 +13,7 @@ import re
 
 def solve(puzzle_input):
     def parse_assignments(pair):
-        first_lower, first_upper, second_lower, second_upper = [int(x) for x in re.match("(\d+)-(\d+),(\d+)-(\d+)", pair).groups()]
+        first_lower, first_upper, second_lower, second_upper = [int(x) for x in re.match(r"(\d+)-(\d+),(\d+)-(\d+)", pair).groups()]
         return (first_lower, first_upper), (second_lower, second_upper)
 
     def fully_contains(outer, inner):

@@ -13,7 +13,7 @@ from functools import cache
 import re
 
 def solve(puzzle_input):
-    rule_char = re.compile("(\d+): \"(\w+)\"")
+    rule_char = re.compile(r"(\d+): \"(\w+)\"")
     rules     = {}
 
     def consume_section():
@@ -40,11 +40,11 @@ def solve(puzzle_input):
         else:
             num = int(line.split(":")[0])
             if "|" in line:
-                left  = re.findall("\d+", line.split(":")[1].split("|")[0])
-                right = re.findall("\d+", line.split("|")[1])
+                left  = re.findall(r"\d+", line.split(":")[1].split("|")[0])
+                right = re.findall(r"\d+", line.split("|")[1])
                 rules[num] = [[int(x) for x in left], [int(x) for x in right]]
             else:
-                rules[num] = [int(x) for x in re.findall("\d+", line.split(":")[1])]
+                rules[num] = [int(x) for x in re.findall(r"\d+", line.split(":")[1])]
 
     rule_0 = re.compile(rule_to_regex(0))
 

@@ -15,7 +15,7 @@ from util.two_d_world import World
 def solve(puzzle_input):
     cave_walls = {}
     for path in puzzle_input:
-        path_coords = re.findall("(\d+),(\d+)", path)
+        path_coords = re.findall(r"(\d+),(\d+)", path)
         for (x1, y1), (x2, y2) in zip(path_coords, path_coords[1:]):
             x1, y1 = int(x1), int(y1)
             x2, y2 = int(x2), int(y2)

@@ -86,8 +86,8 @@ def solve(puzzle_input):
     scan = defaultdict(lambda: ".")
     scan["500,0"] = "+"
 
-    single_x = re.compile("x=(\d*), y=(\d*)\.\.(\d*)")
-    single_y = re.compile("y=(\d*), x=(\d*)\.\.(\d*)")
+    single_x = re.compile(r"x=(\d*), y=(\d*)\.\.(\d*)")
+    single_y = re.compile(r"y=(\d*), x=(\d*)\.\.(\d*)")
 
     min_x = inf
     max_x = -inf

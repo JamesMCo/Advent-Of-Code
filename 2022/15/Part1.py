@@ -30,7 +30,7 @@ def solve(puzzle_input, target_row=2000000):
 
     ranges = []
     for line in puzzle_input:
-        sensor_x, sensor_y, beacon_x, beacon_y = [int(x) for x in re.match("Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)", line).groups()]
+        sensor_x, sensor_y, beacon_x, beacon_y = [int(x) for x in re.match(r"Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)", line).groups()]
 
         distance = manhattan_distance(sensor_x, sensor_y, beacon_x, beacon_y)
         half_width = distance - abs(target_row - sensor_y)

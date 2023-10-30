@@ -13,7 +13,7 @@ from math import prod
 import re
 
 def solve(puzzle_input):
-    field_rule = re.compile("(\d+)-(\d+) or (\d+)-(\d+)")
+    field_rule = re.compile(r"(\d+)-(\d+) or (\d+)-(\d+)")
 
     def consume_section():
         output = []

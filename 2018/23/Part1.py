@@ -12,7 +12,7 @@ from util.tests import run
 import re
 
 def solve(puzzle_input):
-    nanobot_description = re.compile = "pos=<(-?\d+),(-?\d+),(-?\d+)>, r=(\d+)"
+    nanobot_description = re.compile = r"pos=<(-?\d+),(-?\d+),(-?\d+)>, r=(\d+)"
     class Nanobot:
         def __init__(self, description):
             data = re.match(nanobot_description, description)

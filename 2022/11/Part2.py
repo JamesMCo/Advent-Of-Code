@@ -59,12 +59,12 @@ def solve(puzzle_input):
 
     class Monkey:
         def __init__(self, description):
-            self.id              = int(re.match("Monkey (\d+):", description[0]).groups()[0])
+            self.id              = int(re.match(r"Monkey (\d+):", description[0]).groups()[0])
             self.items           = [int(x) for x in description[1].split(": ")[1].split(", ")]
-            self.operation       = Operation(re.match("  Operation: new = (.*)", description[2]).groups()[0])
-            self.test            = int(re.match("  Test: divisible by (\d+)", description[3]).groups()[0])
-            self.true_target_id  = int(re.match("    If true: throw to monkey (\d+)", description[4]).groups()[0])
-            self.false_target_id = int(re.match("    If false: throw to monkey (\d+)", description[5]).groups()[0])
+            self.operation       = Operation(re.match(r"  Operation: new = (.*)", description[2]).groups()[0])
+            self.test            = int(re.match(r"  Test: divisible by (\d+)", description[3]).groups()[0])
+            self.true_target_id  = int(re.match(r"    If true: throw to monkey (\d+)", description[4]).groups()[0])
+            self.false_target_id = int(re.match(r"    If false: throw to monkey (\d+)", description[5]).groups()[0])
 
             self.inspections     = 0
 

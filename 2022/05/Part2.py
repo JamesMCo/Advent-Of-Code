@@ -18,11 +18,11 @@ def solve(puzzle_input):
         instructions = puzzle_input[separator+1:]
 
         # Find the number of stacks (number of stack labels just above the separator line)
-        number_of_stacks = len(re.findall("\d+", puzzle_input[separator - 1]))
+        number_of_stacks = len(re.findall(r"\d+", puzzle_input[separator - 1]))
         # Create enough empty stacks in a list
         stacks = [[] for stack in range(number_of_stacks)]
         # Matches "[X]" or "   ", followed by an optional space, finding this "number_of_stacks" times on one line
-        row_pattern = re.compile("(?:(?:\[(\w)\]| {3}) ?)" * number_of_stacks)
+        row_pattern = re.compile(r"(?:(?:\[(\w)\]| {3}) ?)" * number_of_stacks)
 
         # Reverse the stacks described in the puzzle input (i.e. work from bottom to top)
         for row in stacks_description[:-1][::-1]:
@@ -35,7 +35,7 @@ def solve(puzzle_input):
 
     def manipulate_stacks(stacks, instructions):
         for instruction in instructions:
-            quant, from_stack, to_stack = [int(x) for x in re.match("move (\d+) from (\d+) to (\d+)", instruction).groups()]
+            quant, from_stack, to_stack = [int(x) for x in re.match(r"move (\d+) from (\d+) to (\d+)", instruction).groups()]
 
             # Stacks are one-indexed in puzzle input, but zero-indexed in list
             from_stack -= 1

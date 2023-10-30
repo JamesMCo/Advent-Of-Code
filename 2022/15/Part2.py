@@ -15,7 +15,7 @@ import re
 from util.two_d_world import manhattan_distance
 
 def solve(puzzle_input, max_coord=4000000):
-    puzzle_input = [[int(x) for x in re.match("Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)", line).groups()] for line in puzzle_input]
+    puzzle_input = [[int(x) for x in re.match(r"Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)", line).groups()] for line in puzzle_input]
 
     def combine_ranges(ranges):
         if not ranges:

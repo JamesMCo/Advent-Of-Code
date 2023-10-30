@@ -13,8 +13,8 @@ import re
 
 def solve(puzzle_input):
     memory = {}
-    p_mask = re.compile("mask = ([X10]{36})")
-    p_set  = re.compile("mem\[(\d+)] = (\d+)")
+    p_mask = re.compile(r"mask = ([X10]{36})")
+    p_set  = re.compile(r"mem\[(\d+)] = (\d+)")
 
     for line in puzzle_input:
         if (m := re.match(p_mask, line)):

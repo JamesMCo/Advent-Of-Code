@@ -25,7 +25,7 @@ def solve(puzzle_input):
     g = nx.Graph()
     valves = {}
     for valve_description in puzzle_input:
-        valve, flow, tunnels = re.match("Valve (\w+) has flow rate=(\d+); tunnels? leads? to valves? ((?:(?:, )?\w+)+)", valve_description).groups()
+        valve, flow, tunnels = re.match(r"Valve (\w+) has flow rate=(\d+); tunnels? leads? to valves? ((?:(?:, )?\w+)+)", valve_description).groups()
         if (flow := int(flow)) > 0:
             valves[valve] = flow
         for destination in tunnels.split(", "):

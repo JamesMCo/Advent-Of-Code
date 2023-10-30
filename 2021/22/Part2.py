@@ -85,7 +85,7 @@ def solve(puzzle_input):
 
     regions = []
     for step in puzzle_input:
-        state, x1, x2, y1, y2, z1, z2 = re.match("(on|off) x=(-?\d+)..(-?\d+),y=(-?\d+)..(-?\d+),z=(-?\d+)..(-?\d+)", step).groups()
+        state, x1, x2, y1, y2, z1, z2 = re.match(r"(on|off) x=(-?\d+)..(-?\d+),y=(-?\d+)..(-?\d+),z=(-?\d+)..(-?\d+)", step).groups()
 
         x1, x2 = min(int(x1), int(x2)), max(int(x1), int(x2))
         y1, y2 = min(int(y1), int(y2)), max(int(y1), int(y2))

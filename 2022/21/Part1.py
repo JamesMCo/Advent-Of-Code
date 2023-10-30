@@ -15,8 +15,8 @@ def solve(puzzle_input):
     class Monkey:
         monkeys = {}
 
-        number_pattern = re.compile("(\w+): (\d+)")
-        math_pattern   = re.compile("(\w+): (\w+) ([\+\-\*\/]) (\w+)")
+        number_pattern = re.compile(r"(\w+): (\d+)")
+        math_pattern   = re.compile(r"(\w+): (\w+) ([\+\-\*\/]) (\w+)")
 
         def __init__(self, description):
             self.name = None

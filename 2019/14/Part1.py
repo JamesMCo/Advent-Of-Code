@@ -14,7 +14,7 @@ import re
 
 def solve(puzzle_input):
     reactions = {}
-    chemical = re.compile("\d+ \w+")
+    chemical = re.compile(r"\d+ \w+")
     for reaction in puzzle_input:
         chemical_list = re.findall(chemical, reaction)
         

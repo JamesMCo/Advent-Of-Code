@@ -13,7 +13,7 @@ import regex
 # Notably, not "re" - the regex module supports recursive regular expressions
 
 def solve(puzzle_input):
-    rule_char = regex.compile("(\d+): \"(\w+)\"")
+    rule_char = regex.compile(r"(\d+): \"(\w+)\"")
     rules     = {}
 
     def consume_section():
@@ -62,11 +62,11 @@ def solve(puzzle_input):
         else:
             num = int(line.split(":")[0])
             if "|" in line:
-                left  = regex.findall("\d+", line.split(":")[1].split("|")[0])
-                right = regex.findall("\d+", line.split("|")[1])
+                left  = regex.findall(r"\d+", line.split(":")[1].split("|")[0])
+                right = regex.findall(r"\d+", line.split("|")[1])
                 rules[num] = [[int(x) for x in left], [int(x) for x in right]]
             else:
-                rules[num] = [int(x) for x in regex.findall("\d+", line.split(":")[1])]
+                rules[num] = [int(x) for x in regex.findall(r"\d+", line.split(":")[1])]
 
     rule_0 = regex.compile(RegexBuilder().build())
 
