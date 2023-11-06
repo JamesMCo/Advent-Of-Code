@@ -105,6 +105,74 @@ class OUT(Instruction):
         a_mode = self.parameter_modes[0].name
         return f"{yellow("OUT")} {bright_green(f"{a=}")} {green(f"({a_mode})")}"
 
+class JIT(Instruction):
+    name:   str = "JIT"
+    opcode: int = 5
+    length: int = 3
+
+    @t.override
+    def run(self: t.Self) -> None:
+        a = self.get_parameter(0)
+        b = self.get_parameter(1)
+        if a != 0:
+            self.computer.init_ip(b)
+
+    def __str__(self: t.Self) -> str:
+        a, b = self.raw_parameters
+        a_mode, b_mode = [mode.name for mode in self.parameter_modes]
+        return f"{yellow("JIT")} {bright_green(f"{a=}")} {green(f"({a_mode})")} {bright_green(f"{b=}")} {green(f"({b_mode})")}"
+
+class JIF(Instruction):
+    name:   str = "JIF"
+    opcode: int = 6
+    length: int = 3
+
+    @t.override
+    def run(self: t.Self) -> None:
+        a = self.get_parameter(0)
+        b = self.get_parameter(1)
+        if a == 0:
+            self.computer.init_ip(b)
+
+    def __str__(self: t.Self) -> str:
+        a, b = self.raw_parameters
+        a_mode, b_mode = [mode.name for mode in self.parameter_modes]
+        return f"{yellow("JIF")} {bright_green(f"{a=}")} {green(f"({a_mode})")} {bright_green(f"{b=}")} {green(f"({b_mode})")}"
+
+class LSS(Instruction):
+    name:   str = "LSS"
+    opcode: int = 7
+    length: int = 4
+
+    @t.override
+    def run(self: t.Self) -> None:
+        a = self.get_parameter(0)
+        b = self.get_parameter(1)
+        out = self.raw_parameters[2]
+        self.computer.memory[out] = int(a < b)
+
+    def __str__(self: t.Self) -> str:
+        a, b, out = self.raw_parameters
+        a_mode, b_mode, out_mode = [mode.name for mode in self.parameter_modes]
+        return f"{yellow("LSS")} {bright_green(f"{a=}")} {green(f"({a_mode})")} {bright_green(f"{b=}")} {green(f"({b_mode})")} {bright_magenta(f"{out=}")} {magenta(f"({out_mode})")}"
+
+class EQL(Instruction):
+    name:   str = "EQL"
+    opcode: int = 8
+    length: int = 4
+
+    @t.override
+    def run(self: t.Self) -> None:
+        a = self.get_parameter(0)
+        b = self.get_parameter(1)
+        out = self.raw_parameters[2]
+        self.computer.memory[out] = int(a == b)
+
+    def __str__(self: t.Self) -> str:
+        a, b, out = self.raw_parameters
+        a_mode, b_mode, out_mode = [mode.name for mode in self.parameter_modes]
+        return f"{yellow("EQL")} {bright_green(f"{a=}")} {green(f"({a_mode})")} {bright_green(f"{b=}")} {green(f"({b_mode})")} {bright_magenta(f"{out=}")} {magenta(f"({out_mode})")}"
+
 class HLT(Instruction):
     name:   str = "HLT"
     opcode: int = 99
@@ -174,12 +242,16 @@ class IntcodeComputer:
 
         if self.debug_log:
             print(f"[{cyan(f"{self.instruction_pointer: >{self.debug_log_ip_len}}")}] {current_instruction}")
-
-        current_instruction.run()
-
         if current_instruction.name == "HLT":
+            # No need to call run, as halt's run function is empty
             return False
-        self.instruction_pointer += current_instruction.length
+
+        before_instruction_pointer: int = self.instruction_pointer
+        current_instruction.run()
+        if before_instruction_pointer == self.instruction_pointer:
+            # Instruction pointer was not modified (i.e. by jumping)
+            self.instruction_pointer += current_instruction.length
+
         return True
 
     def run(self: t.Self) -> t.Self:
