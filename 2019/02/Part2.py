@@ -12,11 +12,11 @@ from util.tests import run
 from util.intcode_2019 import IntcodeComputer
 
 def solve(puzzle_input):
-    computer = IntcodeComputer()
+    computer = IntcodeComputer().load_memory(puzzle_input)
 
     for noun in range(0, 100):
         for verb in range(0, 100):
-            computer.load_memory(puzzle_input).init_ip()
+            computer.reset()
             computer.memory[1] = noun
             computer.memory[2] = verb
 

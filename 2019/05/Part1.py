@@ -12,7 +12,7 @@ from util.tests import run
 from util.intcode_2019 import IntcodeComputer
 
 def solve(puzzle_input):
-    return IntcodeComputer().load_memory(puzzle_input).queue_inputs([1]).run().outputs[-1]
+    return IntcodeComputer().load_memory(puzzle_input).queue_inputs(1).run().outputs[-1]
 
 def main():
     puzzle_input = util.read.as_int_list(",")

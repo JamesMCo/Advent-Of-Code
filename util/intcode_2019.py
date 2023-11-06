@@ -28,7 +28,7 @@ class Instruction:
             case ParameterMode.POSITION:  return self.computer.peek_memory(self.raw_parameters[num])
             case ParameterMode.IMMEDIATE: return self.raw_parameters[num]
 
-    def run(self: t.Self):
+    def run(self: t.Self) -> bool:
         raise NotImplementedError()
 
 
@@ -47,11 +47,12 @@ class ADD(Instruction):
     length: int = 4
 
     @t.override
-    def run(self: t.Self) -> None:
+    def run(self: t.Self) -> bool:
         a   = self.get_parameter(0)
         b   = self.get_parameter(1)
         out = self.raw_parameters[2]
         self.computer.memory[out] = a + b
+        return True
 
     def __str__(self: t.Self) -> str:
         a, b, out = self.raw_parameters
@@ -64,11 +65,12 @@ class MUL(Instruction):
     length: int = 4
 
     @t.override
-    def run(self: t.Self) -> None:
+    def run(self: t.Self) -> bool:
         a   = self.get_parameter(0)
         b   = self.get_parameter(1)
         out = self.raw_parameters[2]
         self.computer.memory[out] = a * b
+        return True
 
     def __str__(self: t.Self) -> str:
         a, b, out = self.raw_parameters
@@ -81,9 +83,15 @@ class INP(Instruction):
     length: int = 2
 
     @t.override
-    def run(self: t.Self) -> None:
+    def run(self: t.Self) -> bool:
         out = self.raw_parameters[0]
-        self.computer.memory[out] = self.computer.get_input()
+        input_value = self.computer.get_input()
+        if input_value is None:
+            # No input able to be read
+            return False
+        else:
+            self.computer.memory[out] = input_value
+            return True
 
     def __str__(self: t.Self) -> str:
         out = self.raw_parameters[0]
@@ -96,9 +104,10 @@ class OUT(Instruction):
     length: int = 2
 
     @t.override
-    def run(self: t.Self) -> None:
+    def run(self: t.Self) -> bool:
         a = self.get_parameter(0)
         self.computer.output(a)
+        return True
 
     def __str__(self: t.Self) -> str:
         a = self.raw_parameters[0]
@@ -111,11 +120,12 @@ class JIT(Instruction):
     length: int = 3
 
     @t.override
-    def run(self: t.Self) -> None:
+    def run(self: t.Self) -> bool:
         a = self.get_parameter(0)
         b = self.get_parameter(1)
         if a != 0:
             self.computer.init_ip(b)
+        return True
 
     def __str__(self: t.Self) -> str:
         a, b = self.raw_parameters
@@ -128,11 +138,12 @@ class JIF(Instruction):
     length: int = 3
 
     @t.override
-    def run(self: t.Self) -> None:
+    def run(self: t.Self) -> bool:
         a = self.get_parameter(0)
         b = self.get_parameter(1)
         if a == 0:
             self.computer.init_ip(b)
+        return True
 
     def __str__(self: t.Self) -> str:
         a, b = self.raw_parameters
@@ -145,11 +156,12 @@ class LSS(Instruction):
     length: int = 4
 
     @t.override
-    def run(self: t.Self) -> None:
+    def run(self: t.Self) -> bool:
         a = self.get_parameter(0)
         b = self.get_parameter(1)
         out = self.raw_parameters[2]
         self.computer.memory[out] = int(a < b)
+        return True
 
     def __str__(self: t.Self) -> str:
         a, b, out = self.raw_parameters
@@ -162,11 +174,12 @@ class EQL(Instruction):
     length: int = 4
 
     @t.override
-    def run(self: t.Self) -> None:
+    def run(self: t.Self) -> bool:
         a = self.get_parameter(0)
         b = self.get_parameter(1)
         out = self.raw_parameters[2]
         self.computer.memory[out] = int(a == b)
+        return True
 
     def __str__(self: t.Self) -> str:
         a, b, out = self.raw_parameters
@@ -179,8 +192,9 @@ class HLT(Instruction):
     length: int = 1
 
     @t.override
-    def run(self: t.Self) -> None:
-        pass
+    def run(self: t.Self) -> bool:
+        self.computer.halted = True
+        return True
 
     def __str__(self: t.Self) -> str:
         return yellow("HLT")
@@ -189,11 +203,15 @@ class IntcodeComputer:
     debug_log: bool
     debug_log_ip_len: int
 
+    initial_memory: list[int]
     memory: list[int]
     instruction_pointer: int
 
     inputs:  deque[int]
     outputs: list[int]
+    output_listeners: list[t.Callable[[int], t.Any]]
+
+    halted: bool = False
 
     def __init__(self: t.Self, debug_log: bool = False) -> None:
         self.debug_log = debug_log
@@ -201,14 +219,25 @@ class IntcodeComputer:
         self.init_ip()
         self.inputs = deque()
         self.outputs = []
+        self.output_listeners = []
+        self.halted = False
 
     def init_ip(self: t.Self, address: int = 0) -> t.Self:
         self.instruction_pointer = address
         return self
 
     def load_memory(self: t.Self, data: list[int]) -> t.Self:
+        self.initial_memory = data.copy()
         self.memory = data.copy()
         self.debug_log_ip_len = len(str(len(self.memory)))
+        return self
+
+    def reset(self: t.Self) -> t.Self:
+        self.memory = self.initial_memory.copy()
+        self.init_ip()
+        self.inputs.clear()
+        self.outputs.clear()
+        self.halted = False
         return self
 
     def peek_memory(self: t.Self, address: int) -> int | t.NoReturn:
@@ -225,36 +254,51 @@ class IntcodeComputer:
 
             yield from self.memory[starting_address:starting_address + length]
 
-    def queue_inputs(self: t.Self, future_inputs: t.Iterable[int]) -> t.Self:
-        self.inputs.extend(future_inputs)
+    def queue_inputs(self: t.Self, future_inputs: int | t.Iterable[int]) -> t.Self:
+        if isinstance(future_inputs, int):
+            self.inputs.append(future_inputs)
+        else:
+            self.inputs.extend(future_inputs)
         return self
 
-    def get_input(self: t.Self) -> int:
-        return self.inputs.popleft()
+    def get_input(self: t.Self) -> t.Optional[int]:
+        if self.inputs:
+            return self.inputs.popleft()
+        else:
+            return None
+
+    def register_output_listener(self: t.Self, callback: t.Callable[[int], t.Any]):
+        self.output_listeners.append(callback)
 
     def output(self: t.Self, value: int) -> None:
         self.outputs.append(value)
+
         if self.debug_log:
             print(f"[{red(f"{"OUT": >{self.debug_log_ip_len}}")}] {blue(value)}")
 
+        for listener in self.output_listeners:
+            listener(value)
+
     def step(self: t.Self) -> bool:
-        current_instruction: Instruction = Instruction.get(self, self.instruction_pointer)
+        if not self.halted:
+            current_instruction: Instruction = Instruction.get(self, self.instruction_pointer)
 
-        if self.debug_log:
-            print(f"[{cyan(f"{self.instruction_pointer: >{self.debug_log_ip_len}}")}] {current_instruction}")
-        if current_instruction.name == "HLT":
-            # No need to call run, as halt's run function is empty
-            return False
+            if self.debug_log:
+                print(f"[{cyan(f"{self.instruction_pointer: >{self.debug_log_ip_len}}")}] {current_instruction}")
 
-        before_instruction_pointer: int = self.instruction_pointer
-        current_instruction.run()
-        if before_instruction_pointer == self.instruction_pointer:
-            # Instruction pointer was not modified (i.e. by jumping)
-            self.instruction_pointer += current_instruction.length
-
-        return True
+            before_instruction_pointer: int = self.instruction_pointer
+            if current_instruction.run():
+                # Instruction ran successfully
+                if before_instruction_pointer == self.instruction_pointer:
+                    # Instruction pointer was not modified (i.e. by jumping)
+                    self.instruction_pointer += current_instruction.length
+            else:
+                # Instruction did not run successfully (e.g. INP when no inputs)
+                # Do not try to move the instruction pointer
+                pass
+        return not self.halted
 
     def run(self: t.Self) -> t.Self:
-        while self.step():
-            pass
+        while not self.halted:
+            self.step()
         return self
