@@ -9,27 +9,18 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from util.intcode_2019 import IntcodeComputer
+
 def solve(puzzle_input):
-    def run(memory):
-        i = 0
-        while True:
-            opcode = memory[i]
-            if opcode == 1:
-                memory[memory[i+3]] = memory[memory[i+1]] + memory[memory[i+2]]
-                i += 4
-            elif opcode == 2:
-                memory[memory[i+3]] = memory[memory[i+1]] * memory[memory[i+2]]
-                i += 4
-            elif opcode == 99:
-                return memory
+    computer = IntcodeComputer()
 
     for noun in range(0, 100):
         for verb in range(0, 100):
-            working = puzzle_input[:]
-            working[1] = noun
-            working[2] = verb
+            computer.load_memory(puzzle_input).init_ip()
+            computer.memory[1] = noun
+            computer.memory[2] = verb
 
-            if run(working)[0] == 19690720:
+            if computer.run().peek_memory(0) == 19690720:
                 return 100 * noun + verb
 
 def main():
