@@ -1,76 +1,121 @@
-from dataclasses import dataclass
+from collections import deque
+from enum import IntEnum
+from itertools import batched
 from util.colour import *
 import typing as t
 
-@dataclass
-class InstructionData:
-    name:   str
-    opcode: int
-    length: int
-
-    @staticmethod
-    def run(computer: "IntcodeComputer", parameters: list[int]):
-        raise NotImplementedError()
-
-    @staticmethod
-    def str(parameters: list[int]) -> str:
-        raise NotImplementedError()
-
-class ADD(InstructionData):
-    def __init__(self: t.Self) -> None:
-        super().__init__("ADD", 1, 4)
-
-    @staticmethod
-    @t.override
-    def run(computer: "IntcodeComputer", parameters: list[int]) -> None:
-        a, b, out = parameters
-        computer.memory[out] = computer.peek_memory(a) + computer.peek_memory(b)
-
-    @staticmethod
-    def str(parameters: list[int]) -> str:
-        a, b, out = parameters
-        return f"{yellow("ADD")} {green(f"{a=}")} {green(f"{b=}")} {magenta(f"{out=}")}"
-
-class MUL(InstructionData):
-    def __init__(self: t.Self) -> None:
-        super().__init__("MUL", 2, 4)
-
-    @staticmethod
-    @t.override
-    def run(computer: "IntcodeComputer", parameters: list[int]) -> None:
-        a, b, out = parameters
-        computer.memory[out] = computer.peek_memory(a) * computer.peek_memory(b)
-
-    @staticmethod
-    def str(parameters: list[int]) -> str:
-        a, b, out = parameters
-        return f"{yellow("MUL")} {green(f"{a=}")} {green(f"{b=}")} {magenta(f"{out=}")}"
-
-class HLT(InstructionData):
-    def __init__(self: t.Self) -> None:
-        super().__init__("HLT", 99, 1)
-
-    @staticmethod
-    @t.override
-    def run(computer: "IntcodeComputer", parameters: list[int]) -> None:
-        pass
-
-    @staticmethod
-    def str(parameters: list[int]) -> str:
-        return yellow("HLT")
+class ParameterMode(IntEnum):
+    POSITION = 0
+    IMMEDIATE = 1
 
 class Instruction:
-    ADD: InstructionData = ADD()
-    MUL: InstructionData = MUL()
-    HLT: InstructionData = HLT()
+    name:   str = ""
+    opcode: int = -1
+    length: int = -1
 
-    _instructions: t.Optional[dict[int, InstructionData]] = None
+    computer:        "IntcodeComputer"
+    raw_parameters:  list[int]
+    parameter_modes: list[ParameterMode]
+
+    def __init__(self: t.Self, computer: "IntcodeComputer", raw_opcode: int, memory_address: int) -> None:
+        self.computer = computer
+
+        self.raw_parameters = list(self.computer.read_memory(memory_address + 1, self.length - 1))
+        self.parameter_modes = [ParameterMode(int(mode)) for mode in str(raw_opcode//100).zfill(self.length - 1)[::-1]]
+
+    def get_parameter(self: t.Self, num: int) -> int:
+        match self.parameter_modes[num]:
+            case ParameterMode.POSITION:  return self.computer.peek_memory(self.raw_parameters[num])
+            case ParameterMode.IMMEDIATE: return self.raw_parameters[num]
+
+    def run(self: t.Self):
+        raise NotImplementedError()
+
+
+    _instructions: t.Optional[dict[int, t.Self]] = None
     @classmethod
-    def get(cls: t.Self, opcode: int) -> InstructionData | t.NoReturn:
+    def get(cls: t.Self, computer: "IntcodeComputer", memory_address: int) -> t.Self | t.NoReturn:
         if cls._instructions is None:
-            cls._instructions = {attr.opcode: attr for attr in cls.__dict__.values() if isinstance(attr, InstructionData)}
+            cls._instructions = {inst.opcode: inst for inst in cls.__subclasses__()}
 
-        return cls._instructions[opcode]
+        raw_opcode = computer.peek_memory(memory_address)
+        return cls._instructions[raw_opcode % 100](computer, raw_opcode, memory_address)
+
+class ADD(Instruction):
+    name:   str = "ADD"
+    opcode: int = 1
+    length: int = 4
+
+    @t.override
+    def run(self: t.Self) -> None:
+        a   = self.get_parameter(0)
+        b   = self.get_parameter(1)
+        out = self.raw_parameters[2]
+        self.computer.memory[out] = a + b
+
+    def __str__(self: t.Self) -> str:
+        a, b, out = self.raw_parameters
+        a_mode, b_mode, out_mode = [mode.name for mode in self.parameter_modes]
+        return f"{yellow("ADD")} {bright_green(f"{a=}")} {green(f"({a_mode})")} {bright_green(f"{b=}")} {green(f"({b_mode})")} {bright_magenta(f"{out=}")} {magenta(f"({out_mode})")}"
+
+class MUL(Instruction):
+    name:   str = "MUL"
+    opcode: int = 2
+    length: int = 4
+
+    @t.override
+    def run(self: t.Self) -> None:
+        a   = self.get_parameter(0)
+        b   = self.get_parameter(1)
+        out = self.raw_parameters[2]
+        self.computer.memory[out] = a * b
+
+    def __str__(self: t.Self) -> str:
+        a, b, out = self.raw_parameters
+        a_mode, b_mode, out_mode = [mode.name for mode in self.parameter_modes]
+        return f"{yellow("MUL")} {bright_green(f"{a=}")} {green(f"({a_mode})")} {bright_green(f"{b=}")} {green(f"({b_mode})")} {bright_magenta(f"{out=}")} {magenta(f"({out_mode})")}"
+
+class INP(Instruction):
+    name:   str = "INP"
+    opcode: int = 3
+    length: int = 2
+
+    @t.override
+    def run(self: t.Self) -> None:
+        out = self.raw_parameters[0]
+        self.computer.memory[out] = self.computer.get_input()
+
+    def __str__(self: t.Self) -> str:
+        out = self.raw_parameters[0]
+        out_mode = self.parameter_modes[0].name
+        return f"{yellow("INP")} {bright_magenta(f"{out=}")} {green(f"({out_mode})")}"
+
+class OUT(Instruction):
+    name:   str = "OUT"
+    opcode: int = 4
+    length: int = 2
+
+    @t.override
+    def run(self: t.Self) -> None:
+        a = self.get_parameter(0)
+        self.computer.output(a)
+
+    def __str__(self: t.Self) -> str:
+        a = self.raw_parameters[0]
+        a_mode = self.parameter_modes[0].name
+        return f"{yellow("OUT")} {bright_green(f"{a=}")} {green(f"({a_mode})")}"
+
+class HLT(Instruction):
+    name:   str = "HLT"
+    opcode: int = 99
+    length: int = 1
+
+    @t.override
+    def run(self: t.Self) -> None:
+        pass
+
+    def __str__(self: t.Self) -> str:
+        return yellow("HLT")
 
 class IntcodeComputer:
     debug_log: bool
@@ -79,10 +124,15 @@ class IntcodeComputer:
     memory: list[int]
     instruction_pointer: int
 
+    inputs:  deque[int]
+    outputs: list[int]
+
     def __init__(self: t.Self, debug_log: bool = False) -> None:
         self.debug_log = debug_log
         self.debug_log_ip_len = 1
         self.init_ip()
+        self.inputs = deque()
+        self.outputs = []
 
     def init_ip(self: t.Self, address: int = 0) -> t.Self:
         self.instruction_pointer = address
@@ -107,16 +157,27 @@ class IntcodeComputer:
 
             yield from self.memory[starting_address:starting_address + length]
 
+    def queue_inputs(self: t.Self, future_inputs: t.Iterable[int]) -> t.Self:
+        self.inputs.extend(future_inputs)
+        return self
+
+    def get_input(self: t.Self) -> int:
+        return self.inputs.popleft()
+
+    def output(self: t.Self, value: int) -> None:
+        self.outputs.append(value)
+        if self.debug_log:
+            print(f"[{red(f"{"OUT": >{self.debug_log_ip_len}}")}] {blue(value)}")
+
     def step(self: t.Self) -> bool:
-        current_instruction: InstructionData = Instruction.get(self.peek_memory(self.instruction_pointer))
-        parameters: list[int] = list(self.read_memory(self.instruction_pointer + 1, current_instruction.length - 1))
+        current_instruction: Instruction = Instruction.get(self, self.instruction_pointer)
 
         if self.debug_log:
-            print(f"[{cyan(f"{self.instruction_pointer: >{self.debug_log_ip_len}}")}] {current_instruction.str(parameters)}")
+            print(f"[{cyan(f"{self.instruction_pointer: >{self.debug_log_ip_len}}")}] {current_instruction}")
 
-        current_instruction.run(self, parameters)
+        current_instruction.run()
 
-        if current_instruction == Instruction.HLT:
+        if current_instruction.name == "HLT":
             return False
         self.instruction_pointer += current_instruction.length
         return True
