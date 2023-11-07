@@ -42,7 +42,7 @@
   state: 1
 - day:   15
   name:  "Oxygen System"
-  state: 0
+  state: 2
 - day:   16
   name:  "Flawed Frequency Transmission"
   state: 0
