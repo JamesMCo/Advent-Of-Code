@@ -59,10 +59,11 @@ def solve(puzzle_input):
             case "l": x -= 1
             case "r": x += 1
 
-    for coordinates in list(hull.keys()):
-        if hull[coordinates] == 0:
-            del hull[coordinates]
-    return hull.pprint(" ", "█")
+    def hull_paint(panel):
+        match panel:
+            case 0: return " "
+            case 1: return "█"
+    return hull.pprint_custom(" ", hull_paint)
 
 def main():
     puzzle_input = util.read.as_int_list(",")

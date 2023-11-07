@@ -68,21 +68,14 @@ class World:
     def __str__(self):
         return self.pprint()
 
-    def pprint(self, empty=None, full=None):
-        if empty == None:
-            empty = self.empty_cell
-        if full == None:
-            fullf = lambda c: c
-        else:
-            fullf = lambda c: full
-
+    def pprint_custom(self, empty, mapping_func):
         self.grid.default_factory = None
         s = ""
 
         for y in range(self.min_y, self.max_y + 1):
             for x in range(self.min_x, self.max_x + 1):
                 try:
-                    s += fullf(self.grid[(x, y)])
+                    s += mapping_func(self.grid[(x, y)])
                 except KeyError:
                     s += empty
             s += "\n"
@@ -91,3 +84,13 @@ class World:
             self.grid.default_factory = lambda: self.empty_cell
 
         return s
+
+    def pprint(self, empty=None, full=None):
+        if empty is None:
+            empty = self.empty_cell
+        if full is None:
+            fullf = lambda c: c
+        else:
+            fullf = lambda c: full
+
+        return self.pprint_custom(empty, fullf)
