@@ -59,6 +59,9 @@ class World:
     def __setitem__(self, key, value):
         self.grid[key] = value
 
+    def __delitem__(self, key):
+        del self.grid[key]
+
     def in_bounds(self, x, y):
         return self.min_x <= x <= self.max_x and self.min_y <= y <= self.max_y
 
