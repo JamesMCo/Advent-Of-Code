@@ -1,12 +1,12 @@
-from collections import deque
+from collections import defaultdict, deque
 from enum import IntEnum
-from itertools import batched
 from util.colour import *
 import typing as t
 
 class ParameterMode(IntEnum):
-    POSITION = 0
+    POSITION  = 0
     IMMEDIATE = 1
+    RELATIVE  = 2
 
 class Instruction:
     name:   str = ""
@@ -23,10 +23,19 @@ class Instruction:
         self.raw_parameters = list(self.computer.read_memory(memory_address + 1, self.length - 1))
         self.parameter_modes = [ParameterMode(int(mode)) for mode in str(raw_opcode//100).zfill(self.length - 1)[::-1]]
 
-    def get_parameter(self: t.Self, num: int) -> int:
-        match self.parameter_modes[num]:
-            case ParameterMode.POSITION:  return self.computer.peek_memory(self.raw_parameters[num])
-            case ParameterMode.IMMEDIATE: return self.raw_parameters[num]
+    def get_parameter(self: t.Self, num: int, is_output: bool = False) -> int:
+        if is_output:
+            # Get address, not value from memory, so that the address can be written to
+            match self.parameter_modes[num]:
+                case ParameterMode.POSITION:  return self.raw_parameters[num]
+                case ParameterMode.IMMEDIATE: raise RuntimeError("Parameters that an instruction writes to will never be in immediate mode.")
+                case ParameterMode.RELATIVE:  return self.computer.relative_base + self.raw_parameters[num]
+        else:
+            # Get the value from memory
+            match self.parameter_modes[num]:
+                case ParameterMode.POSITION:  return self.computer.peek_memory(self.raw_parameters[num])
+                case ParameterMode.IMMEDIATE: return self.raw_parameters[num]
+                case ParameterMode.RELATIVE:  return self.computer.peek_memory(self.computer.relative_base + self.raw_parameters[num])
 
     def run(self: t.Self) -> bool:
         raise NotImplementedError()
@@ -50,7 +59,7 @@ class ADD(Instruction):
     def run(self: t.Self) -> bool:
         a   = self.get_parameter(0)
         b   = self.get_parameter(1)
-        out = self.raw_parameters[2]
+        out = self.get_parameter(2, True)
         self.computer.memory[out] = a + b
         return True
 
@@ -68,7 +77,7 @@ class MUL(Instruction):
     def run(self: t.Self) -> bool:
         a   = self.get_parameter(0)
         b   = self.get_parameter(1)
-        out = self.raw_parameters[2]
+        out = self.get_parameter(2, True)
         self.computer.memory[out] = a * b
         return True
 
@@ -84,7 +93,7 @@ class INP(Instruction):
 
     @t.override
     def run(self: t.Self) -> bool:
-        out = self.raw_parameters[0]
+        out = self.get_parameter(0, True)
         input_value = self.computer.get_input()
         if input_value is None:
             # No input able to be read
@@ -157,9 +166,9 @@ class LSS(Instruction):
 
     @t.override
     def run(self: t.Self) -> bool:
-        a = self.get_parameter(0)
-        b = self.get_parameter(1)
-        out = self.raw_parameters[2]
+        a   = self.get_parameter(0)
+        b   = self.get_parameter(1)
+        out = self.get_parameter(2, True)
         self.computer.memory[out] = int(a < b)
         return True
 
@@ -175,9 +184,9 @@ class EQL(Instruction):
 
     @t.override
     def run(self: t.Self) -> bool:
-        a = self.get_parameter(0)
-        b = self.get_parameter(1)
-        out = self.raw_parameters[2]
+        a   = self.get_parameter(0)
+        b   = self.get_parameter(1)
+        out = self.get_parameter(2, True)
         self.computer.memory[out] = int(a == b)
         return True
 
@@ -185,6 +194,22 @@ class EQL(Instruction):
         a, b, out = self.raw_parameters
         a_mode, b_mode, out_mode = [mode.name for mode in self.parameter_modes]
         return f"{yellow("EQL")} {bright_green(f"{a=}")} {green(f"({a_mode})")} {bright_green(f"{b=}")} {green(f"({b_mode})")} {bright_magenta(f"{out=}")} {magenta(f"({out_mode})")}"
+
+class ARB(Instruction):
+    name:   str = "ARB"
+    opcode: int = 9
+    length: int = 2
+
+    @t.override
+    def run(self: t.Self) -> bool:
+        a = self.get_parameter(0)
+        self.computer.init_rb(self.computer.relative_base + a)
+        return True
+
+    def __str__(self: t.Self) -> str:
+        a = self.raw_parameters[0]
+        a_mode = self.parameter_modes[0].name
+        return f"{yellow("ARB")} {bright_green(f"{a=}")} {green(f"({a_mode})")}"
 
 class HLT(Instruction):
     name:   str = "HLT"
@@ -204,8 +229,9 @@ class IntcodeComputer:
     debug_log_ip_len: int
 
     initial_memory: list[int]
-    memory: list[int]
+    memory: t.DefaultDict[int, int]
     instruction_pointer: int
+    relative_base: int
 
     inputs:  deque[int]
     outputs: list[int]
@@ -217,6 +243,7 @@ class IntcodeComputer:
         self.debug_log = debug_log
         self.debug_log_ip_len = 1
         self.init_ip()
+        self.init_rb()
         self.inputs = deque()
         self.outputs = []
         self.output_listeners = []
@@ -226,15 +253,24 @@ class IntcodeComputer:
         self.instruction_pointer = address
         return self
 
+    def init_rb(self: t.Self, address: int = 0) -> t.Self:
+        self.relative_base = address
+        return self
+
     def load_memory(self: t.Self, data: list[int]) -> t.Self:
         self.initial_memory = data.copy()
-        self.memory = data.copy()
+        self.memory = defaultdict(int)
+        for address, value in enumerate(data):
+            self.memory[address] = value
         self.debug_log_ip_len = len(str(len(self.memory)))
         return self
 
     def reset(self: t.Self) -> t.Self:
-        self.memory = self.initial_memory.copy()
+        self.memory = defaultdict(int)
+        for address, value in enumerate(self.initial_memory):
+            self.memory[address] = value
         self.init_ip()
+        self.init_rb()
         self.inputs.clear()
         self.outputs.clear()
         self.halted = False
@@ -247,12 +283,15 @@ class IntcodeComputer:
         if length == 0:
             yield
         else:
-            if not (0 <= starting_address < len(self.memory)):
+            if starting_address < 0:
                 raise IndexError(f"starting address {starting_address} out of memory")
-            if not (starting_address + (length - 1) < len(self.memory)):
+            elif length < 0:
                 raise IndexError(f"reading {length} bytes from starting address {starting_address} reaches out of memory")
 
-            yield from self.memory[starting_address:starting_address + length]
+            yield from (self.memory[address] for address in range(starting_address, starting_address + length))
+
+    def get_memory_as_list(self: t.Self) -> list[int]:
+        return [self.memory[address] for address in range(0, max(self.memory.keys()) + 1)]
 
     def queue_inputs(self: t.Self, future_inputs: int | t.Iterable[int]) -> t.Self:
         if isinstance(future_inputs, int):

@@ -25,23 +25,23 @@ def main():
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
-        self.assertEqual(solve([1,    9, 10,  3, 2, 3, 11, 0, 99, 30, 40, 50]).memory,
+        self.assertEqual(solve([1,    9, 10,  3, 2, 3, 11, 0, 99, 30, 40, 50]).get_memory_as_list(),
                                [3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50])
 
     def test_ex2(self):
-        self.assertEqual(solve([1, 0, 0, 0, 99]).memory,
+        self.assertEqual(solve([1, 0, 0, 0, 99]).get_memory_as_list(),
                                [2, 0, 0, 0, 99])
 
     def test_ex3(self):
-        self.assertEqual(solve([2, 3, 0, 3, 99]).memory,
+        self.assertEqual(solve([2, 3, 0, 3, 99]).get_memory_as_list(),
                                [2, 3, 0, 6, 99])
 
     def test_ex4(self):
-        self.assertEqual(solve([2, 4, 4, 5, 99, 0]).memory,
+        self.assertEqual(solve([2, 4, 4, 5, 99, 0]).get_memory_as_list(),
                                [2, 4, 4, 5, 99, 9801])
 
     def test_ex5(self):
-        self.assertEqual(solve([1, 1, 1,  4, 99, 5, 6, 0, 99]).memory,
+        self.assertEqual(solve([1, 1, 1,  4, 99, 5, 6, 0, 99]).get_memory_as_list(),
                                [30, 1, 1, 4,  2, 5, 6, 0, 99])
 
 run(main)
