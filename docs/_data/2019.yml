@@ -51,10 +51,10 @@
   state: 2
 - day:   18
   name:  "Many-Worlds Interpretation"
-  state: 2
+  state: 0
 - day:   19
   name:  "Tractor Beam"
-  state: 0
+  state: 2
 - day:   20
   name:  "Donut Maze"
   state: 0
