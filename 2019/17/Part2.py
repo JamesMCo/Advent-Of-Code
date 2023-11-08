@@ -118,19 +118,61 @@ def solve(puzzle_input):
 
     path = reduce(collapse_path, path, [])
 
-    # Function-version of path found manually
-    return computer.queue_inputs(map(ord, "\n".join([
-        # Main
-        "A,B,A,C,B,A,C,A,C,B",
-        # A
-        "L,12,L,8,L,8",
-        # B
-        "L,12,R,4,L,12,R,6",
-        # C
-        "R,4,L,12,L,12,R,6",
-        # Continuous video feed
-        "n\n"
-    ]))).run().outputs[-1]
+    def check_valid_c_program(program, c_count):
+        c_start = 0
+        while program[c_start] in "AB":
+            c_start += 1
+        c_str = ",".join(program[c_start:c_start + c_count])
+
+        program_str = ",".join(program)
+        while c_str in program_str:
+            program_str = program_str.replace(c_str, "C")
+
+        if all([char in "ABC," for char in program_str]):
+            return c_str
+        else:
+            return False
+
+    def check_valid_program(program, a_count, b_count, b_start_offset):
+        program_str = ",".join(program)
+        a_str = ",".join(path[:a_count])
+        b_str = ",".join(path[a_count + b_start_offset:a_count + b_start_offset + b_count])
+
+        while a_str in program_str:
+            program_str = program_str.replace(a_str, "A")
+
+        while b_str in program_str:
+            program_str = program_str.replace(b_str, "B")
+
+        for c_count in range(1, 11):
+            # input(f"{a_count=} {b_count=} {b_offset=} {c_count=}")
+            if c_str := check_valid_c_program(program_str.split(","), c_count):
+                while c_str in program_str:
+                    program_str = program_str.replace(c_str, "C")
+                return program_str, a_str, b_str, c_str
+
+        return None
+
+    # Function finding worked out after reading various threads on /r/AdventOfCode
+    # With a 20-character limit, each function can be at most 10 instructions
+    # (1 character followed by 1 comma)
+    for a_len in range(1, 11):
+        if len(",".join(path[:a_len])) > 20:
+            break
+        for b_len in range(1, 11):
+            # The final program might not be of the form AB, and so there may be
+            # something between A and B. It too can't be longer than 10 instructions.
+            for b_offset in range(0, 11):
+                if len(",".join(path[a_len:a_len + b_len])) > 20:
+                    break
+                # c_len follows as a result of a_len and b_len
+
+                result = check_valid_program(path, a_len, b_len, b_offset)
+                if result:
+                    return computer\
+                        .queue_inputs(map(ord, "\n".join(result) + "\n"))\
+                        .queue_inputs(map(ord, "n\n"))\
+                        .run().outputs[-1]
 
 def main():
     puzzle_input = util.read.as_int_list(",")
