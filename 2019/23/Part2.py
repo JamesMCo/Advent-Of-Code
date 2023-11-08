@@ -17,25 +17,24 @@ def solve(puzzle_input):
     class NAT:
         network: "Ether"
         packet: tuple[int, int]
-        sent_y: list[int]
-        idle_threshold: int
+        prev_sent_y: t.Optional[int]
 
         def __init__(self: t.Self, network: "Ether") -> None:
             self.network = network
             self.packet = (-1000, -1000)
-            self.sent_y = []
+            self.prev_sent_y = None
 
         def receive_packet(self: t.Self, packet: tuple[int, int]) -> None:
             self.packet = packet
 
         def check_idle(self: t.Self) -> t.Optional[int]:
-            if  all(self.network.idle_status.values()) and all(not queue for queue in self.network.packet_queue.values()):
+            if all(self.network.idle_status.values()) and not any(self.network.packet_queue.values()):
                 # All computers are idle and have no incoming packets
-                if self.sent_y and self.sent_y[-1] == self.packet[1]:
+                if self.prev_sent_y == self.packet[1]:
                     return self.packet[1]
 
                 self.network.packet_queue[0].append(self.packet)
-                self.sent_y.append(self.packet[1])
+                self.prev_sent_y = self.packet[1]
 
     class Ether:
         computers: dict[int, IntcodeComputer]
