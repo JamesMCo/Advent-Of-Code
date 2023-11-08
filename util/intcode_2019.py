@@ -293,9 +293,11 @@ class IntcodeComputer:
     def get_memory_as_list(self: t.Self) -> list[int]:
         return [self.memory[address] for address in range(0, max(self.memory.keys()) + 1)]
 
-    def queue_inputs(self: t.Self, future_inputs: int | t.Iterable[int]) -> t.Self:
+    def queue_inputs(self: t.Self, future_inputs: int | str | t.Iterable[int]) -> t.Self:
         if isinstance(future_inputs, int):
             self.inputs.append(future_inputs)
+        elif isinstance(future_inputs, str):
+            self.inputs.extend(map(ord, future_inputs))
         else:
             self.inputs.extend(future_inputs)
         return self

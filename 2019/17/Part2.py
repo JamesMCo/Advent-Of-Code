@@ -170,8 +170,8 @@ def solve(puzzle_input):
                 result = check_valid_program(path, a_len, b_len, b_offset)
                 if result:
                     return computer\
-                        .queue_inputs(map(ord, "\n".join(result) + "\n"))\
-                        .queue_inputs(map(ord, "n\n"))\
+                        .queue_inputs("\n".join(result) + "\n")\
+                        .queue_inputs("n\n")\
                         .run().outputs[-1]
 
 def main():
