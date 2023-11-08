@@ -82,22 +82,6 @@ def solve(puzzle_input):
                 if computer.outputs[-1] == 2:
                     # "The repair droid has moved one step in the requested direction; its new position is the location of the oxygen system."
                     oxygen = target
-
-        area.min_x = min(droid_x - 1, area.min_x)
-        area.min_y = min(droid_y - 1, area.min_y)
-        area.max_x = max(droid_x + 1, area.max_x)
-        area.max_y = max(droid_y + 1, area.max_y)
-
-        def display_cell(cell):
-            if cell == -1:
-                return " "
-            else:
-                return cell
-        before = area[(droid_x, droid_y)]
-        area[(droid_x, droid_y)] = "D"
-        print(str((droid_x, droid_y)) + " " + str(target) + " " + str(computer.outputs[-1]) + "\n" + str(unexplored) + "\n" + area.pprint_custom(" ", display_cell) + "\n")
-        area[(droid_x, droid_y)] = before
-
         computer.outputs.clear()
 
     return max(nx.single_source_shortest_path_length(area_graph, oxygen).values())
