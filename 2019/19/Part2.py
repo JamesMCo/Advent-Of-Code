@@ -32,62 +32,59 @@ def solve(puzzle_input):
             grid[y][x] = result
         return result
 
+    def search(start, step):
+        x, y = 0, start
+        # The start of the next row is never to the left of the current row
+        start_of_row = 0
+
+        while True:
+            while get(x, y) == ".":
+                x += 1
+            start_of_row = x
+
+            while True:
+                if get(x, y) == ".":
+                    break
+
+                # After reading some discussions on /r/AdventOfCode, I realised
+                # that the entire row and column don't need to be checked, only
+                # the ends (as there won't be a break in the middle of a row/col)
+                # (Reduced runtime from ~66s to ~40s on my machine)
+
+                if get(x + 99, y) == "#":
+                    # Split row/col checks, so can skip to next row faster if
+                    # the row is no longer wide enough to fit the square
+                    # (Reduced runtime from ~40s to ~31s)
+                    if get(x, y + 99) == "#":
+                        if step == 100:
+                            # Coarse search, return result of fine search
+                            return search(y - 100, 1)
+                        else:
+                            # Fine search
+                            return (x * 10000) + y
+                else:
+                    # The row is no longer wide enough to fit the square
+                    # Skip to the next row
+                    break
+
+                x += 1
+
+            # In the majority of cases, we won't need this row
+            # again, as we always look forwards into the grid
+            del grid[y]
+            x, y = start_of_row, y + step
+
+
     # Perform a coarse search by skipping 100 rows at a time
     # Then, backtrack 100 rows and search one row at a time
     # to find the final answer
-    fine_search_start = None
 
     # A visual inspection of Part 1 shows that the tractor beam
     # is not wide enough to contain the square
     # This, combined with the gap in the beam in the first few rows
     # means we can start a few rows later
-    x, y = 0, 100
-    # The start of the next row is never to the left of the current row
-    start_of_row = 0
-    while True:
-        print(f"row={y}")
 
-        while get(x, y) == ".":
-            x += 1
-        start_of_row = x
-
-        while True:
-            if get(x, y) == ".":
-                break
-            if all(get(x + dx, y) == "#" for dx in range(100)) and all(get(x, y + dy) == "#" for dy in range(100)):
-                fine_search_start = y - 100
-                break
-            x += 1
-
-        if fine_search_start is not None:
-            break
-
-        # In the majority of cases (all but 2, possibly)
-        # we won't need this row again, as we always look
-        # forwards into the grid
-        del grid[y]
-        x, y = start_of_row, y + 100
-
-    # Fine search (1 row at a time)
-    x, y = 0, fine_search_start
-    start_of_row = 0
-    while True:
-        print(f"row={y}")
-
-        while get(x, y) == ".":
-            x += 1
-        start_of_row = x
-
-        while True:
-            if get(x, y) == ".":
-                break
-            if all(get(x + dx, y) == "#" for dx in range(100)) and all(get(x, y + dy) == "#" for dy in range(100)):
-                return (x * 10000) + y
-            x += 1
-
-        del grid[y]
-        x, y = start_of_row, y + 1
-
+    return search(100, 100)
 
 def main():
     puzzle_input = util.read.as_int_list(",")
