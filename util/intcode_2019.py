@@ -308,6 +308,9 @@ class IntcodeComputer:
         else:
             return None
 
+    def waiting_for_input(self: t.Self) -> bool:
+        return not self.halted and Instruction.get(self, self.instruction_pointer).name == "INP" and not self.inputs
+
     def register_output_listener(self: t.Self, callback: t.Callable[[int], t.Any]):
         self.output_listeners.append(callback)
 

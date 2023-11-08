@@ -11,7 +11,7 @@ import util.read
 from itertools import batched
 from time import sleep
 from util.two_d_world import World
-from util.intcode_2019 import Instruction, IntcodeComputer
+from util.intcode_2019 import IntcodeComputer
 
 puzzle_input = util.read.as_int_list(",")
 puzzle_input[0] = 2
@@ -32,7 +32,7 @@ def display_tiles(tile):
         case 4: return "*"
 
 while not i.halted:
-    if Instruction.get(i, i.instruction_pointer).name == "INP":
+    if i.waiting_for_input():
         for x, y, tile in batched(i.outputs, 3):
             if (x, y) == (-1, 0):
                 score = tile

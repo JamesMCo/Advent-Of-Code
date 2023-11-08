@@ -11,7 +11,7 @@ from util.tests import run
 
 from itertools import batched
 from util.two_d_world import World
-from util.intcode_2019 import Instruction, IntcodeComputer
+from util.intcode_2019 import IntcodeComputer
 
 def solve(puzzle_input):
     i = IntcodeComputer().load_memory(puzzle_input)
@@ -24,7 +24,7 @@ def solve(puzzle_input):
     ball_x   = None
 
     while not i.halted:
-        if Instruction.get(i, i.instruction_pointer).name == "INP":
+        if i.waiting_for_input():
             for x, y, tile in batched(i.outputs, 3):
                 if (x, y) == (-1, 0):
                     score = tile

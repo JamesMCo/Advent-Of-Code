@@ -11,7 +11,7 @@ from util.tests import run
 
 from functools import reduce
 from util.two_d_world import World
-from util.intcode_2019 import Instruction, IntcodeComputer
+from util.intcode_2019 import IntcodeComputer
 
 def solve(puzzle_input):
     computer = IntcodeComputer().load_memory(puzzle_input)
@@ -145,7 +145,6 @@ def solve(puzzle_input):
             program_str = program_str.replace(b_str, "B")
 
         for c_count in range(1, 11):
-            # input(f"{a_count=} {b_count=} {b_offset=} {c_count=}")
             if c_str := check_valid_c_program(program_str.split(","), c_count):
                 while c_str in program_str:
                     program_str = program_str.replace(c_str, "C")
