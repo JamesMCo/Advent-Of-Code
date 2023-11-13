@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import argparse, collections, colorama, os, time, yaml
+import argparse, collections, colorama, itertools, os, requests, time, yaml
 
 if time.gmtime().tm_mon == 12:
     current_year = time.gmtime().tm_year
@@ -31,6 +31,20 @@ for day in range(1, 26):
     p_day = False
     if os.path.isdir(str(day).zfill(2)):
         os.chdir(str(day).zfill(2))
+        if not os.path.isfile("puzzle_input.txt"):
+            if "jamdroid_input_cache_key" in os.environ:
+                r = requests.get(f"https://jamdro.id/api/adventofcode/input/{args.year}/{day:0>2}", headers={"Authorization": f"Bearer {os.environ["jamdroid_input_cache_key"]}"})
+                if r.status_code == 200:
+                    with open("puzzle_input.txt", "w") as f:
+                        # Ensure only one newline at end of file
+                        # Can't use strip, in case some whitespace at end of final line
+                        file_lines = r.text.split("\n")
+                        file_lines = list(itertools.dropwhile(lambda l: l == "", file_lines[::-1]))[::-1]
+                        f.write("\n".join(file_lines) + "\n")
+                else:
+                    continue
+            else:
+                continue
         for part in [1, 2]:
             if os.path.isfile(f"Part{part}.py"):
                 if printed:

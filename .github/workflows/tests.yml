@@ -23,3 +23,5 @@ jobs:
       - name: 📋 Run Tests
         run: |
           script -e -c "python test.py";
+        env:
+          jamdroid_input_cache_key: ${{ secrets.JAMDROID_INPUT_CACHE_KEY }}

@@ -3,6 +3,8 @@
 
 [Advent of Code](http://adventofcode.com) is an annual coding event hosted in December. It's been running since 2015, and so far I've completed years 2017, 2020, 2021, and 2022. If you want to see my attempted solutions to these problems, then you can do so here.
 
-If you would instead like to view any given day's solutions and puzzle input on a single page, click [here](https://mrjamesco.uk/Advent-Of-Code).
+If you would instead like to view any given day's solutions on a single page, click [here](https://mrjamesco.uk/Advent-Of-Code).
 
--James
+## Puzzle Inputs
+
+In order to perform the automated testing and timing of solutions in this repo, I download the inputs through my [Jamdroid webserver](https://jmy.fyi/🤖), which uses my session token to download ([and then cache](https://www.reddit.com/r/adventofcode/wiki/faqs/automation/#wiki_cache_your_inputs_after_initial_download)) my inputs for the puzzles.

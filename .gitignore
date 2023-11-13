@@ -113,4 +113,31 @@ $RECYCLE.BIN/
 *.lnk
 .python-version
 
+# Puzzle Inputs
+*/01/puzzle_input.txt
+*/02/puzzle_input.txt
+*/03/puzzle_input.txt
+*/04/puzzle_input.txt
+*/05/puzzle_input.txt
+*/06/puzzle_input.txt
+*/07/puzzle_input.txt
+*/08/puzzle_input.txt
+*/09/puzzle_input.txt
+*/10/puzzle_input.txt
+*/11/puzzle_input.txt
+*/12/puzzle_input.txt
+*/13/puzzle_input.txt
+*/14/puzzle_input.txt
+*/15/puzzle_input.txt
+*/16/puzzle_input.txt
+*/17/puzzle_input.txt
+*/18/puzzle_input.txt
+*/19/puzzle_input.txt
+*/20/puzzle_input.txt
+*/21/puzzle_input.txt
+*/22/puzzle_input.txt
+*/23/puzzle_input.txt
+*/24/puzzle_input.txt
+*/25/puzzle_input.txt
+
 /times.txt
