@@ -2,3 +2,4 @@ colorama
 networkx
 pyyaml
 regex
+requests
