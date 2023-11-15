@@ -58,7 +58,7 @@
                 // A day's puzzle solution has been requested
                 const year = window.location.search.split("?")[1].split("-")[0];
                 const day  = window.location.search.split("?")[1].split("-")[1];
-                const iday = parseInt(day);
+                const iday = parseInt(day) || day;
                 const body = document.querySelector("#mainbody");
 
                 part1  = fetch(`https://raw.githubusercontent.com/JamesMCo/Advent-Of-Code/master/${year}/${day}/Part1.py`);
@@ -87,7 +87,7 @@
                     } {% endfor %}
 
                     // Update the breadcrumb to include year and day
-                    document.querySelector(".nav-content>div").innerHTML += `<a href="/Advent-Of-Code/#${year}" class="breadcrumb">${year}</a><a href="" class="breadcrumb">Day ${iday}${cake}</a>`;
+                    document.querySelector(".nav-content>div").innerHTML += `<a href="/Advent-Of-Code/#${year}" class="breadcrumb">${year}</a><a href="" class="breadcrumb">${iday === "Bonus" ? "" : "Day "}${iday}${cake}</a>`;
 
                     // Get the text from the responses
                     texts = [responses[0].text(), responses[1].text(), responses[2].text()];
