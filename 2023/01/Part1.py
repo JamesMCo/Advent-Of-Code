@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+
+#Advent of Code
+#2023 Day 1, Part 1
+#Solution by James C. (https://github.com/JamesMCo)
+
+import os, sys
+sys.path.append(os.path.abspath("../.."))
+import unittest, util.read
+from util.tests import run
+
+def solve(puzzle_input):
+    def parse_calibration_value(line: str) -> int:
+        digits = list(filter(str.isdigit, line))
+        return int(f"{digits[0]}{digits[-1]}")
+
+    return sum(map(parse_calibration_value, puzzle_input))
+
+def main():
+    puzzle_input = util.read.as_lines()
+
+    print(f"The sum of all the calibration values is {solve(puzzle_input)}.")
+
+class AOC_Tests(unittest.TestCase):
+    def test_ex1(self):
+        return self.assertEqual(solve(["1abc2",
+                                       "pqr3stu8vwx",
+                                       "a1b2c3d4e5f",
+                                       "treb7uchet"]), 142)
+
+run(main)
