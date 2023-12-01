@@ -23,8 +23,8 @@ def solve(puzzle_input):
             case "9" | "nine":  return 9
 
     def parse_calibration_value(line: str) -> int:
-        valid_digits: list[str] = [*"123456789", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-        found_digits: list[str] = []
+        valid_digits = [*"123456789", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+        first, last = "", ""
 
         # Originally implemented with a regex, but since numbers may be overlapping
         # (e.g. "oneight" contains both "one" and "eight") and we want the last digit,
@@ -33,10 +33,9 @@ def solve(puzzle_input):
         for i in range(len(line)):
             for digit in valid_digits:
                 if line[i:].startswith(digit):
-                    found_digits.append(digit)
+                    first, last = first or digit, digit
                     break
-
-        return int(f"{digit_to_int(found_digits[0])}{digit_to_int(found_digits[-1])}")
+        return int(f"{digit_to_int(first)}{digit_to_int(last)}")
 
     return sum(map(parse_calibration_value, puzzle_input))
 

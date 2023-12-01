@@ -11,8 +11,11 @@ from util.tests import run
 
 def solve(puzzle_input):
     def parse_calibration_value(line: str) -> int:
-        digits = list(filter(str.isdigit, line))
-        return int(f"{digits[0]}{digits[-1]}")
+        first, last = "", ""
+        for c in line:
+            if c.isdigit():
+                first, last = first or c, c
+        return int(f"{first}{last}")
 
     return sum(map(parse_calibration_value, puzzle_input))
 
