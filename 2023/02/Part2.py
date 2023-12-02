@@ -10,29 +10,37 @@ import unittest, util.read
 from util.tests import run
 
 from math import prod
+import re
+import typing as t
 
 def solve(puzzle_input):
+    game_pattern: re.Pattern   = re.compile(r"Game (\d+):")
+    subset_pattern: re.Pattern = re.compile(r" (\d+) (\w+)(?:[,;]|$)")
+
     class Game:
+        _description: str
         game_id: int
-        subsets: list[dict[str, int]]
+        subsets: t.Iterable[dict[str, int]]
         needed_cubes: dict[str, int]
 
-        def __init__(self: "Game", description: str) -> None:
-            self.game_id = int(description.split(": ")[0].split()[1])
-            self.subsets = []
-            for subset_description in description.split(": ")[1].split("; "):
-                subset_dict = {}
-                for cube_description in subset_description.split(", "):
-                    amount, colour = cube_description.split()
-                    subset_dict[colour] = int(amount)
-                self.subsets.append(subset_dict)
+        def __init__(self: t.Self, description: str) -> None:
+            self._description = description
+            self.game_id = int(game_pattern.match(description).groups()[0])
             self.needed_cubes = {
                 "red":   0,
                 "green": 0,
                 "blue":  0
             }
 
-        def get_minimum_set_power(self: "Game") -> int:
+        @property
+        def subsets(self: t.Self) -> t.Iterable[dict[str, int]]:
+            # Implement as a property that yields an iterable so that
+            # iteration over the subsets only happens once, rather than
+            # once during init and once during power calculation
+            for subset_description in self._description.split(";"):
+                yield {colour: int(amount) for amount, colour in subset_pattern.findall(subset_description)}
+
+        def get_minimum_set_power(self: t.Self) -> int:
             for subset in self.subsets:
                 for colour, amount in subset.items():
                     self.needed_cubes[colour] = max(self.needed_cubes[colour], amount)
