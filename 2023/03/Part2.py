@@ -75,7 +75,7 @@ def solve(puzzle_input):
 def main():
     puzzle_input = util.read.as_lines()
 
-    print(f"The sum of all of the part numbers in the engine schematic is {solve(puzzle_input)}.")
+    print(f"The sum of all of the gear ratios is {solve(puzzle_input)}.")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
