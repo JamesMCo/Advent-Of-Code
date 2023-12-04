@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import argparse, collections, colorama, itertools, os, requests, time, yaml
+import argparse, collections, itertools, os, requests, time, yaml
+from util.colour import *
 
 if time.gmtime().tm_mon == 12:
     current_year = time.gmtime().tm_year
@@ -10,8 +11,6 @@ else:
 parser = argparse.ArgumentParser(description="Runs either the current year's or a given year's tests", allow_abbrev=False)
 parser.add_argument("year", help="specify which year to test", nargs="?", default=current_year)
 args = parser.parse_args()
-
-colorama.init()
 
 if os.name == "nt":
     s = ""
@@ -51,9 +50,9 @@ for day in range(1, 26):
                     print("\n")
                 if not p_day:
                     sep = "*" * len(f"**  Day {day}  - {names[day - 1]}  **")
-                    print(f"{colorama.Fore.YELLOW}{sep}{colorama.Fore.RESET}\n{colorama.Fore.YELLOW}**  Day {day}  - {names[day - 1]}  **{colorama.Fore.RESET}\n{colorama.Fore.YELLOW}{sep}{colorama.Fore.RESET}\n\n\n{colorama.Fore.GREEN}Testing Part {part}{colorama.Fore.RESET}\n")
+                    print(f"{yellow(f"{sep}\n**  Day {day}  - {names[day - 1]}  **\n{sep}")}\n\n\n{green(f"Testing Part {part}")}\n")
                 else:
-                    print(f"{colorama.Fore.GREEN}Testing Part {part}{colorama.Fore.RESET}\n")
+                    print(green(f"Testing Part {part}\n"))
                 
                 with open("../../times.txt", "a") as f:
                     f.write(f"{day}-{part}-")
@@ -89,15 +88,12 @@ with open("times.txt") as f:
     duration = str(round(duration / 1_000_000_000, 3))
     duration += "0" * (3 - len(duration.split(".")[1]))
 
-    if (github_summary := os.getenv("GITHUB_STEP_SUMMARY")):
+    if github_summary := os.getenv("GITHUB_STEP_SUMMARY"):
         with open(github_summary, "w") as g:
-            g.write(f"# {current_year} Solution Runtimes\nAll{' non-failed' if failed else ''} solutions found in {duration}s.\n| Day | Part 1 | Part 2|\n|-----|--------|-------|\n")
+            g.write(f"# {current_year} Solution Runtimes\nAll{" non-failed" if failed else ""} solutions found in {duration}s.\n| Day | Part 1 | Part 2|\n|-----|--------|-------|\n")
             for day, parts in sorted(durations.items(), key=lambda x: int(x[0])):
-                g.write(f"| [{day}{' 🎂' if day == '9' else ''}](https://mrjamesco.uk/Advent-Of-Code/?{current_year}-{day:0>2}) | {parts[0]}{'s' if parts[0] not in ['Fail', 'N/A'] else ''} | {parts[1]}{'s' if parts[1] not in ['Fail', 'N/A'] else ''} |\n")
+                g.write(f"| [{day}{" 🎂" if day == "9" else ""}](https://mrjamesco.uk/Advent-Of-Code/?{current_year}-{day:0>2}) | {parts[0]}{"s" if parts[0] not in ["Fail", "N/A"] else ""} | {parts[1]}{"s" if parts[1] not in ["Fail", "N/A"] else ""} |\n")
 
-    if failed:
-        print(f"\n{colorama.Fore.CYAN}All non-failed solutions found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
-    else:
-        print(f"\n{colorama.Fore.CYAN}All solutions found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
+    print(f"\n{cyan(f"All{" non-failed" if failed else ""} solutions found in")} {green(f"{duration}s")}{cyan(".")}")
 
 os.remove("times.txt")
