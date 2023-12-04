@@ -135,6 +135,6 @@ with open("times.txt") as f:
             for day, parts in sorted(durations.items(), key=lambda x: int(x[0])):
                 g.write(f"| [{day}{" 🎂" if day == "9" else ""}](https://mrjamesco.uk/Advent-Of-Code/?{current_year}-{day:0>2}) | {parts[0]}{"s" if parts[0] not in ["Fail", "N/A"] else ""} | {parts[1]}{"s" if parts[1] not in ["Fail", "N/A"] else ""} |\n")
 
-    print(f"\n{cyan(f"All{" non-failed" if failed else ""} solutions found in")} {green(f"{total_duration}s")}{cyan(".")}")
+    print(f"{cyan(f"All{" non-failed" if failed else ""} solutions found in")} {green(f"{total_duration}s")}{cyan(".")}")
 
 os.remove("times.txt")
