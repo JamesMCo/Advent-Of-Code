@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
-def solve(puzzle_input):
+def solve(puzzle_input: list[str]) -> int:
     def parse_calibration_value(line: str) -> int:
         first, last = "", ""
         for c in line:
@@ -19,7 +19,7 @@ def solve(puzzle_input):
 
     return sum(map(parse_calibration_value, puzzle_input))
 
-def main():
+def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
 
     return "The sum of all the calibration values is {}.", solve(puzzle_input)

@@ -12,7 +12,7 @@ from util.tests import run
 import re
 import typing as t
 
-def solve(puzzle_input):
+def solve(puzzle_input: list[str]) -> int:
     total_cubes = {
         "red":   12,
         "green": 13,
@@ -50,7 +50,7 @@ def solve(puzzle_input):
 
     return sum(Game(line).get_id_if_possible() for line in puzzle_input)
 
-def main():
+def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
 
     return "The sum of the IDs of the possible games is {}.", solve(puzzle_input)

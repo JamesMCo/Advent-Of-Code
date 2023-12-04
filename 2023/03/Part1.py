@@ -11,7 +11,7 @@ from util.tests import run
 
 import typing as t
 
-def solve(puzzle_input):
+def solve(puzzle_input: list[str]) -> int:
     width  = len(puzzle_input[0])
     height = len(puzzle_input)
 
@@ -66,7 +66,7 @@ def solve(puzzle_input):
 
     return sum(n.get_value_if_part_number() for n in parse_numbers())
 
-def main():
+def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
 
     return "The sum of all of the part numbers in the engine schematic is {}.", solve(puzzle_input)

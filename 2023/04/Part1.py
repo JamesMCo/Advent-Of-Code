@@ -11,7 +11,7 @@ from util.tests import run
 
 import re
 
-def solve(puzzle_input):
+def solve(puzzle_input: list[str]) -> int:
     full_pattern: re.Pattern = re.compile(r"(.*):(.*)\|(.*)")
     numbers: re.Pattern = re.compile(r" ([ \d]\d)")
 
@@ -27,7 +27,7 @@ def solve(puzzle_input):
 
     return sum(map(score_card, puzzle_input))
 
-def main():
+def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
 
     return "The pile of scratchcards is worth {} points.", solve(puzzle_input)

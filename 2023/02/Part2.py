@@ -13,7 +13,7 @@ from math import prod
 import re
 import typing as t
 
-def solve(puzzle_input):
+def solve(puzzle_input: list[str]) -> int:
     game_pattern: re.Pattern   = re.compile(r"Game (\d+):")
     subset_pattern: re.Pattern = re.compile(r" (\d+) (\w+)(?:[,;]|$)")
 
@@ -48,7 +48,7 @@ def solve(puzzle_input):
 
     return sum(Game(line).get_minimum_set_power() for line in puzzle_input)
 
-def main():
+def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
 
     return "The sum of the power of the minimum sets is {}.", solve(puzzle_input)
