@@ -22,7 +22,7 @@ def solve(puzzle_input):
 def main():
     puzzle_input = util.read.as_lines()
 
-    print(f"The sum of all the calibration values is {solve(puzzle_input)}.")
+    return "The sum of all the calibration values is {}.", solve(puzzle_input)
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):

@@ -1,5 +1,6 @@
 from decimal import Decimal
 import os
+import pyperclip
 import time
 import types
 import typing as t
@@ -53,12 +54,18 @@ def sort_tests(x: str, y: str) -> int:
     y_num = int(y[7:])
     return x_num - y_num
 
-def run(main: t.Callable[[], None]) -> t.Optional[t.NoReturn]:
+def run(main: t.Callable[[], t.Optional[tuple[str, t.Any]]]) -> t.Optional[t.NoReturn]:
     unittest.TestLoader.sortTestMethodsUsing = staticmethod(sort_tests)
     if unittest.main(verbosity=2, exit=False, testRunner=Runner).result.wasSuccessful():
         start = time.perf_counter_ns()
-        main()
+        result = main()
         end = time.perf_counter_ns()
+
+        if result:
+            # Solutions before 2023 were written in such a way that main() printed its own output.
+            # Since 2023, run(main) handles printing and copying the result to the clipboard.
+            print(result[0].format(green(result[1])))
+            pyperclip.copy(result[1])
 
         seconds = Decimal(
             (end - start) / 1_000_000_000 # ns -> s by dividing by 10^9

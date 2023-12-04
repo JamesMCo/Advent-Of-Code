@@ -53,7 +53,7 @@ def solve(puzzle_input):
 def main():
     puzzle_input = util.read.as_lines()
 
-    print(f"The sum of the IDs of the possible games is {solve(puzzle_input)}.")
+    return "The sum of the IDs of the possible games is {}.", solve(puzzle_input)
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
