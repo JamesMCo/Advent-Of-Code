@@ -1,74 +1,70 @@
-import unittest, sys
-import colorama
-import time
+from decimal import Decimal
 import os
+import time
+import types
+import typing as t
+import unittest
+from util.colour import *
 
-Fore = colorama.Fore
-colorama.init()
-
+exc_info_tuple = tuple[t.Type[BaseException], BaseException, types.TracebackType] | tuple[None, None, None]
 
 class Result(unittest.TextTestResult):
-    def getDescription(self, test):
-        doc_first_line = test.shortDescription()
-        return str(test).split()[0].split("ex")[1]
+    def getDescription(self: t.Self, test: unittest.TestCase) -> str:
+        return test.id().split("ex")[1]
 
-    def startTest(self, test):
+    def startTest(self: t.Self, test: unittest.TestCase) -> None:
         super(unittest.TextTestResult, self).startTest(test)
-        self.stream.write(Fore.MAGENTA + "Testing against" + \
-                          Fore.CYAN    + " Example #")
-        self.stream.write(self.getDescription(test).zfill(2))
-        self.stream.write(Fore.RESET + ": ")
+        self.stream.write(f"{magenta("Testing against")} {cyan(f"Example #{self.getDescription(test):>02}")}: ")
         self.stream.flush()
 
-    def addSuccess(self, test):
+    def addSuccess(self: t.Self, test: unittest.TestCase) -> None:
         super(unittest.TextTestResult, self).addSuccess(test)
-        self.stream.writeln(Fore.GREEN + "Correct" + Fore.RESET)
+        self.stream.write(green("Correct") + "\n")
 
-    def addError(self, test, err):
+    def addError(self: t.Self, test: unittest.TestCase, err: exc_info_tuple) -> None:
         super(unittest.TextTestResult, self).addError(test, err)
-        self.stream.writeln(Fore.RED + "Error" + Fore.RESET)
+        self.stream.write(red("Error") + "\n")
 
-    def addFailure(self, test, err):
+    def addFailure(self: t.Self, test: unittest.TestCase, err: exc_info_tuple) -> None:
         super(unittest.TextTestResult, self).addFailure(test, err)
-        self.stream.writeln(Fore.YELLOW + "Fail" + Fore.RESET)
+        self.stream.write(yellow("Fail") + "\n")
 
-    def addSkip(self, test, reason):
+    def addSkip(self: t.Self, test: unittest.TestCase, reason: str) -> None:
         super(unittest.TextTestResult, self).addSkip(test, reason)
-        self.stream.writeln(Fore.MAGENTA + "Skipped {0!r}".format(reason) + Fore.RESET)
+        self.stream.write(magenta(f"Skipped {reason!r}") + "\n")
 
-    def addExpectedFailure(self, test, err):
+    def addExpectedFailure(self: t.Self, test: unittest.TestCase, err: exc_info_tuple) -> None:
         super(unittest.TextTestResult, self).addExpectedFailure(test, err)
-        self.stream.writeln(Fore.GREEN + "Expected Failure" + Fore.RESET)
+        self.stream.write(green("Expected Failure") + "\n")
 
-    def addUnexpectedSuccess(self, test):
+    def addUnexpectedSuccess(self: t.Self, test: unittest.TestCase) -> None:
         super(unittest.TextTestResult, self).addUnexpectedSuccess(test)
-        self.stream.writeln(Fore.RED + "Unexpected Success" + Fore.RESET)
+        self.stream.write(red("Unexpected Success") + "\n")
 
 class Runner(unittest.TextTestRunner):
-    def __init__(self, stream=None, descriptions=True, verbosity=1,
-                 failfast=False, buffer=False, resultclass=Result, warnings=None,
-                 *, tb_locals=False):
+    def __init__(self: t.Self, stream: t.Optional[t.TextIO] = None, descriptions: bool = True, verbosity: int = 1,
+                 failfast: bool = False, buffer: bool = False, resultclass=Result, warnings: t.Optional[t.Type[Warning]] = None,
+                 *, tb_locals: bool = False) -> None:
         super().__init__(stream, descriptions, verbosity,
                          failfast, buffer, resultclass, warnings, tb_locals=tb_locals)
 
-def sort_tests(_, x, y):
+def sort_tests(x: str, y: str) -> int:
     x_num = int(x[7:])
     y_num = int(y[7:])
     return x_num - y_num
 
-def run(main):
-    unittest.TestLoader.sortTestMethodsUsing = sort_tests
+def run(main: t.Callable[[], None]) -> t.Optional[t.NoReturn]:
+    unittest.TestLoader.sortTestMethodsUsing = staticmethod(sort_tests)
     if unittest.main(verbosity=2, exit=False, testRunner=Runner).result.wasSuccessful():
         start = time.perf_counter_ns()
         main()
         end = time.perf_counter_ns()
 
-        seconds = (end - start) / 1_000_000_000 # ns -> s by dividing by 10^9
+        seconds = Decimal(
+            (end - start) / 1_000_000_000 # ns -> s by dividing by 10^9
+        ).quantize(Decimal("0.001"))
 
-        duration = str(round(seconds, 3))
-        duration += "0" * (3 - len(duration.split(".")[1]))
-
-        print(f"{colorama.Fore.CYAN}Solution found in {colorama.Fore.GREEN}{duration}s{colorama.Fore.CYAN}.{colorama.Fore.RESET}")
+        print(f"{cyan("Solution found in")} {green(f"{seconds}s")}{cyan(".")}")
 
         if os.path.isfile("../../times.txt"):
             with open("../../times.txt", "a") as f:
