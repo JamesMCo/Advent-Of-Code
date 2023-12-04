@@ -65,7 +65,13 @@ def run(main: t.Callable[[], t.Optional[tuple[str, t.Any]]]) -> t.Optional[t.NoR
             # Solutions before 2023 were written in such a way that main() printed its own output.
             # Since 2023, run(main) handles printing and copying the result to the clipboard.
             print(result[0].format(green(result[1])))
-            pyperclip.copy(result[1])
+            try:
+                pyperclip.copy(result[1])
+            except pyperclip.PyperclipException:
+                # When run on a GitHub Actions runner, pyperclip.copy() raises
+                # an exception as it cannot find a copy/paste mechanism.
+                # This can be safely ignored (and, if not, will print a traceback).
+                pass
 
         seconds = Decimal(
             (end - start) / 1_000_000_000 # ns -> s by dividing by 10^9
