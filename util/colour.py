@@ -8,7 +8,7 @@ __all__ = [
 ]
 
 def coloured_text_func_builder(colour: Fore, text: str | int) -> str:
-    return f"{colour}{text}{Fore.RESET}"
+    return "\n".join(f"{colour}{line}{Fore.RESET}" for line in text.split("\n"))
 
 def black(text: str | int) -> str:
     return coloured_text_func_builder(Fore.BLACK, text)
