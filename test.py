@@ -56,12 +56,12 @@ class Day:
             if "jamdroid_input_cache_key" in os.environ:
                 r = requests.get(f"https://jamdro.id/api/adventofcode/input/{args.year}/{self.day_str}", headers={"Authorization": f"Bearer {os.environ["jamdroid_input_cache_key"]}"})
                 if r.status_code == 200:
-                    with open("puzzle_input.txt", "w") as f:
+                    with open("puzzle_input.txt", "w") as puzzle_input:
                         # Ensure only one newline at end of file
                         # Can't use strip, in case some whitespace at end of final line
                         file_lines = r.text.split("\n")
                         file_lines = list(itertools.dropwhile(lambda l: l == "", file_lines[::-1]))[::-1]
-                        f.write("\n".join(file_lines) + "\n")
+                        puzzle_input.write("\n".join(file_lines) + "\n")
 
                         self.input_exists = True
                         return
@@ -100,7 +100,7 @@ for d in range(1, 26):
             for part in (1, 2):
                 if day.can_run_part(part):
                     with open("../../times.txt", "a") as f:
-                        f.write(f"{day}-{part}-")
+                        f.write(f"{day.day}-{part}-")
                     if day.run_part(part):
                         failed = True
                         with open("../../times.txt", "a") as f:
