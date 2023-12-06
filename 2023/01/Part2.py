@@ -9,7 +9,11 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+import re
+
 def solve(puzzle_input: list[str]) -> int:
+    valid_digits: re.Pattern = re.compile(r"\d|one|two|three|four|five|six|seven|eight|nine")
+
     def digit_to_int(digit: str) -> int:
         match digit:
             case "1" | "one":   return 1
@@ -21,21 +25,30 @@ def solve(puzzle_input: list[str]) -> int:
             case "7" | "seven": return 7
             case "8" | "eight": return 8
             case "9" | "nine":  return 9
-
     def parse_calibration_value(line: str) -> int:
-        valid_digits = [*"123456789", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-        first, last = "", ""
+        first = 0
 
-        # Originally implemented with a regex, but since numbers may be overlapping
-        # (e.g. "oneight" contains both "one" and "eight") and we want the last digit,
-        # we can't use something like re.findall() (which would find "one" and then stop).
+        # Originally implemented with a re.findall(), but since numbers
+        # may be overlapping (e.g. "oneight" contains both "one" and "eight")
+        # and we want the last digit, we can't use this.
+        #
+        # Then implemented using a list of valid number strings
+        # and line[i:].startswith() scanning forwards through each line.
+        #
+        # Finally, refactored to use a regex matching valid numbers, and scanning
+        # forwards through each line to find the first digit followed by scanning
+        # backwards to find the last digit (inspired by a friend's solution -
+        # @DavidDwittyy on Twitter) to reduce the runtime from 10s of milliseconds to <10.
 
         for i in range(len(line)):
-            for digit in valid_digits:
-                if line[i:].startswith(digit):
-                    first, last = first or digit, digit
-                    break
-        return int(f"{digit_to_int(first)}{digit_to_int(last)}")
+            if digit := valid_digits.match(line[i:]):
+                first = digit[0]
+                break
+
+        for i in range(len(line)-1, -1, -1):
+            if digit := valid_digits.match(line[i:]):
+                return (10 * digit_to_int(first)) + digit_to_int(digit[0])
+
 
     return sum(map(parse_calibration_value, puzzle_input))
 
