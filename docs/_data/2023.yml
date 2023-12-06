@@ -14,8 +14,8 @@
   name:  "If You Give A Seed A Fertilizer"
   state: 2
 - day:   6
-  name:  ""
-  state: 0
+  name:  "Wait For It"
+  state: 2
 - day:   7
   name:  ""
   state: 0
