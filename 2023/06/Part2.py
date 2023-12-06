@@ -9,22 +9,48 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from itertools import chain
+from math import sqrt
 import re
+import typing as t
 
 def solve(puzzle_input: list[str]) -> int:
-    record_time     = int("".join(re.findall(r"\d+", puzzle_input[0])))
-    record_distance = int("".join(re.findall(r"\d+", puzzle_input[1])))
+    def roots_of_quadratic(a: float, b: float, c: float) -> list[float]:
+        roots: list[float] = []
 
-    shortest_beating_time = 0
-    for t in range(record_time):
-        if t * (record_time - t) > record_distance:
-            shortest_beating_time = t
-            break
+        for op in [lambda x, y: x + y, lambda x, y: x - y]:
+            try:
+                roots.append(op(-b, sqrt(b**2 - (4*a*c))) / (2*a))
+            except (ZeroDivisionError, ValueError) as e:
+                pass
 
-    for t in range(record_time - 1, -1, -1):
-        if t * (record_time - t) > record_distance:
-            return t - shortest_beating_time + 1
+        return sorted(roots)
 
+    def count_record_breaking_strategies(record_time: int, record_distance: int) -> int:
+        # t * (record_time - t) > record_distance
+        # record_time * t - t * t > record_distance
+        # t^2 - record_time * t + record_distance > 0
+
+        def root_to_candidates(n: float) -> t.Iterable[int]:
+            # The root is likely not an integer, and depending on whether
+            # it's the upper or lower bound, the actual integer value
+            # we're looking for might be +- 1 from the floor of the root.
+
+            return filter(
+                lambda time: time * (record_time - time) > record_distance,
+                (int(n) + dn for dn in range(-1, 2))
+            )
+
+        candidates: list[int] = list(chain.from_iterable(map(
+            root_to_candidates,
+            roots_of_quadratic(1, -record_time, record_distance)
+        )))
+        return candidates[-1] - candidates[0] + 1
+
+    return count_record_breaking_strategies(
+        int("".join(re.findall(r"\d+", puzzle_input[0]))),
+        int("".join(re.findall(r"\d+", puzzle_input[1])))
+    )
 
 def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
