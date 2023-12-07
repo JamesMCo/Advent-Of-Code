@@ -15,37 +15,21 @@ from functools import total_ordering
 import typing as t
 
 def solve(puzzle_input: list[str]) -> int:
-    @total_ordering
-    class Card:
-        name:  str
-        value: int
-
-        def __init__(self: t.Self, name: str) -> None:
-            self.name = name
-
-            match name:
-                case "2": self.value = 2
-                case "3": self.value = 3
-                case "4": self.value = 4
-                case "5": self.value = 5
-                case "6": self.value = 6
-                case "7": self.value = 7
-                case "8": self.value = 8
-                case "9": self.value = 9
-                case "T": self.value = 10
-                case "J": self.value = 11
-                case "Q": self.value = 12
-                case "K": self.value = 13
-                case "A": self.value = 14
-
-        def __str__(self: t.Self) -> str:
-            return self.name
-
-        def __eq__(self: t.Self, other: t.Self) -> bool:
-            return self.value == other.value
-
-        def __lt__(self: t.Self, other: t.Self) -> bool:
-            return self.value < other.value
+    def make_card(c: str) -> int:
+        match c:
+            case "2": return 2
+            case "3": return 3
+            case "4": return 4
+            case "5": return 5
+            case "6": return 6
+            case "7": return 7
+            case "8": return 8
+            case "9": return 9
+            case "T": return 10
+            case "J": return 11
+            case "Q": return 12
+            case "K": return 13
+            case "A": return 14
 
     class HandType(IntEnum):
         HIGH_CARD = auto()
@@ -58,25 +42,25 @@ def solve(puzzle_input: list[str]) -> int:
 
     @total_ordering
     class Hand:
-        cards: list[Card]
+        cards: list[int]
         bid: int
         _hand_type: HandType | None
 
         def __init__(self: t.Self, hand_definition: str) -> None:
             cards, bid = hand_definition.split()
-            self.cards = list(map(Card, cards))
+            self.cards = list(map(make_card, cards))
             self.bid = int(bid)
             self._hand_type = None
 
         def __str__(self: t.Self) -> str:
-            return f"{"".join(map(str, self.cards))} {self.bid}"
+            return f"{self.cards} {self.bid}"
 
         @property
         def hand_type(self: t.Self) -> HandType:
             if self._hand_type is None:
                 card_values = defaultdict(int)
                 for card in self.cards:
-                    card_values[card.name] += 1
+                    card_values[card] += 1
 
                 match sorted(card_values.values(), reverse=True):
                     case [5]:             self._hand_type = HandType.FIVE_OF_A_KIND
