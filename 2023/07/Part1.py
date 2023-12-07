@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
-from collections import defaultdict
+from collections import Counter
 from enum import auto, IntEnum
 import typing as t
 
@@ -56,11 +56,7 @@ def solve(puzzle_input: list[str]) -> int:
         @property
         def hand_type(self: t.Self) -> HandType:
             if self._hand_type is None:
-                card_values = defaultdict(int)
-                for card in self.cards:
-                    card_values[card] += 1
-
-                match sorted(card_values.values(), reverse=True):
+                match sorted(Counter(self.cards).values(), reverse=True):
                     case [5]:             self._hand_type = HandType.FIVE_OF_A_KIND
                     case [4, 1]:          self._hand_type = HandType.FOUR_OF_A_KIND
                     case [3, 2]:          self._hand_type = HandType.FULL_HOUSE

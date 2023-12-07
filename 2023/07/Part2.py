@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
-from collections import defaultdict
+from collections import Counter
 from enum import auto, IntEnum
 import typing as t
 
@@ -53,43 +53,34 @@ def solve(puzzle_input: list[str]) -> int:
         def __str__(self: t.Self) -> str:
             return f"{self.cards} {self.bid}"
 
-        def hand_with_joker_possibilities(self: t.Self) -> t.Iterable[list[int]]:
-            existing_cards = set(self.cards)
-
-            possibilities: list[list[int]] = []
-            for card in self.cards:
-                if card != 1:
-                    possibilities.append([card])
-                else:
-                    possibilities.append(list(existing_cards))
-
-            for a in possibilities[0]:
-                for b in possibilities[1]:
-                    for c in possibilities[2]:
-                        for d in possibilities[3]:
-                            for e in possibilities[4]:
-                                yield [a, b, c, d, e]
-
         @property
         def hand_type(self: t.Self) -> HandType:
             if self._hand_type is None:
-                best_hand_type = HandType.HIGH_CARD
+                # Originally, this function iterated over all possible ways of
+                # replacing the jokers. The runtime of this method was on the
+                # order of 13ms-14ms on my machine.
+                #
+                # After a conversation with a friend (@DavidDwittyy on Twitter),
+                # this function was refactored to instead replace all jokers
+                # with the most common card (unless all cards are jokers, in
+                # which case the jokers remain as jokers for a five of a kind).
+                # This has a runtime on the order of 10ms-11ms on my machine.
 
-                for candidate_hand in self.hand_with_joker_possibilities():
-                    card_values = defaultdict(int)
-                    for card in candidate_hand:
-                        card_values[card] += 1
+                cards = Counter(self.cards)
+                if 1 in cards and cards[1] != 5:
+                    jokers = cards[1]
+                    del cards[1]
+                    cards[cards.most_common(1)[0][0]] += jokers
 
-                    match sorted(card_values.values(), reverse=True):
-                        case [5]:             best_hand_type = max(best_hand_type, HandType.FIVE_OF_A_KIND)
-                        case [4, 1]:          best_hand_type = max(best_hand_type, HandType.FOUR_OF_A_KIND)
-                        case [3, 2]:          best_hand_type = max(best_hand_type, HandType.FULL_HOUSE)
-                        case [3, 1, 1]:       best_hand_type = max(best_hand_type, HandType.THREE_OF_A_KIND)
-                        case [2, 2, 1]:       best_hand_type = max(best_hand_type, HandType.TWO_PAIR)
-                        case [2, 1, 1, 1]:    best_hand_type = max(best_hand_type, HandType.ONE_PAIR)
-                        case [1, 1, 1, 1, 1]: best_hand_type = max(best_hand_type, HandType.HIGH_CARD)
+                match sorted(cards.values(), reverse=True):
+                    case [5]:             self._hand_type = HandType.FIVE_OF_A_KIND
+                    case [4, 1]:          self._hand_type = HandType.FOUR_OF_A_KIND
+                    case [3, 2]:          self._hand_type = HandType.FULL_HOUSE
+                    case [3, 1, 1]:       self._hand_type = HandType.THREE_OF_A_KIND
+                    case [2, 2, 1]:       self._hand_type = HandType.TWO_PAIR
+                    case [2, 1, 1, 1]:    self._hand_type = HandType.ONE_PAIR
+                    case [1, 1, 1, 1, 1]: self._hand_type = HandType.HIGH_CARD
 
-                self._hand_type = best_hand_type
 
             return self._hand_type
 
