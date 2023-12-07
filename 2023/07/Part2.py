@@ -11,7 +11,6 @@ from util.tests import run
 
 from collections import defaultdict
 from enum import auto, IntEnum
-from functools import total_ordering
 import typing as t
 
 def solve(puzzle_input: list[str]) -> int:
@@ -40,7 +39,6 @@ def solve(puzzle_input: list[str]) -> int:
         FOUR_OF_A_KIND = auto()
         FIVE_OF_A_KIND = auto()
 
-    @total_ordering
     class Hand:
         cards: list[int]
         bid: int
@@ -95,10 +93,11 @@ def solve(puzzle_input: list[str]) -> int:
 
             return self._hand_type
 
-        def __eq__(self: t.Self, other: t.Self) -> bool:
-            return self.cards == other.cards
-
         def __lt__(self: t.Self, other: t.Self) -> bool:
+            # According to https://docs.python.org/3/library/functions.html#sorted
+            # it is sufficient (though not recommended) to
+            # only implement __lt__ for sorting.
+
             if self.hand_type != other.hand_type:
                 return self.hand_type < other.hand_type
 
