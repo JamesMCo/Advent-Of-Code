@@ -10,24 +10,21 @@ import unittest, util.read
 from util.tests import run
 
 from itertools import cycle
-import networkx as nx
 import re
 
 def solve(puzzle_input: list[str]) -> int:
     instructions = cycle(puzzle_input[0])
-    graph = nx.DiGraph()
+    graph: dict[str, tuple[str, str]] = {}
     node_definition: re.Pattern = re.compile(r"([^ ]+) = \(([^ ]+), ([^ ]+)\)")
 
     for line in puzzle_input[2:]:
         node, left, right = node_definition.match(line).groups()
-        graph.add_node(node, L=left, R=right)
-        graph.add_edge(node, left)
-        graph.add_edge(node, right)
+        graph[node] = (left, right)
 
     current_node = "AAA"
     steps = 0
     while current_node != "ZZZ":
-        current_node = graph.nodes[current_node][next(instructions)]
+        current_node = graph[current_node][0 if next(instructions) == "L" else 1]
         steps += 1
     return steps
 
