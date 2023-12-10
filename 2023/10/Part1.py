@@ -9,17 +9,16 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
-from util.two_d_world import World
-
 def solve(puzzle_input: list[str]) -> int:
-    pipes = World(".")
-    pipes.load_from_lists(puzzle_input)
+    width  = len(puzzle_input[0])
+    height = len(puzzle_input)
 
     start: tuple[int, int] | None = None
     for y, row in enumerate(puzzle_input):
-        if "S" in row:
-            start = (row.index("S"), y)
-            break
+        for x, col in enumerate(row):
+            if col == "S":
+                start = (x, y)
+                break
 
     branches: list[tuple[tuple[int, int], str]] = []
     for (dx, dy, d, valid) in [
@@ -29,14 +28,18 @@ def solve(puzzle_input: list[str]) -> int:
         (-1,  0, "L", "-LF")  # Left
     ]:
         neighbour = (start[0] + dx, start[1] + dy)
-        if pipes.in_bounds(*neighbour) and pipes[neighbour] in valid:
+        if 0 <= neighbour[0] < width and 0 <= neighbour[1] < height and puzzle_input[neighbour[1]][neighbour[0]] in valid:
             branches.append((neighbour, d))
 
-    distances: dict[tuple[int, int], int] = {start: 0} | {b[0]: 1 for b in branches}
+    distances: dict[tuple[int, int], int] = {
+        start: 0,
+        branches[0][0]: 1,
+        branches[1][0]: 1
+    }
 
     while True:
         for i, (coord, direction) in enumerate(branches):
-            match direction, pipes[coord]:
+            match direction, puzzle_input[coord[1]][coord[0]]:
                 case "U", "|": new_direction = "U"
                 case "U", "7": new_direction = "L"
                 case "U", "F": new_direction = "R"
