@@ -10,17 +10,17 @@ import unittest, util.read
 from util.tests import run
 
 from collections import deque
-from util.two_d_world import World
 
 def solve(puzzle_input: list[str]) -> int:
-    pipes = World(".")
-    pipes.load_from_lists(puzzle_input)
+    width  = len(puzzle_input[0])
+    height = len(puzzle_input)
 
     start: tuple[int, int] | None = None
     for y, row in enumerate(puzzle_input):
-        if "S" in row:
-            start = (row.index("S"), y)
-            break
+        for x, col in enumerate(row):
+            if col == "S":
+                start = (x, y)
+                break
 
     branches: list[tuple[tuple[int, int], str]] = []
     s_shape = ""
@@ -31,18 +31,18 @@ def solve(puzzle_input: list[str]) -> int:
         (-1,  0, "L", "-LF")  # Left
     ]:
         neighbour = (start[0] + dx, start[1] + dy)
-        if pipes.in_bounds(*neighbour) and pipes[neighbour] in valid:
+        if 0 <= neighbour[0] < width and 0 <= neighbour[1] < height and puzzle_input[neighbour[1]][neighbour[0]] in valid:
             branches.append((neighbour, d))
             s_shape += d
 
     clean_pipes: dict[tuple[int, int], str] = {
         start: {"UR": "L", "UD": "|", "UL": "J", "RD": "F", "RL": "-", "DL": "7"}[s_shape]
-    } | {b[0]: pipes[b[0]] for b in branches}
+    } | {b[0]: puzzle_input[b[0][1]][b[0][0]] for b in branches}
     all_pipes_found = False
 
     while not all_pipes_found:
         for i, (coord, direction) in enumerate(branches):
-            match direction, pipes[coord]:
+            match direction, puzzle_input[coord[1]][coord[0]]:
                 case "U", "|": new_direction = "U"
                 case "U", "7": new_direction = "L"
                 case "U", "F": new_direction = "R"
@@ -70,18 +70,15 @@ def solve(puzzle_input: list[str]) -> int:
                 all_pipes_found = True
                 break
 
-            clean_pipes[new_coord] = pipes[new_coord]
+            clean_pipes[new_coord] = puzzle_input[new_coord[1]][new_coord[0]]
             branches[i] = (new_coord, new_direction)
 
-    # Recreate the pipes World object using a default dict, which
-    # will make lookups for non-pipes easier when flood filling
-    # Also, inflate the grid by 3x to allow squeezing through gaps in pipes
+    # Inflate the grid by 3x to allow squeezing through gaps in pipes
     # e.g.
     #        .#.
     # L  =>  .##
     #        ...
     #
-    pipes = World(".", True)
     inflated_pipes = {}
     for (x, y), pipe in clean_pipes.items():
         # Central cell
@@ -102,11 +99,9 @@ def solve(puzzle_input: list[str]) -> int:
         # Stretches left
         if pipe in "-J7":
             inflated_pipes[(x * 3, (y * 3) + 1)] = "#"
-    pipes.load_from_dict(inflated_pipes)
 
     outside: set[tuple[int, int]] = set()
-    queued: deque[tuple[int, int]] = deque()
-    queued.append((-1, -1))
+    queued: deque[tuple[int, int]] = deque([(-1, -1)])
 
     while queued:
         here = queued.popleft()
@@ -116,8 +111,8 @@ def solve(puzzle_input: list[str]) -> int:
             neighbour = (here[0] + dx, here[1] + dy)
 
             # Ensure flood fill only allows one border cell around the entire map
-            if not -1 <= neighbour[0] <= pipes.max_x + 1 or \
-               not -1 <= neighbour[1] <= pipes.max_y + 1:
+            if not -1 <= neighbour[0] <= (width * 3) + 1 or \
+               not -1 <= neighbour[1] <= (height * 3) + 1:
                 continue
 
             # Ensure flood fill isn't repeating already visited cells
@@ -125,10 +120,15 @@ def solve(puzzle_input: list[str]) -> int:
                 continue
 
             # Ensure flood fill is only propagating to non-pipe cells
-            if pipes[neighbour] == ".":
+            if inflated_pipes.get(neighbour, ".") == ".":
                 queued.append(neighbour)
 
-    return sum(1 for x in range(1, pipes.max_x + 1, 3) for y in range(1, pipes.max_y + 1, 3) if (x, y) not in outside and (x, y) not in inflated_pipes)
+    return sum(1
+        for x in range(1, width + 1)
+        for y in range(1, height + 1)
+        if ((x * 3) + 1, (y * 3) + 1) not in outside
+        and ((x * 3) + 1, (y * 3) + 1) not in inflated_pipes
+    )
 
 def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
