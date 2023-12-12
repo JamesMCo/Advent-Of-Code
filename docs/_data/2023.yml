@@ -33,7 +33,7 @@
   state: 2
 - day:   12
   name:  "Hot Springs"
-  state: 1
+  state: 2
 - day:   13
   name:  ""
   state: 0

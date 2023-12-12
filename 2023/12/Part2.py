@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Advent of Code
-#2023 Day 12, Part 1
+#2023 Day 12, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
 import os, sys
@@ -75,7 +75,7 @@ def solve(puzzle_input: list[str]) -> int:
 
     def parse_line(line: str) -> tuple[str, tuple[int, ...]]:
         springs, groups = line.split()
-        return springs, tuple(map(int, groups.split(",")))
+        return "?".join([springs] * 5), tuple(map(int, groups.split(","))) * 5
 
     return sum(starmap(count_arrangements, map(parse_line, puzzle_input)))
 
@@ -91,6 +91,6 @@ class AOC_Tests(unittest.TestCase):
                                        "?#?#?#?#?#?#?#? 1,3,1,6",
                                        "????.#...#... 4,1,1",
                                        "????.######..#####. 1,6,5",
-                                       "?###???????? 3,2,1"]), 21)
+                                       "?###???????? 3,2,1"]), 525152)
 
 run(main)
