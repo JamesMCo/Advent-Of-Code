@@ -32,8 +32,8 @@
   name:  "Cosmic Expansion"
   state: 2
 - day:   12
-  name:  ""
-  state: 0
+  name:  "Hot Springs"
+  state: 1
 - day:   13
   name:  ""
   state: 0
