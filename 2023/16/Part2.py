@@ -105,10 +105,8 @@ def solve(puzzle_input: list[str]) -> int:
             yield x, 0, 0, -1
 
     def test_starting_position(starting_position: tuple[int, int, int, int]) -> int:
-        print(f"Trying {starting_position}")
         contraption = Contraption(puzzle_input, starting_position)
         contraption.simulate_until_cycle()
-        print(f"    Energises {len(contraption.energised)}")
         return len(contraption.energised)
 
     return max(map(test_starting_position, starting_positions(len(puzzle_input[0]), len(puzzle_input))))
