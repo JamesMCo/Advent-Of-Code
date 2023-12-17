@@ -18,7 +18,7 @@ def solve(puzzle_input: list[str]) -> int:
         height: int
 
         beams: list[tuple[int, int, int, int]]
-        seen: list[list[tuple[int, int, int, int]]]
+        seen: set[tuple[int, int, int, int]]
         energised: set[tuple[int, int]]
 
         def __init__(self: t.Self, layout: list[str], initial_beam: tuple[int, int, int, int]) -> None:
@@ -27,65 +27,68 @@ def solve(puzzle_input: list[str]) -> int:
             self.height = len(self.layout)
 
             self.beams = [initial_beam]
-            self.seen = [[initial_beam]]
+            self.seen = {initial_beam}
             self.energised = {(initial_beam[0], initial_beam[1])}
 
         def in_bounds(self: t.Self, x: int, y: int) -> bool:
             return 0 <= x < self.width and 0 <= y < self.height
 
         def simulate_until_cycle(self: t.Self) -> None:
+            # Refactored to use more efficient cycle detection after
+            # a conversation with a friend (@Ggrgra on Twitter)
+            #
+            # Before, I was using the entire state of all beams to
+            # detect a cycle, where I only needed to check whether
+            # a beam had previously been on a given cell facing in
+            # the same direction, and then just don't bother to
+            # simulate that beam any further (as it will only ever
+            # result in duplicated work and results).
+
             while True:
                 new_beams: set[tuple[int, int, int, int]] = set()
                 for x, y, dx, dy in self.beams:
                     match (self.layout[y][x], (dx, dy)):
                         case (".", _) | ("|", (0, _)) | ("-", (_, 0)):
-                            if self.in_bounds(x + dx, y + dy): new_beams.add((x + dx, y + dy, dx, dy))
+                            if self.in_bounds(x + dx, y + dy) and (x + dx, y + dy, dx, dy) not in self.seen:
+                                new_beams.add((x + dx, y + dy, dx, dy))
 
                         # Reflect up
                         case ("/", (1, 0)) | ("\\", (-1, 0)):
-                            if self.in_bounds(x, y - 1): new_beams.add((x, y - 1, 0, -1))
+                            if self.in_bounds(x, y - 1) and (x, y - 1, 0, -1) not in self.seen:
+                                new_beams.add((x, y - 1, 0, -1))
                         # Reflect right
                         case ("/", (0, -1)) | ("\\", (0, 1)):
-                            if self.in_bounds(x + 1, y): new_beams.add((x + 1, y, 1, 0))
+                            if self.in_bounds(x + 1, y) and (x + 1, y, 1, 0) not in self.seen:
+                                new_beams.add((x + 1, y, 1, 0))
                         # Reflect down
                         case ("/", (-1, 0)) | ("\\", (1, 0)):
-                            if self.in_bounds(x, y + 1): new_beams.add((x, y + 1, 0, 1))
+                            if self.in_bounds(x, y + 1) and (x, y + 1, 0, 1) not in self.seen:
+                                new_beams.add((x, y + 1, 0, 1))
                         # Reflect left
                         case ("/", (0, 1)) | ("\\", (0, -1)):
-                            if self.in_bounds(x - 1, y): new_beams.add((x - 1, y, -1, 0))
+                            if self.in_bounds(x - 1, y) and (x - 1, y, -1, 0) not in self.seen:
+                                new_beams.add((x - 1, y, -1, 0))
 
                         # Split vertically (no-split case handled in first case)
                         case ("|", _):
-                            if self.in_bounds(x, y - 1): new_beams.add((x, y - 1, 0, -1))
-                            if self.in_bounds(x, y + 1): new_beams.add((x, y + 1, 0, 1))
+                            if self.in_bounds(x, y - 1) and (x, y - 1, 0, -1) not in self.seen:
+                                new_beams.add((x, y - 1, 0, -1))
+                            if self.in_bounds(x, y + 1) and (x, y + 1, 0, 1) not in self.seen:
+                                new_beams.add((x, y + 1, 0, 1))
 
                         # Split horizontally (no-split case handled in first case)
                         case ("-", _):
-                            if self.in_bounds(x - 1, y): new_beams.add((x - 1, y, -1, 0))
-                            if self.in_bounds(x + 1, y): new_beams.add((x + 1, y, 1, 0))
-
-                # debug_map = [list(line) for line in self.layout]
-                # for x, y, dx, dy in new_beams:
-                #     if debug_map[y][x] in ">v<^":
-                #         debug_map[y][x] = "2"
-                #     elif debug_map[y][x] in "2345678":
-                #         debug_map[y][x] = str(int(debug_map[y][x]) + 1)
-                #     elif debug_map[y][x] == "9":
-                #         debug_map[y][x] = "X"
-                #     else:
-                #         match dx, dy:
-                #             case 1, 0: debug_map[y][x] = ">"
-                #             case 0, 1: debug_map[y][x] = "v"
-                #             case -1, 0: debug_map[y][x] = "<"
-                #             case 0, -1: debug_map[y][x] = "^"
-                # input("\n".join("".join(line) for line in debug_map) + "\n")
+                            if self.in_bounds(x - 1, y) and (x - 1, y, -1, 0) not in self.seen:
+                                new_beams.add((x - 1, y, -1, 0))
+                            if self.in_bounds(x + 1, y) and (x + 1, y, 1, 0) not in self.seen:
+                                new_beams.add((x + 1, y, 1, 0))
 
                 self.beams = sorted(new_beams)
-                if self.beams in self.seen:
+                if not self.beams:
                     break
                 for x, y, dx, dy in self.beams:
                     self.energised.add((x, y))
-                self.seen.append(self.beams[:])
+                    self.seen.add((x, y, dx, dy))
 
     def starting_positions(width: int, height: int) -> t.Iterable[tuple[int, int, int, int]]:
         # Right from left edge
