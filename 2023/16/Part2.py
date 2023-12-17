@@ -79,9 +79,9 @@ def solve(puzzle_input: list[str]) -> int:
                             if self.in_bounds(x + 1, y) and (x + 1, y, 1, 0) not in seen:
                                 new_beams.add((x + 1, y, 1, 0))
 
-                beams = sorted(new_beams)
                 if not beams:
                     return len(energised)
+                beams = new_beams
                 for x, y, dx, dy in beams:
                     energised.add((x, y))
                     seen.add((x, y, dx, dy))
