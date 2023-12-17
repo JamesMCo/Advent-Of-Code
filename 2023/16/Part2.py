@@ -87,20 +87,18 @@ def solve(puzzle_input: list[str]) -> int:
                     seen.add((x, y, dx, dy))
 
         def starting_positions(self: t.Self) -> t.Iterable[tuple[int, int, int, int]]:
-            # Right from left edge
             for y in range(self.height):
+                # Right from left edge
                 yield 0, y, 1, 0
 
-            # Down from top edge
-            for x in range(self.width):
-                yield x, 0, 0, 1
-
-            # Left from right edge
-            for y in range(self.height):
+                # Left from right edge
                 yield 0, y, -1, 0
 
-            # Up from bottom edge
             for x in range(self.width):
+                # Down from top edge
+                yield x, 0, 0, 1
+
+                # Up from bottom edge
                 yield x, 0, 0, -1
 
         def find_max_energisation(self: t.Self) -> int:
