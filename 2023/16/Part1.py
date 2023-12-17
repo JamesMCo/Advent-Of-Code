@@ -15,23 +15,15 @@ def solve(puzzle_input: list[str]) -> int:
         width: int
         height: int
 
-        beams: list[tuple[int, int, int, int]]
-        seen: set[tuple[int, int, int, int]]
-        energised: set[tuple[int, int]]
-
         def __init__(self: "Contraption", layout: list[str]) -> None:
             self.layout = layout[:]
             self.width = len(self.layout[0])
             self.height = len(self.layout)
 
-            self.beams = [(0, 0, 1, 0)]
-            self.seen = {(0, 0, 1, 0)}
-            self.energised = {(0, 0)}
-
         def in_bounds(self: "Contraption", x: int, y: int) -> bool:
             return 0 <= x < self.width and 0 <= y < self.height
 
-        def simulate_until_cycle(self: "Contraption") -> None:
+        def simulate_until_cycle(self: "Contraption", initial_beam: tuple[int, int, int, int]) -> int:
             # Refactored to use more efficient cycle detection after
             # a conversation with a friend (@Ggrgra on Twitter)
             #
@@ -42,56 +34,57 @@ def solve(puzzle_input: list[str]) -> int:
             # simulate that beam any further (as it will only ever
             # result in duplicated work and results).
 
+            beams = [initial_beam]
+            seen = {initial_beam}
+            energised = {(initial_beam[0], initial_beam[1])}
+
             while True:
                 new_beams: set[tuple[int, int, int, int]] = set()
-                for x, y, dx, dy in self.beams:
+                for x, y, dx, dy in beams:
                     match (self.layout[y][x], (dx, dy)):
                         case (".", _) | ("|", (0, _)) | ("-", (_, 0)):
-                            if self.in_bounds(x + dx, y + dy) and (x + dx, y + dy, dx, dy) not in self.seen:
+                            if self.in_bounds(x + dx, y + dy) and (x + dx, y + dy, dx, dy) not in seen:
                                 new_beams.add((x + dx, y + dy, dx, dy))
 
                         # Reflect up
                         case ("/", (1, 0)) | ("\\", (-1, 0)):
-                            if self.in_bounds(x, y - 1) and (x, y - 1, 0, -1) not in self.seen:
+                            if self.in_bounds(x, y - 1) and (x, y - 1, 0, -1) not in seen:
                                 new_beams.add((x, y - 1, 0, -1))
                         # Reflect right
                         case ("/", (0, -1)) | ("\\", (0, 1)):
-                            if self.in_bounds(x + 1, y) and (x + 1, y, 1, 0) not in self.seen:
+                            if self.in_bounds(x + 1, y) and (x + 1, y, 1, 0) not in seen:
                                 new_beams.add((x + 1, y, 1, 0))
                         # Reflect down
                         case ("/", (-1, 0)) | ("\\", (1, 0)):
-                            if self.in_bounds(x, y + 1) and (x, y + 1, 0, 1) not in self.seen:
+                            if self.in_bounds(x, y + 1) and (x, y + 1, 0, 1) not in seen:
                                 new_beams.add((x, y + 1, 0, 1))
                         # Reflect left
                         case ("/", (0, 1)) | ("\\", (0, -1)):
-                            if self.in_bounds(x - 1, y) and (x - 1, y, -1, 0) not in self.seen:
+                            if self.in_bounds(x - 1, y) and (x - 1, y, -1, 0) not in seen:
                                 new_beams.add((x - 1, y, -1, 0))
 
                         # Split vertically (no-split case handled in first case)
                         case ("|", _):
-                            if self.in_bounds(x, y - 1) and (x, y - 1, 0, -1) not in self.seen:
+                            if self.in_bounds(x, y - 1) and (x, y - 1, 0, -1) not in seen:
                                 new_beams.add((x, y - 1, 0, -1))
-                            if self.in_bounds(x, y + 1) and (x, y + 1, 0, 1) not in self.seen:
+                            if self.in_bounds(x, y + 1) and (x, y + 1, 0, 1) not in seen:
                                 new_beams.add((x, y + 1, 0, 1))
 
                         # Split horizontally (no-split case handled in first case)
                         case ("-", _):
-                            if self.in_bounds(x - 1, y) and (x - 1, y, -1, 0) not in self.seen:
+                            if self.in_bounds(x - 1, y) and (x - 1, y, -1, 0) not in seen:
                                 new_beams.add((x - 1, y, -1, 0))
-                            if self.in_bounds(x + 1, y) and (x + 1, y, 1, 0) not in self.seen:
+                            if self.in_bounds(x + 1, y) and (x + 1, y, 1, 0) not in seen:
                                 new_beams.add((x + 1, y, 1, 0))
 
-                self.beams = sorted(new_beams)
-                if not self.beams:
-                    break
-                for x, y, dx, dy in self.beams:
-                    self.energised.add((x, y))
-                    self.seen.add((x, y, dx, dy))
+                beams = sorted(new_beams)
+                if not beams:
+                    return len(energised)
+                for x, y, dx, dy in beams:
+                    energised.add((x, y))
+                    seen.add((x, y, dx, dy))
 
-    contraption = Contraption(puzzle_input)
-    contraption.simulate_until_cycle()
-
-    return len(contraption.energised)
+    return Contraption(puzzle_input).simulate_until_cycle((0, 0, 1, 0))
 
 def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
