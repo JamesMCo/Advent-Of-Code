@@ -47,15 +47,18 @@ def solve(puzzle_input: list[str]) -> int:
     # i := number of integer points on the interior
     # b := number of integer points on the boundary
     #
+    # (The following was determined after reading through
+    # some discussions on the subreddit:)
     # The number of boundary points is counted above as
-    # the vertices are found (perimeter_length). However,
-    # based on some reading on the subreddit, it seems that
-    # there is still a slight difference between the calculated
-    # area and the actual answer. This can be seen in the
-    # example, which should return 952408144115 but instead
-    # returns 952408144113 (2 fewer than the correct answer).
-    # Adding 2 to the calculated area seems to result in the
-    # correct answer.
+    # the vertices are found (perimeter_length), and the
+    # area is the result of the Shoelace formula. However,
+    # the answer we are trying to find is actually i + b.
+    # Therefore, we can rearrange the Pick's theorem as follows:
+    #
+    # A = i + b/2 - 1
+    # A + 1 = i + b/2
+    # A + b/2 + 1 = i + b/2 + b/2
+    # i + b = A + b/2 + 1
 
     return int(0.5 * sum(
         (xi * yi1) - (xi1 * yi)
