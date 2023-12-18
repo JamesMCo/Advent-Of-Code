@@ -9,6 +9,9 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from dataclasses import dataclass, field
+from queue import PriorityQueue
+
 def solve(puzzle_input: list[str]) -> int:
     puzzle_input: list[list[int]] = [[int(n) for n in line] for line in puzzle_input]
     target: tuple[int, int] = (len(puzzle_input[0]) - 1, len(puzzle_input) - 1)
@@ -16,16 +19,26 @@ def solve(puzzle_input: list[str]) -> int:
     def in_bounds(x: int, y: int) -> bool:
         return 0 <= x <= target[0] and 0 <= y <= target[1]
 
+    @dataclass(order=True)
+    class State:
+        coord: tuple[int, int] = field(compare=False)
+        direction: str = field(compare=False)
+        length: int
+
     # To adapt my part 1 solution to part 2, all
     # I needed to do was to change the steps considered
-    # (line 67 in part 1, line 43 in part 2) from
+    # (line 88 in part 1, line 56 in part 2) from
     # 1..3 to 4..10 (though, since Python's ranges are
     # not inclusive of the upper bound, 1..4 and 4..11)
 
-    queue: list[tuple[tuple[int, int], str, int]] = [((0, 0), "initial_state", 0)]
+    queue: PriorityQueue[State] = PriorityQueue()
+    queue.put_nowait(State((0, 0), "initial_state", 0))
+    queue_set: set[tuple[tuple[int, int], str, int]] = {((0, 0), "initial_state", 0)}
     seen: dict[tuple[tuple[int, int], str], int] = {}
-    while queue:
-        coord, direction, length = queue.pop()
+    while not queue.empty():
+        state = queue.get_nowait()
+        queue_set.remove((state.coord, state.direction, state.length))
+        coord, direction, length = state.coord, state.direction, state.length
         if (coord, direction) in seen and seen[(coord, direction)] < length:
             # Check that we've not already been here in this exact state, but with a shorter length
             # Even though we perform this check when queueing a state, it might be possible
@@ -57,18 +70,14 @@ def solve(puzzle_input: list[str]) -> int:
                         neighbours.append(((x - steps, y), "w", length + sum(puzzle_input[y][x - intermediate] for intermediate in range(1, steps + 1))))
 
             for neighbour in neighbours:
-                if neighbour not in queue:
+                if neighbour not in queue_set:
                     if not ((neighbour[0], neighbour[1]) in seen and seen[(neighbour[0], neighbour[1])] < neighbour[2]):
                         # Check that we've not already been here in this exact state, but with a shorter length
                         # Even though we perform this check when queueing a state, it might be possible
                         # for the length to be beaten by an earlier queued state, and so we check in both places.
-                        queue.append(neighbour)
+                        queue.put_nowait(State(*neighbour))
+                        queue_set.add(neighbour)
                         seen[(neighbour[0], neighbour[1])] = neighbour[2]
-
-            # Ensure that the queue is sorted, such that the smallest length is at the end of the list
-            # This lets us implement Dijkstra's algorithm (always considering the smallest total cost)
-            # while also not needing to use a deque (popping from the end) as deques can't be sorted in-place
-            queue.sort(reverse=True, key=lambda state: state[2])
 
 def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
