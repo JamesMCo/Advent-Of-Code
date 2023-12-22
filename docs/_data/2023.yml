@@ -62,8 +62,8 @@
   name:  "Step Counter"
   state: 2
 - day:   22
-  name:  ""
-  state: 0
+  name:  "Sand Slabs"
+  state: 2
 - day:   23
   name:  ""
   state: 0
