@@ -20,9 +20,23 @@ def solve(puzzle_input: list[str]) -> int:
 
     def neighbours(x: int, y: int) -> set[tuple[int, int]]:
         output: set[tuple[int, int]] = set()
-        for dx, dy, allowed_cells in ((0, -1, ".^<>"), (1, 0, ".>^v"), (0, 1, ".v<>"), (-1, 0, ".<^v")):
-            if 0 <= x + dx < width and 0 <= y + dy < height and puzzle_input[y + dy][x + dx] in allowed_cells:
-                output.add((x + dx, y + dy))
+        match puzzle_input[y][x]:
+            case "^":
+                if 0 <= x < width and 0 <= y - 1 < height and puzzle_input[y - 1][x] in ".^<>":
+                    output.add((x, y - 1))
+            case ">":
+                if 0 <= x + 1 < width and 0 <= y < height and puzzle_input[y][x + 1] in ".>^v":
+                    output.add((x + 1, y))
+            case "v":
+                if 0 <= x < width and 0 <= y + 1 < height and puzzle_input[y + 1][x] in ".v<>":
+                    output.add((x, y + 1))
+            case "<":
+                if 0 <= x - 1 < width and 0 <= y < height and puzzle_input[y][x - 1] in ".<^v":
+                    output.add((x - 1, y))
+            case ".":
+                for dx, dy, allowed_cells in ((0, -1, ".^<>"), (1, 0, ".>^v"), (0, 1, ".v<>"), (-1, 0, ".<^v")):
+                    if 0 <= x + dx < width and 0 <= y + dy < height and puzzle_input[y + dy][x + dx] in allowed_cells:
+                        output.add((x + dx, y + dy))
         return output
 
     queue: deque[tuple[tuple[int, int], set[tuple[int, int]]]] = deque()
