@@ -115,11 +115,13 @@ with open("times.txt") as f:
 
     for line in f.read().strip().split("\n"):
         day, part, dur = line.split("-")
-        if dur != "fail":
+        if dur == "fail":
+            dur = "Fail"
+        elif dur == "skippedonci":
+            dur = "Skipped on CI"
+        else:
             total_duration += int(dur)
             dur = Decimal(int(dur) / 1_000_000_000).quantize(Decimal("0.001"))
-        else:
-            dur = "Fail"
         if part == "1":
             durations[day] = (dur, durations[day][1])
         elif part == "2":

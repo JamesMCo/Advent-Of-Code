@@ -61,7 +61,7 @@ def run(main: t.Callable[[], t.Optional[tuple[str, t.Any]]], *, skip_on_ci: bool
             print(cyan("Solution skipped due to running on GitHub Actions. This is often due to very large runtimes."))
             if os.path.isfile("../../times.txt"):
                 with open("../../times.txt", "a") as f:
-                    f.write(f"Skipped on CI\n")
+                    f.write("skippedonci\n")
             return
 
         start = time.perf_counter_ns()
