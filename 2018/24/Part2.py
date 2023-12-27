@@ -176,7 +176,7 @@ def main():
 
     units = solve(puzzle_input)
 
-    print("The number of units that the winning army would have is " + str(units) + ".")
+    print("The number of units that the immune system would have after the smallest boost needed for it to win is " + str(units) + ".")
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
