@@ -133,7 +133,7 @@ with open("times.txt") as f:
         with open(github_summary, "w") as g:
             g.write(f"# {current_year} Solution Runtimes\nAll{" non-failed" if failed else ""} solutions found in {total_duration}s.\n| Day | Part 1 | Part 2|\n|-----|--------|-------|\n")
             for day, parts in sorted(durations.items(), key=lambda x: int(x[0])):
-                g.write(f"| [{day}{" 🎂" if day == "9" else ""}](https://mrjamesco.uk/Advent-Of-Code/?{current_year}-{day:0>2}) | {parts[0]}{"s" if parts[0] not in ["Not attempted", "Fail", "N/A"] else ""} | {parts[1]}{"s" if parts[1] not in ["Not attempted", "Fail", "N/A"] else ""} |\n")
+                g.write(f"| [{day}{" 🎂" if day == "9" else ""}](https://mrjamesco.uk/Advent-Of-Code/?{current_year}-{day:0>2}) | {parts[0]}{"s" if parts[0] not in ["Not attempted", "Fail", "N/A", "Skipped on CI"] else ""} | {parts[1]}{"s" if parts[1] not in ["Not attempted", "Fail", "N/A", "Skipped on CI"] else ""} |\n")
 
     print(f"{cyan(f"All{" non-failed" if failed else ""} solutions found in")} {green(f"{total_duration}s")}{cyan(".")}")
 

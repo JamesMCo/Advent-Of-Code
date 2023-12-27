@@ -54,9 +54,15 @@ def sort_tests(x: str, y: str) -> int:
     y_num = int(y[7:])
     return x_num - y_num
 
-def run(main: t.Callable[[], t.Optional[tuple[str, t.Any]]]) -> t.Optional[t.NoReturn]:
+def run(main: t.Callable[[], t.Optional[tuple[str, t.Any]]], *, skip_on_ci: bool = False) -> t.Optional[t.NoReturn]:
     unittest.TestLoader.sortTestMethodsUsing = staticmethod(sort_tests)
     if unittest.main(verbosity=2, exit=False, testRunner=Runner).result.wasSuccessful():
+        if skip_on_ci and os.getenv("GITHUB_STEP_SUMMARY"):
+            print(cyan("Solution skipped due to running on GitHub Actions. This is often due to very large runtimes."))
+            if os.path.isfile("../../times.txt"):
+                with open("../../times.txt", "a") as f:
+                    f.write(f"Skipped on CI\n")
+
         start = time.perf_counter_ns()
         result = main()
         end = time.perf_counter_ns()
