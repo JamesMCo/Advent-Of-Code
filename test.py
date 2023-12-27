@@ -68,8 +68,22 @@ class Day:
             self.input_exists = False
 
     def print_header(self: t.Self) -> None:
-        sep = "*" * len(f"**  Day {self.day}  - {names[self.day - 1]}  **")
-        print(f"{yellow(f"{sep}\n**  Day {self.day}  - {names[self.day - 1]}  **\n{sep}")}\n\n")
+        left_middle = f" Day {self.day} "
+        right_middle = f" {names[self.day - 1]} "
+        left_sep = "═" * len(left_middle)
+        right_sep = "═" * len(right_middle)
+
+        print(yellow(f"╔{left_sep}╦{right_sep}╗"))
+        print(yellow(f"║{left_middle}║{right_middle}║\n╠{left_sep}╩"), end="")
+        match len(right_sep):
+            case 2 | 3 | 4 | 5 | 6 | 7:
+                output = "════════╗"
+                output = output[:len(right_sep)] + "╩" + output[len(right_sep) + 1:]
+                print(yellow(output))
+            case 8:
+                print(yellow(f"════════╣"))
+            case _:
+                print(yellow(f"════════╦{right_sep[9:]}╝"))
 
     def can_run_any_part(self: t.Self) -> bool:
         return self.can_run_part(1) or self.can_run_part(2)
@@ -81,7 +95,9 @@ class Day:
 
     @staticmethod
     def run_part(part_num: int) -> t.Optional[bool]:
-        print(green(f"Testing Part {part_num}\n"))
+        if part_num == 2:
+            print(yellow("╔════════════════╗"))
+        print(f"{yellow("║")} {green(f"Testing Part {part_num}")} {yellow("║\n╚════════════════╝")}")
         return os.system(f"{"" if os.name == "nt" else "python ./"}Part{part_num}.py") != 0
 
 with open(f"docs/_data/{args.year}.yml") as f:
@@ -105,7 +121,7 @@ for d in range(1, 26):
                         failed = True
                         with open("../../times.txt", "a") as f:
                             f.write("fail\n")
-                    print("\n")
+            print("\n")
 
 os.chdir("..")
 
