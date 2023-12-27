@@ -65,7 +65,15 @@ def run(main: t.Callable[[], t.Optional[tuple[str, t.Any]]], *, skip_on_ci: bool
             return
 
         start = time.perf_counter_ns()
-        result = main()
+        try:
+            result = main()
+        except KeyboardInterrupt:
+            end = time.perf_counter_ns()
+            seconds = Decimal(
+                (end - start) / 1_000_000_000  # ns -> s by dividing by 10^9
+            ).quantize(Decimal("0.001"))
+            print(f"{cyan("Solution halted after")} {red(f"{seconds}s")}{cyan(".")}")
+            exit(1)
         end = time.perf_counter_ns()
 
         if result:
