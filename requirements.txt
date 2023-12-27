@@ -4,3 +4,4 @@ pyperclip
 pyyaml
 regex
 requests
+z3-solver
