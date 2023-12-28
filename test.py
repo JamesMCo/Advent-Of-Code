@@ -68,7 +68,7 @@ class Day:
             self.input_exists = False
 
     def print_header(self: t.Self) -> None:
-        left_middle = f" Day {self.day} "
+        left_middle = f" Day {self.day}{" " if self.day < 10 else ""} "
         right_middle = f" {names[self.day - 1]} "
         left_sep = "═" * len(left_middle)
         right_sep = "═" * len(right_middle)
@@ -76,14 +76,14 @@ class Day:
         print(yellow(f"╔{left_sep}╦{right_sep}╗"))
         print(yellow(f"║{left_middle}║{right_middle}║\n╠{left_sep}╩"), end="")
         match len(right_sep):
-            case 2 | 3 | 4 | 5 | 6 | 7:
-                output = "════════╗"
+            case 2 | 3 | 4 | 5 | 6:
+                output = "═══════╗"
                 output = output[:len(right_sep)] + "╩" + output[len(right_sep) + 1:]
                 print(yellow(output))
-            case 8:
-                print(yellow(f"════════╣"))
+            case 7:
+                print(yellow(f"═══════╣"))
             case _:
-                print(yellow(f"════════╦{right_sep[9:]}╝"))
+                print(yellow(f"═══════╦{right_sep[8:]}╝"))
 
     def can_run_any_part(self: t.Self) -> bool:
         return self.can_run_part(1) or self.can_run_part(2)
