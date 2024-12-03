@@ -12,7 +12,7 @@ from util.tests import run
 import re
 
 def solve(puzzle_input: str) -> int:
-    mul_pattern: re.Pattern = re.compile(r"mul\((\d+),(\d+)\)")
+    mul_pattern: re.Pattern = re.compile(r"mul\((\d{1,3}),(\d{1,3})\)")
 
     return sum(int(a) * int(b) for a, b in re.findall(mul_pattern, puzzle_input))
 

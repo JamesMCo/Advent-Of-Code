@@ -12,7 +12,7 @@ from util.tests import run
 import re
 
 def solve(puzzle_input: str) -> int:
-    inst_pattern: re.Pattern = re.compile(r"mul\((\d+),(\d+)\)|(do\(\))|(don't\(\))")
+    inst_pattern: re.Pattern = re.compile(r"mul\((\d{1,3}),(\d{1,3})\)|(do\(\))|(don't\(\))")
     enabled: bool = True
     total: int = 0
 
