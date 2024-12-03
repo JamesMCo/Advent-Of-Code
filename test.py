@@ -128,6 +128,7 @@ os.chdir("..")
 with open("times.txt") as f:
     total_duration = 0
     durations = collections.defaultdict(lambda: ("Not attempted", "Not attempted"))
+    sorted_durations = []
 
     for line in f.read().strip().split("\n"):
         day, part, dur = line.split("-")
@@ -138,6 +139,7 @@ with open("times.txt") as f:
         else:
             total_duration += int(dur)
             dur = Decimal(int(dur) / 1_000_000_000).quantize(Decimal("0.001"))
+            sorted_durations.append(dur)
         if part == "1":
             durations[day] = (dur, durations[day][1])
         elif part == "2":
@@ -148,10 +150,22 @@ with open("times.txt") as f:
     total_duration = Decimal(total_duration / 1_000_000_000).quantize(Decimal("0.001"))
 
     if github_summary := os.getenv("GITHUB_STEP_SUMMARY"):
+        sorted_durations.sort()
+        ratings = {
+            "🟩": sorted_durations[:int(len(sorted_durations) / 4)],
+            "🟨": sorted_durations[int(len(sorted_durations) / 4):int(len(sorted_durations) / 2)],
+            "🟧": sorted_durations[int(len(sorted_durations) / 2):3 * int(len(sorted_durations) / 4)],
+            "🟥": sorted_durations[3 * int(len(sorted_durations) / 4):]
+        }
+        def get_rating(duration):
+            for emoji, rating_range in ratings.items():
+                if duration in rating_range:
+                    return emoji
+
         with open(github_summary, "w") as g:
-            g.write(f"# {current_year} Solution Runtimes\nAll{" non-failed" if failed else ""} solutions found in {total_duration}s.\n| Day | Part 1 | Part 2|\n|-----|--------|-------|\n")
+            g.write(f"# {current_year} Solution Runtimes\nAll{" non-failed" if failed else ""} solutions found in {total_duration}s.\n| Day | Part 1 | Part 2|\n|-----|--------|-------|----|\n")
             for day, parts in sorted(durations.items(), key=lambda x: int(x[0])):
-                g.write(f"| [{day}{" 🎂" if day == "9" else ""}](https://mrjamesco.uk/Advent-Of-Code/?{current_year}-{day:0>2}) | {parts[0]}{"s" if parts[0] not in ["Not attempted", "Fail", "N/A", "Skipped on CI"] else ""} | {parts[1]}{"s" if parts[1] not in ["Not attempted", "Fail", "N/A", "Skipped on CI"] else ""} |\n")
+                g.write(f"| [{day}{" 🎂" if day == "9" else ""}](https://mrjamesco.uk/Advent-Of-Code/?{current_year}-{day:0>2}) | {parts[0]}{"s" if parts[0] not in ["Not attempted", "Fail", "N/A", "Skipped on CI"] else ""} | {parts[1]}{"s" if parts[1] not in ["Not attempted", "Fail", "N/A", "Skipped on CI"] else ""} | {get_rating(parts[0])}{get_rating(parts[1])} |\n")
 
     print(f"{cyan(f"All{" non-failed" if failed else ""} solutions found in")} {green(f"{total_duration}s")}{cyan(".")}")
 
