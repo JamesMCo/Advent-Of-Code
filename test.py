@@ -155,7 +155,8 @@ with open("times.txt") as f:
             "🟩": sorted_durations[:int(len(sorted_durations) / 4)],
             "🟨": sorted_durations[int(len(sorted_durations) / 4):int(len(sorted_durations) / 2)],
             "🟧": sorted_durations[int(len(sorted_durations) / 2):3 * int(len(sorted_durations) / 4)],
-            "🟥": sorted_durations[3 * int(len(sorted_durations) / 4):]
+            "🟥": sorted_durations[3 * int(len(sorted_durations) / 4):],
+            "⬛": ["Not attempted", "Fail", "N/A", "Skipped on CI"]
         }
         def get_rating(duration):
             for emoji, rating_range in ratings.items():
