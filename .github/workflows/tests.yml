@@ -4,6 +4,11 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
+    inputs:
+      year:
+        description: "Which year's solutions to run"
+        type: "number"
+        required: false
 jobs:
   run-tests:
     name: Run Tests
@@ -22,6 +27,6 @@ jobs:
           pip install -r requirements.txt
       - name: 📋 Run Tests
         run: |
-          script -e -c "python test.py";
+          script -e -c "python test.py ${{ github.event.inputs.year }}";
         env:
           jamdroid_input_cache_key: ${{ secrets.JAMDROID_INPUT_CACHE_KEY }}
