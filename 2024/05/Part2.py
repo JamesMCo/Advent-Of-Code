@@ -23,9 +23,6 @@ def solve(puzzle_input: list[str]) -> int:
             return False
         return is_ordered(tail[0], tail[1:])
 
-    def insert(l: list[int], v: int, i: int) -> list[int]:
-        return l[:i] + [v] + l[i:]
-
     def order(ordered: list[int], remaining: list[int]) -> list[int]:
         if not remaining:
             return ordered
