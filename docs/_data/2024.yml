@@ -11,8 +11,8 @@
   name:  "Ceres Search"
   state: 2
 - day:   5
-  name:  ""
-  state: 0
+  name:  "Print Queue"
+  state: 2
 - day:   6
   name:  ""
   state: 0
