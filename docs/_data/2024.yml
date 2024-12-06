@@ -14,8 +14,8 @@
   name:  "Print Queue"
   state: 2
 - day:   6
-  name:  ""
-  state: 0
+  name:  "Guard Gallivant"
+  state: 2
 - day:   7
   name:  ""
   state: 0
