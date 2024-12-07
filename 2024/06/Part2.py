@@ -69,7 +69,7 @@ def solve(puzzle_input: list[str]) -> int:
 def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
 
-    return "The number of distinct positions visited by the guard is {}.", solve(puzzle_input)
+    return "The number of positions in which an obstruction that would cause a loop is {}.", solve(puzzle_input)
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
