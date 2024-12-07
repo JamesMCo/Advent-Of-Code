@@ -20,7 +20,7 @@ def solve(puzzle_input: list[str]) -> int:
         else:
             return is_possible(target, [numbers[0] + numbers[1]] + numbers[2:])\
                 or is_possible(target, [numbers[0] * numbers[1]] + numbers[2:])\
-                or is_possible(target, [int(str(numbers[0]) + str(numbers[1]))] + numbers[2:])
+                or is_possible(target, [int(f"{numbers[0]}{numbers[1]}")] + numbers[2:])
 
     return sum([
         int(line.split()[0][:-1])
