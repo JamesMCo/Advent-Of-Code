@@ -9,7 +9,23 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+import re
+from typing import Iterator
+
 def solve(puzzle_input: list[str]) -> int:
+    def parse_line(line: str) -> tuple[int, int, list[int], int]:
+        # By parsing the input line    |    |    |          > Number of remaining values after the first (i.e. how many operators need to be added)
+        # in a separate function,      |    |    +----------> Rest of the remaining values
+        # we can avoid multiple calls  |    +---------------> First of the remaining values
+        # to, say, str.split()         +--------------------> Target value
+        numbers: Iterator[int] = map(int, re.findall(r"\d+", line))
+
+        target: int = next(numbers)
+        acc: int = next(numbers)
+        remaining = list(numbers)
+
+        return target, acc, remaining, len(remaining)
+
     def is_possible(target: int, acc: int, numbers: list[int], length: int, current: int = 0) -> bool:
         if current == length:
             return target == acc
@@ -23,14 +39,9 @@ def solve(puzzle_input: list[str]) -> int:
                 or is_possible(target, int(f"{acc}{numbers[current]}"), numbers, length, current + 1)
 
     return sum([
-        int(line.split()[0][:-1])
-        for line in puzzle_input
-        if is_possible(
-            int(line.split()[0][:-1]),          # Target value
-            int(line.split()[1]),               # First of the remaining numbers
-            [int(n) for n in line.split()[2:]], # Rest of the remaining numbers
-            len(line.split()) - 2,              # How many remaining numbers (not counting the first) to iterate over (i.e. how many operators need to add)
-        )
+        line[0]
+        for line in map(parse_line, puzzle_input)
+        if is_possible(*line)
     ])
 
 def main() -> tuple[str, int]:
