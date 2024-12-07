@@ -17,8 +17,8 @@
   name:  "Guard Gallivant"
   state: 2
 - day:   7
-  name:  ""
-  state: 0
+  name:  "Bridge Repair"
+  state: 2
 - day:   8
   name:  ""
   state: 0
