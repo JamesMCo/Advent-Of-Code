@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 #Advent of Code
-#2024 Day 7, Part 1
+#2024 Day 7, Part 2
 #Solution by James C. (https://github.com/JamesMCo)
 
 import os, sys
@@ -38,11 +38,7 @@ def solve(puzzle_input: list[str]) -> int:
                 or is_possible(target, acc * numbers[current], numbers, length, current + 1)\
                 or is_possible(target, int(f"{acc}{numbers[current]}"), numbers, length, current + 1)
 
-    return sum([
-        line[0]
-        for line in map(parse_line, puzzle_input)
-        if is_possible(*line)
-    ])
+    return sum(line[0] for line in map(parse_line, puzzle_input) if is_possible(*line))
 
 def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
