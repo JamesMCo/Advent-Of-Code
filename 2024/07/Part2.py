@@ -10,25 +10,26 @@ import unittest, util.read
 from util.tests import run
 
 def solve(puzzle_input: list[str]) -> int:
-    def is_possible(target: int, head: int, numbers: list[int]) -> bool:
-        if not numbers:
-            return target == head
-        elif head > target:
+    def is_possible(target: int, acc: int, numbers: list[int], length: int, current: int = 0) -> bool:
+        if current == length:
+            return target == acc
+        elif acc > target:
             # Operations do not allow getting smaller (subtract, divide, etc.)
             # so if any number is larger than the target, it's now impossible
             return False
         else:
-            return is_possible(target, head + numbers[0], numbers[1:])\
-                or is_possible(target, head * numbers[0], numbers[1:])\
-                or is_possible(target, int(f"{head}{numbers[0]}"), numbers[1:])
+            return is_possible(target, acc + numbers[current], numbers, length, current + 1)\
+                or is_possible(target, acc * numbers[current], numbers, length, current + 1)\
+                or is_possible(target, int(f"{acc}{numbers[current]}"), numbers, length, current + 1)
 
     return sum([
         int(line.split()[0][:-1])
         for line in puzzle_input
         if is_possible(
-            int(line.split()[0][:-1]),         # Target value (left of colon, without including colon)
-            int(line.split()[1]),              # Remaining numbers (first to right of colon)
-            [int(n) for n in line.split()[2:]] # Remaining numbers (second and onwards right of colon)
+            int(line.split()[0][:-1]),          # Target value
+            int(line.split()[1]),               # First of the remaining numbers
+            [int(n) for n in line.split()[2:]], # Rest of the remaining numbers
+            len(line.split()) - 2,              # How many remaining numbers (not counting the first) to iterate over (i.e. how many operators need to add)
         )
     ])
 
