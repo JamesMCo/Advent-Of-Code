@@ -20,8 +20,8 @@
   name:  "Bridge Repair"
   state: 2
 - day:   8
-  name:  ""
-  state: 0
+  name:  "Resonant Collinearity"
+  state: 2
 - day:   9
   name:  ""
   state: 0
