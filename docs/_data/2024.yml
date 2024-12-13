@@ -35,8 +35,8 @@
   name:  "Garden Groups"
   state: 2
 - day:   13
-  name:  ""
-  state: 0
+  name:  "Claw Contraption"
+  state: 2
 - day:   14
   name:  ""
   state: 0
