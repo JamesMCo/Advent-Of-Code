@@ -38,8 +38,8 @@
   name:  "Claw Contraption"
   state: 2
 - day:   14
-  name:  ""
-  state: 0
+  name:  "Restroom Redoubt"
+  state: 2
 - day:   15
   name:  ""
   state: 0
