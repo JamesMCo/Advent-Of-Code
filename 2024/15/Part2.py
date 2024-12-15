@@ -117,7 +117,6 @@ def solve(puzzle_input: list[str]) -> int:
                             self.objects[((x * 2) + 1, y)] = Box(self, (x * 2) + 1, y, True)
                         case "@":
                             self.objects[(x * 2, y)] = self.robot = Robot(self, x * 2, y)
-                self.height = y
 
         def can_push(self: Self, from_loc: tuple[int, int], to_loc: tuple[int, int]) -> bool:
             if to_loc in self.objects:
