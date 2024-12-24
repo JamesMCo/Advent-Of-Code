@@ -68,8 +68,8 @@
   name:  "LAN Party"
   state: 2
 - day:   24
-  name:  ""
-  state: 0
+  name:  "Crossed Wires"
+  state: 2
 - day:   25
   name:  ""
   state: 0
