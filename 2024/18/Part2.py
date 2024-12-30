@@ -47,14 +47,14 @@ def solve(puzzle_input: list[str], width: int = 71) -> str:
                     queue.append((neighbour_loc, current_visited | {current_loc}))
         return False
 
-    for cutoff, byte in enumerate(puzzle_input):
-        if not is_possible(cutoff):
-            return byte
+    for cutoff in range(len(puzzle_input) - 1, -1, -1):
+        if is_possible(cutoff):
+            return puzzle_input[cutoff + 1]
 
 def main() -> tuple[str, str]:
     puzzle_input = util.read.as_lines()
 
-    return "The coordinates of the first byte that prevent the exit from being reachable are {}.", solve(puzzle_input)
+    return "The coordinates of the first byte that prevents the exit from being reachable are {}.", solve(puzzle_input)
 
 class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
