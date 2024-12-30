@@ -44,4 +44,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex5(self):
         return self.assertEqual(solve("111221", 1), 6)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

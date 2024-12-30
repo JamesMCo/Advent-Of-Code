@@ -90,4 +90,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex6(self):
         return self.assertEqual(solve(["((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2"]), 23340)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

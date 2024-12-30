@@ -61,4 +61,5 @@ class AOC_Tests(unittest.TestCase):
                                        "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
                                        "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"]), 2286)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

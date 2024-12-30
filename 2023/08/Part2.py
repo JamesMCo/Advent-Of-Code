@@ -66,4 +66,5 @@ class AOC_Tests(unittest.TestCase):
                                        "22Z = (22B, 22B)",
                                        "XXX = (XXX, XXX)"]), 6)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

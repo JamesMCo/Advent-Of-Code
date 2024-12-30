@@ -27,4 +27,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
         return self.assertEqual(solve(["rn=1", "cm-", "qp=3", "cm=2", "qp-", "pc=4", "ot=9", "ab=5", "pc-", "pc=6", "ot=7"]), 1320)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

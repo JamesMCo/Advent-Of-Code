@@ -55,4 +55,5 @@ class AOC_Tests(unittest.TestCase):
         self.assertEqual(solve(["depth: 510",
                                 "target: 10,10"]), 114)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

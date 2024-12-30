@@ -82,4 +82,5 @@ class AOC_Tests(unittest.TestCase):
                                        "[1,[2,[3,[4,[5,6,7]]]],8,9]",
                                        "[1,[2,[3,[4,[5,6,0]]]],8,9]"]), 140)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

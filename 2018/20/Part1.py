@@ -101,4 +101,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex5(self):
         self.assertEqual(solve("^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$"), 31)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

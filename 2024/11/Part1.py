@@ -41,4 +41,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex3(self):
         return self.assertEqual(solve(list(map(int, "125 17".split(" ")))), 55312)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

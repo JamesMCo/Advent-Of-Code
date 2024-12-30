@@ -29,4 +29,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex3(self):
         self.assertEqual(solve(["-1", "-2", "-3"]), -6)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

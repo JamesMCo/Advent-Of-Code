@@ -49,4 +49,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex4(self):
         return self.assertEqual(solve(["ieodomkazucvgmuy"]), 0)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

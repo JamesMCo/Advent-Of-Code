@@ -74,4 +74,5 @@ class AOC_Tests(unittest.TestCase):
                                 "    - Move one slot to the right.",
                                 "    - Continue with state A."]), 3)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

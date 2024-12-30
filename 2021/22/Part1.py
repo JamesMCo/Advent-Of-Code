@@ -70,4 +70,5 @@ class AOC_Tests(unittest.TestCase):
                                        "on x=-54112..-39298,y=-85059..-49293,z=-27449..7877",
                                        "on x=967..23432,y=45373..81175,z=27513..53682"]), 590784)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

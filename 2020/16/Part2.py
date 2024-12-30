@@ -67,4 +67,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
         pass
 
-run(main)
+if __name__ == "__main__":
+    run(main)

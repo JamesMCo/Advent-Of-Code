@@ -70,4 +70,5 @@ class AOC_Tests(unittest.TestCase):
         return self.assertEqual(solve(["498,4 -> 498,6 -> 496,6",
                                        "503,4 -> 502,4 -> 502,9 -> 494,9"]), 24)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

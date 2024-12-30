@@ -234,4 +234,5 @@ class AOC_Tests(unittest.TestCase):
                                        "",
                                        "Program: 0,1,5,4,3,0"]), "4,6,3,5,6,3,5,2,1,0")
 
-run(main)
+if __name__ == "__main__":
+    run(main)

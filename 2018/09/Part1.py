@@ -61,4 +61,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex6(self):
         self.assertEqual(solve("30 players; last marble is worth 5807 points"), 37305)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

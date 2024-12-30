@@ -74,4 +74,5 @@ class AOC_Tests(unittest.TestCase):
                                        "pj-fs",
                                        "start-RW"]), 226)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

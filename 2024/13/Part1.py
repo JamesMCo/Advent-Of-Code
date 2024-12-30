@@ -62,4 +62,5 @@ class AOC_Tests(unittest.TestCase):
                                        "Button B: X+27, Y+71",
                                        "Prize: X=18641, Y=10279"]), 480)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

@@ -80,4 +80,5 @@ class AOC_Tests(unittest.TestCase):
                                 "set a 1",
                                 "jgz a -2"]), 4)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

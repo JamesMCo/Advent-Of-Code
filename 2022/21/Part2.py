@@ -198,4 +198,5 @@ class AOC_Tests(unittest.TestCase):
                                        "drzm: hmdt - zczc",
                                        "hmdt: 32"]), 301)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

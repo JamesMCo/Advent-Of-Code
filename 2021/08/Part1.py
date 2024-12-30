@@ -40,4 +40,5 @@ class AOC_Tests(unittest.TestCase):
                                        "egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb",
                                        "gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce"]), 26)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

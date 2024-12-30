@@ -33,4 +33,5 @@ class AOC_Tests(unittest.TestCase):
                                        "\"aaa\\\"aaa\"",
                                        "\"\\x27\""]), 12)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

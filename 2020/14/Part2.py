@@ -54,4 +54,5 @@ class AOC_Tests(unittest.TestCase):
                                        "mask = 00000000000000000000000000000000X0XX",
                                        "mem[26] = 1"]), 208)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

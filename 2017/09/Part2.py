@@ -62,4 +62,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex7(self):
         self.assertEqual(solve("<{o\"i!a,<{i<a>"), 10)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

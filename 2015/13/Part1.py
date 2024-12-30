@@ -60,4 +60,5 @@ class AOC_Tests(unittest.TestCase):
                                        "David would lose 7 happiness units by sitting next to Bob.",
                                        "David would gain 41 happiness units by sitting next to Carol."]), 330)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

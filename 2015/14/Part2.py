@@ -64,4 +64,5 @@ class AOC_Tests(unittest.TestCase):
         return self.assertEqual(solve(["Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.",
                                        "Dancer can fly 16 km/s for 11 seconds, but then must rest for 162 seconds."], 1000), 689)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

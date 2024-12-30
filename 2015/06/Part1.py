@@ -55,4 +55,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex3(self):
         return self.assertEqual(solve(["turn off 499,499 through 500,500"]), 0)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

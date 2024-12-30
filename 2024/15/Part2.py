@@ -175,4 +175,5 @@ class AOC_Tests(unittest.TestCase):
                                        "^^>vv<^v^v<vv>^<><v<^v>^^^>>>^^vvv^>vvv<>>>^<^>>>>>^<<^v>^vvv<>^<><<v>",
                                        "v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^"]), 9021)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

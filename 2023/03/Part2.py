@@ -90,4 +90,5 @@ class AOC_Tests(unittest.TestCase):
                                        "...$.*....",
                                        ".664.598.."]), 467835)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

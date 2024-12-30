@@ -90,4 +90,5 @@ class AOC_Tests(unittest.TestCase):
                                        "tb-vc",
                                        "td-yn"]), 7)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

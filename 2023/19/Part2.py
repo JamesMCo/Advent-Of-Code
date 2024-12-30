@@ -140,4 +140,5 @@ class AOC_Tests(unittest.TestCase):
                                        "{x=2461,m=1339,a=466,s=291}",
                                        "{x=2127,m=1623,a=2188,s=1013}"]), 167409079868000)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

@@ -50,4 +50,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex2(self):
         return self.assertEqual(solve(["toggle 0,0 through 999,999"]), 2000000)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

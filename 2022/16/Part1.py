@@ -88,4 +88,5 @@ class AOC_Tests(unittest.TestCase):
                                        "Valve II has flow rate=0; tunnels lead to valves AA, JJ",
                                        "Valve JJ has flow rate=21; tunnel leads to valve II"]), 1651)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

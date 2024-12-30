@@ -60,4 +60,5 @@ class AOC_Tests(unittest.TestCase):
                                        "dark blue bags contain 2 dark violet bags.",
                                        "dark violet bags contain no other bags."]), 126)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

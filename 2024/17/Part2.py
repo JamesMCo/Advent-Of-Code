@@ -311,4 +311,5 @@ class AOC_Tests(unittest.TestCase):
                                        "",
                                        "Program: 0,3,5,4,3,0"], False), 117440)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

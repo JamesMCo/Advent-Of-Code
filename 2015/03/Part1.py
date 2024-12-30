@@ -44,4 +44,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex3(self):
         return self.assertEqual(solve("^v^v^v^v^v"), 2)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

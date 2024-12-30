@@ -102,4 +102,5 @@ class AOC_Tests(unittest.TestCase):
             del programs[p]
         programs = {}
 
-run(main)
+if __name__ == "__main__":
+    run(main)

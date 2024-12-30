@@ -125,4 +125,5 @@ class AOC_Tests(unittest.TestCase):
                                 "position=<14,  7> velocity=<-2,  0>",
                                 "position=<-3,  6> velocity=< 2, -1>"]), 3)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

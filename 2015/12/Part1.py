@@ -56,4 +56,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex8(self):
         return self.assertEqual(solve("{}"), 0)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

@@ -44,4 +44,5 @@ class AOC_Tests(unittest.TestCase):
         self.assertEqual(solve([1, 1, 1,  4, 99, 5, 6, 0, 99]).get_memory_as_list(),
                                [30, 1, 1, 4,  2, 5, 6, 0, 99])
 
-run(main)
+if __name__ == "__main__":
+    run(main)

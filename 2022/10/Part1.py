@@ -78,4 +78,5 @@ class AOC_Tests(unittest.TestCase):
                                        "addx 2",   "addx -6",  "addx -11", "noop",    "noop",
                                        "noop"]), 13140)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

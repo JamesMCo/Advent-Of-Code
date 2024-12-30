@@ -44,4 +44,5 @@ class AOC_Tests(unittest.TestCase):
                                        "London to Belfast = 518",
                                        "Dublin to Belfast = 141"]), 982)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

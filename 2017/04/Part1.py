@@ -30,4 +30,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
         self.assertEqual(solve(["aa bb cc dd ee", "aa bb cc dd aa", "aa bb cc dd aaa"]), 2)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

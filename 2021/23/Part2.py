@@ -90,4 +90,5 @@ class AOC_Tests(unittest.TestCase):
                                        "  #A#D#C#A#",
                                        "  #########"]), 44169)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

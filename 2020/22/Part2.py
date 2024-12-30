@@ -86,4 +86,5 @@ class AOC_Tests(unittest.TestCase):
         return self.assertEqual(solve(["Player 1:", "9", "2", "6", "3", "1", "",
                                        "Player 2:", "5", "8", "4", "7", "10"]), 291)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

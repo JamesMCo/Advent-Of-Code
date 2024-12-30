@@ -61,4 +61,5 @@ class AOC_Tests(unittest.TestCase):
                                        "hcl:#cfa07d eyr:2025 pid:166559648",
                                        "iyr:2011 ecl:brn hgt:59in"]), 2)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

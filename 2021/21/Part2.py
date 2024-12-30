@@ -58,4 +58,5 @@ class AOC_Tests(unittest.TestCase):
         return self.assertEqual(solve(["Player 1 starting position: 4",
                                        "Player 2 starting position: 8"]), 444356092776315)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

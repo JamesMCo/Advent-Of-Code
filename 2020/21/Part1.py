@@ -48,4 +48,5 @@ class AOC_Tests(unittest.TestCase):
                                        "sqjhc fvjkl (contains soy)",
                                        "sqjhc mxmxvkd sbzzf (contains fish)"]), 5)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

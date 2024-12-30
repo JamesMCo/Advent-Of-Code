@@ -48,4 +48,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex6(self):
         self.assertEqual(solve("X(8x2)(3x3)ABCY"), 18)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

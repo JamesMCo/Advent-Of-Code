@@ -86,4 +86,5 @@ class AOC_Tests(unittest.TestCase):
                                 "p=<-2,0,0>, v=< 1,0,0>, a=< 0,0,0>",
                                 "p=< 3,0,0>, v=<-1,0,0>, a=< 0,0,0>"]), 1)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

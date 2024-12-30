@@ -84,4 +84,5 @@ class AOC_Tests(unittest.TestCase):
                                 "<x=2, y=-7, z=3>",
                                 "<x=9, y=-8, z=-3>"], 100), 1940)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

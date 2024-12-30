@@ -50,4 +50,5 @@ class AOC_Tests(unittest.TestCase):
                                 "#2 @ 3,1: 4x4",
                                 "#3 @ 5,5: 2x2"]), 3)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

@@ -49,4 +49,5 @@ class AOC_Tests(unittest.TestCase):
                                 "pos=<1,1,2>, r=1",
                                 "pos=<1,3,1>, r=1"]), 7)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

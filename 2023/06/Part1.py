@@ -62,4 +62,5 @@ class AOC_Tests(unittest.TestCase):
         return self.assertEqual(solve(["Time:      7  15   30",
                                        "Distance:  9  40  200"]), 288)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

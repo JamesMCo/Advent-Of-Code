@@ -66,4 +66,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex4(self):
         self.assertEqual(solve("1,2,4"), "63960835bcdc130f0b66d7ff4f6a5a8e")
 
-run(main)
+if __name__ == "__main__":
+    run(main)

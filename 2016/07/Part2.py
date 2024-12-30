@@ -54,4 +54,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex4(self):
         self.assertEqual(solve(["zazbz[bzb]cdb"]), 1)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

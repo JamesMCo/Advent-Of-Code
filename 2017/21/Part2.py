@@ -96,4 +96,5 @@ class AOC_Tests(unittest.TestCase):
         self.assertEqual(solve(["../.# => ##./#../...",
                                 ".#./..#/### => #..#/..../..../#..#"], 2), 12)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

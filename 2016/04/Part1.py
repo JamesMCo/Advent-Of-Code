@@ -49,4 +49,5 @@ class AOC_Tests(unittest.TestCase):
                                 "not-a-real-room-404[oarel]",
                                 "totally-real-room-200[decoy]"]), 1514)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

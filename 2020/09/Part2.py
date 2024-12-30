@@ -46,4 +46,5 @@ class AOC_Tests(unittest.TestCase):
                                        102, 117, 150, 182, 127,
                                        219, 299, 277, 309, 576], 5), 62)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

@@ -135,4 +135,5 @@ class AOC_Tests(unittest.TestCase):
                                        "    If true: throw to monkey 0",
                                        "    If false: throw to monkey 1"]), 2713310158)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

@@ -149,4 +149,5 @@ class AOC_Tests(unittest.TestCase):
                                        "%b -> con",
                                        "&con -> output"]), 11687500)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

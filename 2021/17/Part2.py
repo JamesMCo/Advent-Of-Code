@@ -95,4 +95,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
         return self.assertEqual(solve("target area: x=20..30, y=-10..-5"), 112)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

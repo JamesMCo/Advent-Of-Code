@@ -76,4 +76,5 @@ class AOC_Tests(unittest.TestCase):
                                 "Step D must be finished before step E can begin.",
                                 "Step F must be finished before step E can begin."], 0, 2), 15)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

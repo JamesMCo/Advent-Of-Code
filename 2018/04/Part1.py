@@ -81,4 +81,5 @@ class AOC_Tests(unittest.TestCase):
                                 "[1518-11-05 00:45] falls asleep",
                                 "[1518-11-05 00:55] wakes up"]), 240)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

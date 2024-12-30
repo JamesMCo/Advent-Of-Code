@@ -105,4 +105,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex1(self):
         self.assertEqual(solve(10, (7, 4)), 11)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

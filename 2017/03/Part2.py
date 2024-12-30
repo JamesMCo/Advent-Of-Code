@@ -95,4 +95,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex5(self):
         self.assertEqual(get_grid(-1, -1), 5)
 
-run(main)
+if __name__ == "__main__":
+    run(main)

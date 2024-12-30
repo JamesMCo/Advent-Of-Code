@@ -45,4 +45,5 @@ class AOC_Tests(unittest.TestCase):
     def test_ex5(self):
         self.assertEqual(solve(["+7", "+7", "-2", "-7", "-4"]), 14)
 
-run(main)
+if __name__ == "__main__":
+    run(main)
