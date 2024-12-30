@@ -1,5 +1,6 @@
 colorama
 networkx
+pathos
 pyperclip
 pyyaml
 regex

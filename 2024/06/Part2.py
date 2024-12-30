@@ -9,6 +9,7 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from pathos.pools import ProcessPool as Pool
 from util.two_d_world import World
 
 def solve(puzzle_input: list[str]) -> int:
@@ -64,7 +65,8 @@ def solve(puzzle_input: list[str]) -> int:
             else:
                 return False
 
-    return len([candidate for candidate in candidate_obstructions() if causes_loop(candidate)])
+    with Pool() as pool:
+        return sum(pool.map(causes_loop, candidate_obstructions()))
 
 def main() -> tuple[str, int]:
     puzzle_input = util.read.as_lines()
