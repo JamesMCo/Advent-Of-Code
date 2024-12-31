@@ -9,6 +9,8 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from collections import defaultdict
+
 def solve(puzzle_input: list[int]) -> int:
     # Steps to evolve a secret number:
     # Multiply by 64, mix, and prune   => left shift 6,  XOR with original, AND with 16777215
@@ -25,26 +27,23 @@ def solve(puzzle_input: list[int]) -> int:
             output.append(evolve(output[-1]))
         return list(map(lambda x: x % 10, output))
 
-    def find_deltas(l: list[int]) -> list[tuple[int, int, int, int]]:
-        ds: list[tuple[int, int, int, int]] = []
+    deltas: defaultdict[tuple[int, int, int, int], int] = defaultdict(int)
+
+    def find_deltas_to_bananas(n: int) -> None:
+        l: list[int] = generate(n)
+
+        seen: set[tuple[int, int, int, int]] = set()
         for i in range(0, len(l) - 4):
             # Scans the entire list such that we can extract 5 numbers at a time (for 4 deltas at a time)
-            ds.append(tuple(l[j+1] - l[j] for j in range(i, i+4)))
-        return ds
+            if (delta_pattern := tuple(l[j+1] - l[j] for j in range(i, i+4))) not in seen:
+                # Save the number of bananas that would be awarded if using this pattern
+                # (so if deltas is in seen, we've already seen the pattern before and wouldn't reach this stage)
+                deltas[delta_pattern] += l[i + 4]
+                seen.add(delta_pattern)
 
-    monkeys: list[list[int]] = list(map(generate, puzzle_input))
-    deltas: list[list[tuple[int, int, int, int]]] = list(map(find_deltas, monkeys))
-    delta_sets: list[set[tuple[int, int, int, int]]] = list(map(set, deltas))
-
-    def test_pattern(ds: tuple[int, int, int, int]) -> int:
-        bananas: int = 0
-        for monkey, monkey_deltas, monkey_delta_set in zip(monkeys, deltas, delta_sets):
-            if ds in monkey_delta_set:
-                bananas += monkey[monkey_deltas.index(ds) + 4]
-        return bananas
-
-    possible_patterns: set[tuple[int, int, int, int]] = set().union(*delta_sets)
-    return max(map(test_pattern, possible_patterns))
+    for monkey in puzzle_input:
+        find_deltas_to_bananas(monkey)
+    return max(deltas.values())
 
 def main() -> tuple[str, int]:
     puzzle_input = util.read.as_int_list("\n")
