@@ -38,7 +38,7 @@ def solve(puzzle_input: list[str], saved_threshold: int = 100, exact_threshold: 
                     if puzzle_input[neighbour_loc[1]][neighbour_loc[0]] != "#":
                         graph.add_edge((x, y), neighbour_loc)
 
-    shortest_paths: dict[tuple[int, int], int] = {source: length for source, length in nx.single_target_shortest_path_length(graph, end)}
+    shortest_paths: dict[tuple[int, int], int] = nx.single_target_shortest_path_length(graph, end)
 
     def count_cheats(no_cheat_min: int) -> dict[int, int]:
         queue: deque[tuple[tuple[int, int], set[tuple[int, int]]]] = deque([(start, set())])
