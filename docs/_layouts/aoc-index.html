@@ -30,7 +30,7 @@
 
         <script src="/js/prism.min.js"></script>
         <script>{% for y in page.years %}
-{% include namelist.html year=y %}
+{% include namelist.html year=y.year puzzles=y.puzzles %}
 {%- endfor %}
             initPage = () => {
                 if (window.location.search === "") {
@@ -81,9 +81,9 @@
                         pname = "Bonus";
                         view_puzzle = "";
                     } {% for y in page.years -%}
-                    else if (year === "{{ y }}") {
-                        pname = `Day ${iday}${cake} (${n{{ y }}[iday]})`;
-                        view_puzzle = `<h6><a href="https://adventofcode.com/{{ y }}/day/${iday}" target="_blank" class="link">View puzzle description on AdventOfCode.com</a></h6>`;
+                    else if (year === "{{ y.year }}") {
+                        pname = `Day ${iday}${cake} (${n{{ y.year }}[iday]})`;
+                        view_puzzle = `<h6><a href="https://adventofcode.com/{{ y.year }}/day/${iday}" target="_blank" class="link">View puzzle description on AdventOfCode.com</a></h6>`;
                     } {% endfor %}
 
                     // Update the breadcrumb to include year and day
@@ -153,15 +153,15 @@
             <div id="content">
                 <div id="mainbody" class="container">
                     <h5><a href="https://github.com/JamesMCo/Advent-Of-Code" class="link">View Repo on GitHub</a><span class="hide-on-small-only"> | </span><span class="hide-on-med-and-up"><br></span><a href="https://github.com/JamesMCo/Advent-Of-Code/actions/workflows/tests.yml" class="link">View Tests on GitHub Actions</a></h5>{% for y in page.years reversed %}
-                    <h4 id="{{ y }}">{{ y }}</h4>
+                    <h4 id="{{ y.year }}">{{ y.year }}</h4>
                     <div class="row">
                         <div class="col s12 l7">
-                            <div class="collection">{% for puzzle in site.data[y] -%}
-{% if puzzle.state != 0 %}{% include puzzlelist.html year=y puzzle=puzzle %}{% endif %}
+                            <div class="collection">{% for puzzle in site.data[y.year] -%}
+{% if puzzle.state != 0 %}{% include puzzlelist.html year=y.year puzzle=puzzle %}{% endif %}
 {%- endfor %}
                             </div>
                         </div>
-{% include calendar.html year=y %}
+{% include calendar.html year=y.year puzzles=y.puzzles %}
                     </div>
 {% endfor %}
                 </div>

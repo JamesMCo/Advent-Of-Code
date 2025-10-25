@@ -1,6 +1,6 @@
-            n{{ y }} = ["",
-                     "{{ site.data[y][0].name }}", "{{ site.data[y][1].name }}", "{{ site.data[y][2].name }}", "{{ site.data[y][3].name }}", "{{ site.data[y][4].name }}",
-                     "{{ site.data[y][5].name }}", "{{ site.data[y][6].name }}", "{{ site.data[y][7].name }}", "{{ site.data[y][8].name }}", "{{ site.data[y][9].name }}",
-                     "{{ site.data[y][10].name }}", "{{ site.data[y][11].name }}", "{{ site.data[y][12].name }}", "{{ site.data[y][13].name }}", "{{ site.data[y][14].name }}",
-                     "{{ site.data[y][15].name }}", "{{ site.data[y][16].name }}", "{{ site.data[y][17].name }}", "{{ site.data[y][18].name }}", "{{ site.data[y][19].name }}",
-                     "{{ site.data[y][20].name }}", "{{ site.data[y][21].name }}", "{{ site.data[y][22].name }}", "{{ site.data[y][23].name }}", "{{ site.data[y][24].name }}"]
+            n{{ include.year }} = ["",
+                     "{{ site.data[include.year][0].name }}", "{{ site.data[include.year][1].name }}", "{{ site.data[include.year][2].name }}", "{{ site.data[include.year][3].name }}", "{{ site.data[include.year][4].name }}",
+                     "{{ site.data[include.year][5].name }}", "{{ site.data[include.year][6].name }}", "{{ site.data[include.year][7].name }}", "{{ site.data[include.year][8].name }}", "{{ site.data[include.year][9].name }}",
+                     "{{ site.data[include.year][10].name }}", "{{ site.data[include.year][11].name }}"{% if include.puzzles == "25" %}, "{{ site.data[include.year][12].name }}", "{{ site.data[include.year][13].name }}", "{{ site.data[include.year][14].name }}",
+                     "{{ site.data[include.year][15].name }}", "{{ site.data[include.year][16].name }}", "{{ site.data[include.year][17].name }}", "{{ site.data[include.year][18].name }}", "{{ site.data[include.year][19].name }}",
+                     "{{ site.data[include.year][20].name }}", "{{ site.data[include.year][21].name }}", "{{ site.data[include.year][22].name }}", "{{ site.data[include.year][23].name }}", "{{ site.data[include.year][24].name }}"{% endif %}]
