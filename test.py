@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import argparse, collections, itertools, os, requests, time, types, typing as t, yaml
+import argparse, collections, itertools, os, requests, subprocess, time, types, typing as t, yaml
 from decimal import Decimal
 from util.colour import *
 
@@ -98,7 +98,12 @@ class Day:
         if part_num == 2:
             print(yellow("╔════════════════╗"))
         print(f"{yellow("║")} {green(f"Testing Part {part_num}")} {yellow("║\n╚════════════════╝")}")
-        return os.system(f"{"" if os.name == "nt" else "python ./"}Part{part_num}.py") != 0
+        child: subprocess.Popen
+        if os.name == "nt":
+            child = subprocess.Popen(["python", f"./Part{part_num}.py"])
+        else:
+            child = subprocess.Popen([f"./Part{part_num}.py"])
+        return child.wait() != 0
 
 with open(f"docs/_data/{args.year}.yml") as f:
     names = [day["name"] for day in sorted([full_day for full_day in yaml.safe_load(f)], key=lambda x: x["day"] if isinstance(x["day"], int) else 26)]
