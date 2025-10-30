@@ -98,12 +98,7 @@ class Day:
         if part_num == 2:
             print(yellow("╔════════════════╗"))
         print(f"{yellow("║")} {green(f"Testing Part {part_num}")} {yellow("║\n╚════════════════╝")}")
-        child: subprocess.Popen
-        if os.name == "nt":
-            child = subprocess.Popen(["python", f"./Part{part_num}.py"])
-        else:
-            child = subprocess.Popen([f"./Part{part_num}.py"])
-        return child.wait() != 0
+        return subprocess.Popen(["python", f"./Part{part_num}.py"]).wait() != 0
 
 with open(f"docs/_data/{args.year}.yml") as f:
     names = [day["name"] for day in sorted([full_day for full_day in yaml.safe_load(f)], key=lambda x: x["day"] if isinstance(x["day"], int) else 26)]
