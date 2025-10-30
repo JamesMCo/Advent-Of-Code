@@ -144,7 +144,9 @@ with open("times.txt") as f:
             durations[day] = (dur, durations[day][1])
         elif part == "2":
             durations[day] = (durations[day][0], dur)
-    if "25" in durations:
+    if "12" in durations and int(args.year) >= 2025:
+        durations["12"] = (durations["12"][0], "N/A")
+    elif "25" in durations:
         durations["25"] = (durations["25"][0], "N/A")
 
     total_duration = Decimal(total_duration / 1_000_000_000).quantize(Decimal("0.001"))
