@@ -21,10 +21,7 @@ jobs:
         with:
           python-version: "3.14"
           cache: "pip"
-      - name: ⏬ Install Required Packages
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip-install: -r requirements.txt
       - name: 📋 Run Tests
         run: |
           script -e -c "python test.py ${{ github.event.inputs.year }}";
