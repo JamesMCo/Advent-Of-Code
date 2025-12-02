@@ -9,18 +9,17 @@ sys.path.append(os.path.abspath("../.."))
 import unittest, util.read
 from util.tests import run
 
+from pathos.pools import ProcessPool as Pool
+import re
+
 def solve(puzzle_input: list[str]) -> int:
-    total = 0
-
-    for id_range in puzzle_input:
+    pattern: re.Pattern = re.compile(r"^(\d+)\1$")
+    def test_range(id_range: str) -> int:
         lower, upper = id_range.split("-")
-        for candidate in range(int(lower), int(upper) + 1):
-            candidate_str = str(candidate)
-            pattern = candidate_str[:len(candidate_str) // 2]
-            if candidate_str == pattern + pattern:
-                total += candidate
+        return sum(candidate for candidate in range(int(lower), int(upper) + 1) if pattern.match(str(candidate)))
 
-    return total
+    with Pool() as pool:
+        return sum(pool.map(test_range, puzzle_input))
 
 def main() -> tuple[str, int]:
     puzzle_input = util.read.as_string_list(",")
