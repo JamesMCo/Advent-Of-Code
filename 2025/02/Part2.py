@@ -13,17 +13,10 @@ from pathos.pools import ProcessPool as Pool
 import re
 
 def solve(puzzle_input: list[str]) -> int:
+    pattern: re.Pattern = re.compile(r"^(\d+)\1+$")
     def test_range(id_range: str) -> int:
-        total = 0
         lower, upper = id_range.split("-")
-        for candidate in range(int(lower), int(upper) + 1):
-            candidate_str = str(candidate)
-            for pattern_len in range(1, len(candidate_str)):
-                pattern = candidate_str[:pattern_len]
-                if re.match(f"^({pattern}){{2,}}$", candidate_str):
-                    total += candidate
-                    break
-        return total
+        return sum(candidate for candidate in range(int(lower), int(upper) + 1) if pattern.match(str(candidate)))
 
     with Pool() as pool:
         return sum(pool.map(test_range, puzzle_input))
