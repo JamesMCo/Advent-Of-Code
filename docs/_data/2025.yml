@@ -2,8 +2,8 @@
   name:  "Secret Entrance"
   state: 2
 - day:   2
-  name:  ""
-  state: 0
+  name:  "Gift Shop"
+  state: 2
 - day:   3
   name:  ""
   state: 0
