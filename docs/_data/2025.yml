@@ -5,8 +5,8 @@
   name:  "Gift Shop"
   state: 2
 - day:   3
-  name:  ""
-  state: 0
+  name:  "Lobby"
+  state: 2
 - day:   4
   name:  ""
   state: 0
