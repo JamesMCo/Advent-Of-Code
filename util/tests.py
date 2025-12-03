@@ -54,6 +54,31 @@ def sort_tests(x: str, y: str) -> int:
     y_num = int(y[7:])
     return x_num - y_num
 
+def run_once(main: t.Callable[[], t.Optional[tuple[str, t.Any]]], *, print_result: bool = False) -> Decimal:
+    start = time.perf_counter_ns()
+    try:
+        result = main()
+    except KeyboardInterrupt:
+        end = time.perf_counter_ns()
+        seconds = Decimal((end - start) / 1_000_000_000) # ns -> s by dividing by 10^9
+        print(f"{cyan("Solution halted after")} {red(f"{seconds.quantize(Decimal("0.001"))}s")}{cyan(".")}")
+        exit(1)
+    end = time.perf_counter_ns()
+
+    if result is not None and print_result:
+        # Solutions before 2023 were written in such a way that main() printed its own output.
+        # Since 2023, run(main) handles printing and copying the result to the clipboard.
+        print(result[0].format(green(result[1])))
+        try:
+            pyperclip.copy(result[1])
+        except pyperclip.PyperclipException:
+            # When run on a GitHub Actions runner, pyperclip.copy() raises
+            # an exception as it cannot find a copy/paste mechanism.
+            # This can be safely ignored (and, if not, will print a traceback).
+            pass
+
+    return Decimal((end - start) / 1_000_000_000) # ns -> s by dividing by 10^9
+
 def run(main: t.Callable[[], t.Optional[tuple[str, t.Any]]], *, skip_on_ci: bool = False) -> t.Optional[t.NoReturn]:
     unittest.TestLoader.sortTestMethodsUsing = staticmethod(sort_tests)
     if unittest.main(verbosity=2, exit=False, testRunner=Runner).result.wasSuccessful():
@@ -64,38 +89,24 @@ def run(main: t.Callable[[], t.Optional[tuple[str, t.Any]]], *, skip_on_ci: bool
                     f.write("skippedonci\n")
             return
 
-        start = time.perf_counter_ns()
-        try:
-            result = main()
-        except KeyboardInterrupt:
-            end = time.perf_counter_ns()
-            seconds = Decimal(
-                (end - start) / 1_000_000_000  # ns -> s by dividing by 10^9
-            ).quantize(Decimal("0.001"))
-            print(f"{cyan("Solution halted after")} {red(f"{seconds}s")}{cyan(".")}")
-            exit(1)
-        end = time.perf_counter_ns()
+        first_runtime = run_once(main, print_result=True)
+        print(f"{cyan("Solution found in")} {green(f"{first_runtime.quantize(Decimal("0.001"))}s")}{cyan(".")}")
 
-        if result:
-            # Solutions before 2023 were written in such a way that main() printed its own output.
-            # Since 2023, run(main) handles printing and copying the result to the clipboard.
-            print(result[0].format(green(result[1])))
-            try:
-                pyperclip.copy(result[1])
-            except pyperclip.PyperclipException:
-                # When run on a GitHub Actions runner, pyperclip.copy() raises
-                # an exception as it cannot find a copy/paste mechanism.
-                # This can be safely ignored (and, if not, will print a traceback).
-                pass
-
-        seconds = Decimal(
-            (end - start) / 1_000_000_000 # ns -> s by dividing by 10^9
-        ).quantize(Decimal("0.001"))
-
-        print(f"{cyan("Solution found in")} {green(f"{seconds}s")}{cyan(".")}")
+        if first_runtime > Decimal(30):
+            print(red("Not running multiple benchmarks due to long first runtime."))
+            overall_runtime = first_runtime
+            # benchmarks = 1
+        else:
+            if first_runtime > Decimal(1):
+                benchmarks = 10
+            else:
+                benchmarks = 100
+            runtimes = [first_runtime] + [run_once(main) for _ in range(benchmarks - 1)]
+            overall_runtime = sum(runtimes) / len(runtimes)
+            print(f"{cyan("Solution found in average of")} {green(f"{overall_runtime.quantize(Decimal("0.001"))}s")} {cyan("over")} {green(len(runtimes))} {cyan("benchmarks.")}")
 
         if os.path.isfile("../../times.txt"):
             with open("../../times.txt", "a") as f:
-                f.write(f"{end - start}\n")
+                f.write(f"{int(overall_runtime * 1_000_000_000)}\n")
     else:
         exit(1)
