@@ -15,21 +15,18 @@ def solve(puzzle_input: list[str]) -> int:
     def parse_range(range_description: str) -> tuple[int, int]:
         lower, upper = range_description.split("-")
         return int(lower), int(upper)
-    ranges: list[tuple[int, int]] = list(map(parse_range, takewhile(lambda l: l != "", puzzle_input)))
+    ranges: list[tuple[int, int]] = sorted(map(parse_range, takewhile(lambda l: l != "", puzzle_input)))
 
-    changed: bool = True
-    while changed:
-        changed = False
-        for i, j in combinations(range(len(ranges)), 2):
-            lower_i, upper_i = ranges[i]
-            lower_j, upper_j = ranges[j]
+    i: int = 0
+    while i < len(ranges) - 1:
+        lower_i, upper_i = ranges[i]
+        lower_j, upper_j = ranges[i + 1]
 
-            if lower_i <= lower_j <= upper_i or lower_i <= upper_j <= upper_i\
-            or lower_j <= lower_i <= upper_j or lower_j <= upper_i <= upper_j:
-                ranges.pop(j)
-                ranges[i] = (min(lower_i, lower_j), max(upper_i, upper_j))
-                changed = True
-                break
+        if lower_j <= upper_i:
+            ranges.pop(i + 1)
+            ranges[i] = (min(lower_i, lower_j), max(upper_i, upper_j))
+        else:
+            i += 1
 
     return sum(upper + 1 - lower for lower, upper in ranges)
 
