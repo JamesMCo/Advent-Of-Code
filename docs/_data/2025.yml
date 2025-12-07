@@ -17,8 +17,8 @@
   name:  "Trash Compactor"
   state: 2
 - day:   7
-  name:  ""
-  state: 0
+  name:  "Laboratories"
+  state: 2
 - day:   8
   name:  ""
   state: 0
