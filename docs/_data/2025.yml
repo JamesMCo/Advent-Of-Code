@@ -20,8 +20,8 @@
   name:  "Laboratories"
   state: 2
 - day:   8
-  name:  ""
-  state: 0
+  name:  "Playground"
+  state: 2
 - day:   9
   name:  ""
   state: 0
