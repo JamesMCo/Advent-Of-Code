@@ -5,4 +5,5 @@ pyperclip
 pyyaml
 regex
 requests
+shapely
 z3-solver
