@@ -15,13 +15,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📂 Check-Out Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: 🐍 Set Up Python
-        uses: actions/setup-python@main
+        uses: actions/setup-python@v7
         with:
-          python-version: "3.14"
+          python-version: "3.15"
           cache: "pip"
           pip-install: -r requirements.txt
+      - name: ⏬ Install Required Packages
+        run: |
+          python -m pip install -r requirements.txt
       - name: 📋 Run Tests
         run: |
           script -e -c "python test.py ${{ github.event.inputs.year }}";
