@@ -1,0 +1,40 @@
+name: Jekyll Build
+
+on:
+  push:
+    branches: [master]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📂 Check-Out Repository
+        uses: actions/checkout@v7
+      - name: 💎 Set Up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+      - name: ⏬ Install Required Packages
+        run: |
+          gem install jekyll
+      - name: 🔨 Build with Jekyll
+        run: |
+          cd docs
+          jekyll build
+          cd ..
+      - name: ⏫ Upload Artefact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/_site
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⏫ Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
