@@ -1,0 +1,210 @@
+---
+---
+{%- assign year = page.dir | split: "/" | slice: 1 | first -%}
+{%- assign daydir = page.dir | split: "/" | last | prepend: "A" | remove_first: "A0" | remove_first: "A" -%}
+{%- assign puzzledata = site.data[year] | find: "day", daydir -%}
+{%- if daydir == "Bonus" -%}
+    {%- assign daytext = "Bonus" -%}
+    {%- assign puzzlename = "" -%}
+    {%- assign lastofyear = false -%}
+{%- else -%}
+    {%- assign daytext = "Day " | append: daydir -%}
+    {%- if daydir == "9" -%}
+        {%- assign cake = " 🎂" -%}
+    {%- else -%}
+        {%- assign cake = "" -%}
+    {%- endif -%}
+    {%- assign puzzlename = " (" | append: puzzledata.name | append: ")" -%}
+    {%- assign yearint = year | to_integer -%}
+    {%- if yearint <= 2024 and daydir == "25" -%}
+        {%- assign lastofyear = true -%}
+    {%- elsif daydir == "12" -%}
+        {%- assign lastofyear = true -%}
+    {%- else -%}
+        {%- assign lastofyear = false -%}
+    {%- endif -%}
+{%- endif -%}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>James Cordon - Advent of Code</title>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+        <link href="/css/styles.css" rel="stylesheet" type="text/css" media="screen,projection" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="icon" type="image/png" href="https://mrjamesco.uk/me.png">
+        
+        <meta property="og:title" content="James Cordon - Advent of Code" />
+        <meta property="og:description" content="My solutions to the Advent of Code programming challenges" />
+        <meta property="og:image" content="https://mrjamesco.uk/me.png" />
+        <meta property="og:url" content="https://mrjamesco.uk/Advent-Of-Code" />
+        <meta name="twitter:card" content="summary" />
+        <meta property="site_name" content="Advent of Code Solutions by James C." />
+        <meta name="twitter:site" content="@MrJamesCo" />
+
+        <style>
+            /* Custom Jekyll Pygments theme designed to look like Prism Twilight theme
+             * https://prismjs.com/download.html#themes=prism-twilight&languages=markup+css+clike+javascript+abap+abnf+actionscript+ada+agda+al+antlr4+apacheconf+apex+apl+applescript+aql+arduino+arff+armasm+arturo+asciidoc+aspnet+asm6502+asmatmel+autohotkey+autoit+avisynth+avro-idl+awk+bash+basic+batch+bbcode+bbj+bicep+birb+bison+bnf+bqn+brainfuck+brightscript+bro+bsl+c+csharp+cpp+cfscript+chaiscript+cil+cilkc+cilkcpp+clojure+cmake+cobol+coffeescript+concurnas+csp+cooklang+coq+crystal+css-extras+csv+cue+cypher+d+dart+dataweave+dax+dhall+diff+django+dns-zone-file+docker+dot+ebnf+editorconfig+eiffel+ejs+elixir+elm+etlua+erb+erlang+excel-formula+fsharp+factor+false+firestore-security-rules+flow+fortran+ftl+gml+gap+gcode+gdscript+gedcom+gettext+gherkin+git+glsl+gn+linker-script+go+go-module+gradle+graphql+groovy+haml+handlebars+haskell+haxe+hcl+hlsl+hoon+http+hpkp+hsts+ichigojam+icon+icu-message-format+idris+ignore+inform7+ini+io+j+java+javadoc+javadoclike+javastacktrace+jexl+jolie+jq+jsdoc+js-extras+json+json5+jsonp+jsstacktrace+js-templates+julia+keepalived+keyman+kotlin+kumir+kusto+latex+latte+less+lilypond+liquid+lisp+livescript+llvm+log+lolcode+lua+magma+makefile+markdown+markup-templating+mata+matlab+maxscript+mel+mermaid+metafont+mizar+mongodb+monkey+moonscript+n1ql+n4js+nand2tetris-hdl+naniscript+nasm+neon+nevod+nginx+nim+nix+nsis+objectivec+ocaml+odin+opencl+openqasm+oz+parigp+parser+pascal+pascaligo+psl+pcaxis+peoplecode+perl+php+phpdoc+php-extras+plant-uml+plsql+powerquery+powershell+processing+prolog+promql+properties+protobuf+pug+puppet+pure+purebasic+purescript+python+qsharp+q+qml+qore+r+racket+cshtml+jsx+tsx+reason+regex+rego+renpy+rescript+rest+rip+roboconf+robotframework+ruby+rust+sas+sass+scss+scala+scheme+shell-session+smali+smalltalk+smarty+sml+solidity+solution-file+soy+sparql+splunk-spl+sqf+sql+squirrel+stan+stata+iecst+stylus+supercollider+swift+systemd+t4-templating+t4-cs+t4-vb+tap+tcl+tt2+textile+toml+tremor+turtle+twig+typescript+typoscript+unrealscript+uorazor+uri+v+vala+vbnet+velocity+verilog+vhdl+vim+visual-basic+warpscript+wasm+web-idl+wgsl+wiki+wolfram+wren+xeora+xml-doc+xojo+xquery+yaml+yang+zig&plugins=line-numbers+autolinker
+             * https://jwarby.github.io/jekyll-pygments-themes/builder.html
+             */
+            
+            /* Base Style */                    .highlight pre  { color: #ffffff; background-color: #141414; }
+            /* Punctuation */                   .highlight .p   { color: #777777; background-color: #141414; }
+            /* Error */                         .highlight .err { color: #ffffff; background-color: #141414; }
+            /* Base Style */                    .highlight .n   { color: #ffffff; }
+            /* Name Attribute */                .highlight .na  { color: #ffffff; }
+            /* Name Builtin */                  .highlight .nb  { color: #f9ed99; }
+            /* Name Class */                    .highlight .nc  { color: #ffffff; }
+            /* Name Constant */                 .highlight .no  { color: #ffffff; }
+            /* Name Decorator */                .highlight .nd  { color: #ffffff; }
+            /* Name Entity */                   .highlight .ni  { color: #ffffff; }
+            /* Name Exception */                .highlight .ne  { color: #ffffff; }
+            /* Name Function */                 .highlight .nf  { color: #ffffff; }
+            /* Name Label */                    .highlight .nl  { color: #ffffff; }
+            /* Name Namespace */                .highlight .nn  { color: #ffffff; }
+            /* Name Other */                    .highlight .nx  { color: #ffffff; }
+            /* Name Property */                 .highlight .py  { color: #ffffff; }
+            /* Name Tag */                      .highlight .nt  { color: #ffffff; }
+            /* Name Variable */                 .highlight .nv  { color: #ffffff; }
+            /* Name Variable Class */           .highlight .vc  { color: #ffffff; }
+            /* Name Variable Global */          .highlight .vg  { color: #ffffff; }
+            /* Name Variable Instance */        .highlight .vi  { color: #ffffff; }
+            /* Name Builtin Pseudo */           .highlight .bp  { color: #ffffff; }
+            /* Base Style */                    .highlight .g   { color: #ffffff; }
+            /*  */                              .highlight .gd  { color: #ffffff; }
+            /* Base Style */                    .highlight .o   { color: #909e6a; }
+            /* Operator Word */                 .highlight .ow  { color: #909e6a; }
+            /* Base Style */                    .highlight .c   { color: #777777; }
+            /* Comment Multiline */             .highlight .cm  { color: #777777; }
+            /* Comment Preproc */               .highlight .cp  { color: #777777; }
+            /* Comment Single */                .highlight .c1  { color: #777777; }
+            /* Comment Special */               .highlight .cs  { color: #777777; }
+            /* Base Style */                    .highlight .k   { color: #f9ed99; }
+            /* Keyword Constant */              .highlight .kc  { color: #f9ed99; }
+            /* Keyword Declaration */           .highlight .kd  { color: #f9ed99; }
+            /* Keyword Namespace */             .highlight .kn  { color: #f9ed99; }
+            /* Keyword Pseudo */                .highlight .kp  { color: #f9ed99; }
+            /* Keyword Reserved */              .highlight .kr  { color: #f9ed99; }
+            /* Keyword Type */                  .highlight .kt  { color: #f9ed99; }
+            /* Base Style */                    .highlight .l   { color: #ffffff; }
+            /* Literal Date */                  .highlight .ld  { color: #ffffff; }
+            /* Literal Number */                .highlight .m   { color: #ce6849; }
+            /* Literal Number Float */          .highlight .mf  { color: #ce6849; }
+            /* Literal Number Hex */            .highlight .mh  { color: #ce6849; }
+            /* Literal Number Integer */        .highlight .mi  { color: #ce6849; }
+            /* Literal Number Oct */            .highlight .mo  { color: #ce6849; }
+            /* Literal Number Integer Long */   .highlight .il  { color: #ce6849; }
+            /* Literal String */                .highlight .s   { color: #909e6a; }
+            /* Literal String Backtick */       .highlight .sb  { color: #909e6a; }
+            /* Literal String Char */           .highlight .sc  { color: #909e6a; }
+            /* Literal String Doc */            .highlight .sd  { color: #909e6a; }
+            /* Literal String Double */         .highlight .s2  { color: #909e6a; }
+            /* Literal String Escape */         .highlight .se  { color: #ffffff; }
+            /* Literal String Heredoc */        .highlight .sh  { color: #909e6a; }
+            /* Literal String Interpol */       .highlight .si  { color: #909e6a; }
+            /* Literal String Other */          .highlight .sx  { color: #909e6a; }
+            /* Literal String Regex */          .highlight .sr  { color: #909e6a; }
+            /* Literal String Single */         .highlight .s1  { color: #ffffff; }
+            /* Literal String Symbol */         .highlight .ss  { color: #ffffff; }
+            /* Base Style */                    .highlight .g   { color: #ffffff; }
+            /* Generic Deleted */               .highlight .gd  { color: #ffffff; }
+            /* Generic Emph */                  .highlight .ge  { color: #ffffff; }
+            /* Generic Error */                 .highlight .gr  { color: #ffffff; }
+            /* Generic Heading */               .highlight .gh  { color: #ffffff; }
+            /* Generic Inserted */              .highlight .gi  { color: #ffffff; }
+            /* Generic Output */                .highlight .go  { color: #ffffff; }
+            /* Generic Prompt */                .highlight .gp  { color: #ffffff; }
+            /* Generic Strong */                .highlight .gs  { color: #ffffff; }
+            /* Generic Subheading */            .highlight .gu  { color: #ffffff; }
+            /* Generic Traceback */             .highlight .gt  { color: #ffffff; }
+            /* Other */                         .highlight .x   { color: #ffffff; }
+            /* Text Whitespace */               .highlight .w   { color: #ffffff; }
+
+            figure.highlight {
+                all: unset;
+                
+                & > pre {
+                    border-radius: 0.5em;
+                    border: 0.3em solid #545454;
+                    box-shadow: 1px 1px 0.5em #000 inset;
+                    margin: 0.5em 0;
+                    overflow: auto;
+                    padding: 0px 1em;
+                }
+                & > td {
+                    padding: 0px 5px;
+                }
+                & .gutter.gl {
+                    text-align: right;
+                    & pre.lineno {
+                        color: #999999;
+                        border-right: solid thin #999999;
+                        padding-right: 1ch;
+                    }
+                }
+                & code.language-plaintext {
+                    display: none;
+                    &.show {
+                        display: inline;
+                    }
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="nav-extended indigo">
+            <div class="nav-wrapper container">
+                <a href="/" class="brand-logo hide-on-small-only">James Cordon</a>
+                <a href="/" class="brand-logo hide-on-med-and-up">James C.</a>
+
+                <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/dev_projects/">Software Dev Projects</a></li>
+                    <li><a href="/projects/">All Projects</a></li>
+                    <li class="active"><a href="/Advent-Of-Code/" class="active">Advent of Code</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-content container">
+                <div class="col s12">
+                    <a href="/" class="breadcrumb">Home</a>
+                    <a href="/Advent-Of-Code/" class="breadcrumb">Advent of Code</a>
+                    <a href="/Advent-Of-Code/#{{ year }}" class="breadcrumb">{{ year }}</a>
+                    <a href="" class="breadcrumb">{{ daytext }}</a>
+                </div>
+            </div>
+        </nav>
+        <ul id="mobile-nav" class="sidenav">
+            <li class="indigo"><a class="white-text">James C.</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/dev_projects/">Software Dev Projects</a></li>
+            <li><a href="/projects/">All Projects</a></li>
+            <li class="active"><a href="/Advent-Of-Code/" class="active">Advent of Code</a></li>
+        </ul>
+        <main>
+            <div id="content" class="container">
+                <h4>{{ year }} - {{ daytext }}{{ cake }}{{ puzzlename }}</h4>{% if daydir != "Bonus" %}
+                <h6><a href="https://adventofcode.com/{{ year }}/day/{{ daydir }}" target="_blank" class="link">View puzzle description on AdventOfCode.com</a></h6>{% endif %}
+                <h5>Part 1</h5>
+                {% highlight python linenos %}{% raw_include_relative Part1.py %}{% endhighlight %}{% if puzzledata.state == 2 and daydir != "Bonus" and lastofyear != true %}
+                <h5>Part 2</h5>
+                {% highlight python linenos %}{% raw_include_relative Part2.py %}{% endhighlight %}{% endif %}{% if daydir == "Bonus" %}
+                <h5>Puzzle Input <i style="cursor: pointer" onclick="let puzzle_input = document.querySelector('code.language-plaintext'); if (puzzle_input.classList.contains('show')) {puzzle_input.classList.remove('show')} else {puzzle_input.classList.add('show')};">[Show/Hide]</i></h5>
+                {% highlight plaintext %}{% raw_include_relative puzzle_input.txt %}{% endhighlight %}{% endif %}
+                <a href="/Advent-Of-Code" class="waves-effect waves-light btn btn-large">Return to solution index</a>
+            </div>
+        </main>
+        <script src="/js/materialize.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                //Initialise mobile navigation panel
+                M.Sidenav.init(document.querySelectorAll('.sidenav'));
+            });
+        </script>
+    </body>
+</html>

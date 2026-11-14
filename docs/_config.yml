@@ -1,0 +1,4 @@
+exclude:
+- "**/Part1.py"
+- "**/Part2.py"
+- "**/puzzle_input.txt"
