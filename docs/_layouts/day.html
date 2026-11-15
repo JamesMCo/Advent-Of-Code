@@ -82,17 +82,7 @@
                                         "animated": false
                                     },
                                     "url": "https://mrjamesco.uk/Advent-Of-Code/{{ year }}/{{ daymaybeleadingzero }}/"
-                                },{% if daydir != "Bonus" %}
-                                {
-                                    "type": 2,
-                                    "style": 5,
-                                    "label": "Puzzle Description on AdventOfCode.com",
-                                    "emoji": {
-                                        "name": "⭐",
-                                        "animated": false
-                                    },
-                                    "url": "https://adventofcode.com/{{ year }}/day/{{ daydir }}"
-                                },{% endif %}
+                                },
                                 {
                                     "type": 2,
                                     "style": 5,
@@ -102,7 +92,17 @@
                                         "animated": false
                                     },
                                     "url": "https://mrjamesco.uk/Advent-Of-Code/"
-                                }
+                                }{% if daydir != "Bonus" %},
+                                {
+                                    "type": 2,
+                                    "style": 5,
+                                    "label": "Puzzle Description on AdventOfCode.com",
+                                    "emoji": {
+                                        "name": "⭐",
+                                        "animated": false
+                                    },
+                                    "url": "https://adventofcode.com/{{ year }}/day/{{ daydir }}"
+                                }{% endif %}
                             ]
                         }
                     ]
