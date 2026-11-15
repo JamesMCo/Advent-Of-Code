@@ -27,7 +27,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>James Cordon - Advent of Code</title>
+        <title>James Cordon - Advent of Code - {{ year }} {{ daytext }}</title>
 
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
@@ -36,13 +36,76 @@
 
         <link rel="icon" type="image/png" href="https://mrjamesco.uk/me.png">
         
-        <meta property="og:title" content="James Cordon - Advent of Code" />
+        <meta property="og:title" content="James Cordon - Advent of Code - {{ year }} {{ daytext }}" />
         <meta property="og:description" content="My solutions to the Advent of Code programming challenges" />
         <meta property="og:image" content="https://mrjamesco.uk/me.png" />
         <meta property="og:url" content="https://mrjamesco.uk/Advent-Of-Code" />
         <meta name="twitter:card" content="summary" />
         <meta property="site_name" content="Advent of Code Solutions by James C." />
         <meta name="twitter:site" content="@MrJamesCo" />
+
+        <script id="discord:component-embed" type="application/json">
+            {
+                "component": {
+                    "type": 17,
+                    "accent_color": 4149685,
+                    "components": [
+                        {
+                            "type": 9,
+                            "components": [
+                                "type": 10,
+                                "# James Cordon - Advent of Code\nMy solutions to the Advent of Code programming challenges\n\n{{ year }} - {{ daytext }}{{ cake }}{{ puzzlename }}\n{% if daydir == "Bonus" or lastofyear == true %}Solved{% elsif puzzledata.state == 2 %}Both parts solved{% else %}First part solved{% endif %} in Python"
+                            ],
+                            "accessory": {
+                                "type": 11,
+                                "media": {
+                                    "url": "https://mrjamesco.uk/me.png"
+                                },
+                                "description": "Profile photo for James Cordon"
+                            }
+                        },
+                        {
+                            "type": 14"
+                        },
+                        {
+                            "type": 1,
+                            "components": [
+                                {
+                                    "type": 2,
+                                    "style": 5,
+                                    "label": "Solution Code",
+                                    "emoji": {
+                                        "name": "🎄",
+                                        "animated": false
+                                    },
+                                    "url": "{{ page.url }}"
+                                },{% if daydir != "Bonus" %}
+                                {
+                                    "type": 2,
+                                    "style": 5,
+                                    "label": "Puzzle Description on AdventOfCode.com",
+                                    "emoji": {
+                                        "name": "⭐",
+                                        "animated": false
+                                    },
+                                    "url": "https://adventofcode.com/{{ year }}/day/{{ daydir }}"
+                                },{% endif %}
+                                {
+                                    "type": 2,
+                                    "style": 5,
+                                    "label": "Solution Index",
+                                    "emoji": {
+                                        "name": "🎅🏻",
+                                        "animated": false
+                                    },
+                                    "url": "https://mrjamesco.uk/Advent-Of-Code/"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        </script>
 
         <style>
             /* Custom Jekyll Pygments theme designed to look like Prism Twilight theme
