@@ -1,7 +1,8 @@
 ---
 ---
 {%- assign year = page.dir | split: "/" | slice: 1 | first -%}
-{%- assign daydir = page.dir | split: "/" | last | prepend: "A" | remove_first: "A0" | remove_first: "A" -%}
+{%- assign daymaybeleadingzero = page.dir | split: "/" | last -%}
+{%- assign daydir = daymaybeleadingzero | prepend: "A" | remove_first: "A0" | remove_first: "A" -%}
 {%- assign puzzledata = site.data[year] | find: "day", daydir -%}
 {%- if daydir == "Bonus" -%}
     {%- assign daytext = "Bonus" -%}
@@ -80,7 +81,7 @@
                                         "name": "🎄",
                                         "animated": false
                                     },
-                                    "url": "{{ page.url }}"
+                                    "url": "https://mrjamesco.uk/Advent-Of-Code/{{ year }}/{{ daymaybeleadingzero }}/"
                                 },{% if daydir != "Bonus" %}
                                 {
                                     "type": 2,
